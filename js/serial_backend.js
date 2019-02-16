@@ -313,7 +313,7 @@ function onOpen(openInfo) {
             GUI.log(chrome.i18n.getMessage('apiVersionReceived', [CONFIG.apiVersion]));
 
             MSP.send_message(MSPCodes.MSP_FC_VARIANT, false, false, function () {
-                if (CONFIG.flightControllerIdentifier == 'INAV') {
+                if (CONFIG.flightControllerIdentifier == 'INAV' || CONFIG.flightControllerIdentifier == 'TWIN') {
                     MSP.send_message(MSPCodes.MSP_FC_VERSION, false, false, function () {
                         googleAnalytics.sendEvent('Firmware', 'Variant', CONFIG.flightControllerIdentifier + ',' + CONFIG.flightControllerVersion);
                         GUI.log(chrome.i18n.getMessage('fcInfoReceived', [CONFIG.flightControllerIdentifier, CONFIG.flightControllerVersion]));

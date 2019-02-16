@@ -1,7 +1,7 @@
 {
-  "name": "inav-configurator",
-  "description": "INAV Configurator",
-  "version": "2.1.3",
+  "name": "twin-configurator",
+  "description": "TWIN Configurator",
+  "version": "2.1.4",
   "main": "main.html",
   "default_locale": "en",
   "scripts": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/iNavFlight/inav-configurator"
+    "url": "github.com/thtexpert/inav-configurator"
   },
   "author": "iNavFlight",
   "license": "GPL-3.0",

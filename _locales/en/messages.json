@@ -241,7 +241,7 @@
     },
 
     "defaultWelcomeIntro": {
-        "message": "Welcome to <strong>INAV - Configurator</strong>, a utility designed to simplify updating, configuring and tuning of your flight controller."
+        "message": "Welcome to <strong>TWIN - Configurator</strong>, twin rotor extension of INAV (experimental)"
     },
 
     "defaultWelcomeText": {

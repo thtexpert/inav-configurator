@@ -151,7 +151,7 @@ function get_task_name(key) {
 }
 
 function getPlatforms() {
-    var defaultPlatforms = ['win32', 'osx64', 'linux32', 'linux64'];
+    var defaultPlatforms = ['win32'];//, 'osx64', 'linux32', 'linux64'];
     var argv = minimist(process.argv.slice(2));
     if (argv.platform) {
         if (defaultPlatforms.indexOf(argv.platform) < 0) {
