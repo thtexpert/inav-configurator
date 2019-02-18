@@ -240,9 +240,30 @@ gulp.task('apps', gulp.series('dist', function(done) {
     });
 }));
 
+// Create app directories in ./apps
+gulp.task('apps-win64', gulp.series('dist', function(done) {
+    var builder = new NwBuilder({
+        files: './dist/**/*',
+        buildDir: appsDir,
+        platforms: ['win64'],
+        flavor: 'normal',
+        macIcns: './images/inav.icns',
+        winIco: './images/inav.ico',
+    });
+    builder.on('log', console.log);
+    builder.build(function (err) {
+        if (err) {
+            console.log("Error building NW apps:" + err);
+            done();
+            return;
+        }
+        // Package apps as .zip files
+        done();
+    });
+}));
 function get_release_filename(platform, ext) {
     var pkg = require('./package.json');
-    return 'INAV-Configurator_' + platform + '_' + pkg.version + '.' + ext;
+    return 'TWIN-Configurator_' + platform + '_' + pkg.version + '.' + ext;
 }
 
 gulp.task('release-win32', function() {
@@ -255,7 +276,7 @@ gulp.task('release-win32', function() {
     archive.on('warning', function(err) { throw err; });
     archive.on('error', function(err) { throw err; });
     archive.pipe(output);
-    archive.directory(src, 'INAV Configurator');
+    archive.directory(src, 'TWIN Configurator');
     return archive.finalize();
 });
 
@@ -269,7 +290,7 @@ gulp.task('release-win64', function() {
     archive.on('warning', function(err) { throw err; });
     archive.on('error', function(err) { throw err; });
     archive.pipe(output);
-    archive.directory(src, 'INAV Configurator');
+    archive.directory(src, 'TWIN Configurator');
     return archive.finalize();
 });
 
@@ -288,7 +309,7 @@ gulp.task('release-osx64', function() {
     archive.on('warning', function(err) { throw err; });
     archive.on('error', function(err) { throw err; });
     archive.pipe(output);
-    archive.directory(src, 'INAV Configurator.app');
+    archive.directory(src, 'TWIN Configurator.app');
     return archive.finalize();
 });
 
@@ -304,7 +325,7 @@ function releaseLinux(bits) {
         archive.on('warning', function(err) { throw err; });
         archive.on('error', function(err) { throw err; });
         archive.pipe(output);
-        archive.directory(src, 'INAV Configurator');
+        archive.directory(src, 'TWIN Configurator');
         return archive.finalize();
     }
 }
