@@ -628,8 +628,20 @@ var mspHelper = (function (gui) {
                 console.log('Profile selected');
                 break;
             case MSPCodes.MSP_SET_SERVO_CONFIGURATION:
-                console.log('Servo Configuration saved');
+                console.log('Servo Configuration written to FC');
                 break;
+			case MSPCodes.MSP2_FLETTNER_SET_SWASH_MIX:
+                console.log('Flettner Swash Mix written to FC');
+				break;
+	        case MSPCodes.MSP2_FLETTNER_SET_SERVO_MIX:
+                console.log('Flettner Servo Mix written to FC');
+	            break;
+			case MSPCodes.MSP2_TILT_SET_SETUP:
+                console.log('Tilt Setup written to FC');
+	            break;
+			case MSPCodes.MSP2_TILT_SET_SERVO_MIX:
+                console.log('Tilt Servo mix written to FC');
+	            break;
             case MSPCodes.MSP_RTC:
                 if (data.length >= 6) {
                     var seconds = data.getInt32(0, true);
@@ -1962,7 +1974,6 @@ var mspHelper = (function (gui) {
             }
             break;
 		case MSPCodes.MSP2_TILT_SET_SETUP:
-			console.log('1 MSP MSP_SET_TILT_SETUP.gainnickheli = ' + TILT_SETUP.gainnickheli);
             buffer.push(lowByte(TILT_SETUP.nacellemax * 100));
             buffer.push(highByte(TILT_SETUP.nacellemax * 100));
             buffer.push(lowByte(TILT_SETUP.nacellemin *100));

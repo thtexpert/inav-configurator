@@ -76,7 +76,7 @@
 
 .tab_swash circle {
     border-bottom: 1px solid silver;
-    background-color: red;
+    background-color: #37a8db;
 }
 
  
@@ -92,12 +92,12 @@ circle.cyclicring {
 
 circle.indicator {
     border-bottom: 1px solid silver;
-    fill: red;
+    fill: #37a8db;
 }
 
 rect.indicator {
     border-bottom: 1px solid silver;
-    fill: red;
+    fill:  #37a8db;
 }
 
 rect.trimming {
@@ -113,7 +113,7 @@ rect.trimming {
 
 
 text.indicatortext:hover {
-    stroke: red;
+    stroke: #37a8db;
 }
 
 .trimbox {
@@ -134,7 +134,7 @@ text.indicatortext:hover {
 }
 
 .trimboxclick:hover {
-    fill: red;
+    fill:  #37a8db;
 	fill-opacity: 1.0;
 }
 

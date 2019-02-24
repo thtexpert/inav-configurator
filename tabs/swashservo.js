@@ -104,6 +104,16 @@ TABS.swashservo.initialize = function (callback) {
     };
 
 
+    let saveChainer = new MSPChainerClass();
+
+    saveChainer.setChain([
+        mspHelper.sendServoConfigurations,
+        mspHelper.saveToEeprom
+    ]);
+
+    saveChainer.setExitPoint(function () {
+        GUI.log(chrome.i18n.getMessage('servosEepromSave'));
+    });
 
     function load_html() {
         $('#content').load("./tabs/swashservo.html", process_html);
@@ -237,8 +247,10 @@ TABS.swashservo.initialize = function (callback) {
                 SERVO_CONFIG[info].max = $(this).children(0)[0].valueAsNumber;
             });
 			
-            MSP.send_message(MSPCodes.MSP_SET_SERVO_CONFIGURATION, mspHelper.crunch(MSPCodes.MSP_SET_SERVO_CONFIGURATION), false, function () {
-            });
+			//Save configuration to FC
+            mspHelper.sendServoConfigurations();
+
+            
         };
 
         function servo_mixer_update() {
@@ -380,9 +392,9 @@ TABS.swashservo.initialize = function (callback) {
 				}
                 var margin_top = block_height - (data * (block_height / 1000)).clamp(0, block_height),
                 height = (data * (block_height / 1000)).clamp(0, block_height),
-                color = parseInt(data * 0.256);
+                color = parseInt(data * 0.009);
 
-				$(this).css({'margin-top' : margin_top + 'px', 'height' : height + 'px', 'background-color' : 'rgb(' + color + ',0,0)'});			
+				$(this).css({'margin-top' : margin_top + 'px', 'height' : height + 'px',  'background-color' : '#37a8db'+ color +')'});			
 			});
 
 		};
@@ -537,8 +549,7 @@ TABS.swashservo.initialize = function (callback) {
 
             plotServoSetup( d3.select("#mixerPreview") );
             
-            MSP.send_message(MSPCodes.MSP2_FLETTNER_SET_SWASH_MIX, mspHelper.crunch(MSPCodes.MSP2_FLETTNER_SET_SWASH_MIX), false, function () {
-            });
+            MSP.send_message(MSPCodes.MSP2_FLETTNER_SET_SWASH_MIX, mspHelper.crunch(MSPCodes.MSP2_FLETTNER_SET_SWASH_MIX), false, function () {});
         });
 
         // select current mixer configuration
@@ -556,13 +567,7 @@ TABS.swashservo.initialize = function (callback) {
         // enable Motor data pulling
         helper.interval.add('servo_pull', get_servo_data, 50, true);
 
-        // status data pulled via separate timer with static speed
-        helper.interval.add('status_pull', function status_pull() {
-            MSP.send_message(MSPCodes.MSP_STATUS);
-        }, 400, true);
-
-        if (callback) callback();
-
+		GUI.content_ready(callback);
 
     }
 
