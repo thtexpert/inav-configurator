@@ -1,0 +1,109 @@
+<div class="tab-swashservo">
+    <div class="clear-both"></div>
+	<div class="left">
+		<div class="title">Left Swash Plate</div>
+			<table class="fields">
+				<tr class="name">
+					<th style="text-align: right"></th>
+				</tr>
+				<tr class="middle">
+					<th style="text-align: right">Neutral</th>
+				</tr>
+				<tr class="live">
+					<th style="text-align: right">Live</th>
+				</tr>
+				<tr class="reverse">
+					<th style="text-align: right">Reverse</th>
+				</tr>
+				<tr class="min">
+					<th style="text-align: right">Minimum</th>
+				</tr>
+				<tr class="max">
+					<th style="text-align: right">Maximum</th>
+				</tr>
+				<tr class="roll">
+					<th style="text-align: right">Roll Mix</th>
+				</tr>
+				<tr class="nick">
+					<th style="text-align: right">Nick Mix</th>
+				</tr>
+				<tr class="pitch">
+					<th style="text-align: right">Pitch Mix</th>
+				</tr>
+			</table>
+	</div>
+	<div class="right">
+		<div class="title">Right Swash Plate</div>
+			<table class="fields">
+				<tr class="name">
+					<th style="text-align: right"></th>
+				</tr>
+				<tr class="middle">
+					<th style="text-align: right">Neutral</th>
+				</tr>
+				<tr class="live">
+					<th style="text-align: right">Live</th>
+				</tr>
+				<tr class="reverse">
+					<th style="text-align: right">Reverse</th>
+				</tr>
+				<tr class="min">
+					<th style="text-align: right">Minimum</th>
+				</tr>
+				<tr class="max">
+					<th style="text-align: right">Maximum</th>
+				</tr>
+				<tr class="roll">
+					<th style="text-align: right">Roll Mix</th>
+				</tr>
+				<tr class="nick">
+					<th style="text-align: right">Nick Mix</th>
+				</tr>
+				<tr class="pitch">
+					<th style="text-align: right">Pitch Mix</th>
+				</tr>
+			</table>
+	</div>
+    <div class="swashmixing">
+        <div class="title" data-i18n="swashservosetup"></div>
+			<table class="fields">
+				<tr>
+					<td colspan="3">
+				        <div class="mixerPreview" id="mixerPreview">
+				            <select class="mixerList">
+				                <!-- list generated here -->
+				            </select>
+				            <svg  id="swashmixinggraph">
+				            </svg>
+				        </div>
+				    </td>
+				</tr>
+				<tr class="rotate">
+					<td class="rotationleft" id="rotationleft"><input type="number" step="1" min="-360" max="360" value="0" /></td>
+					<th style="text-align: center">Rotate [&deg]</th>
+					<td class="rotationright" id="rotationright"><input type="number" step="1" min="-360" max="360" value="0" /></td>
+				</tr>
+				<tr class="virtualrotate">
+					<td class="virtualrotleft" id="virtualrotleft"><input type="number" step="1" min="-360" max="360" value="0" /></td>
+					<th style="text-align: center">Virtual [&deg]</th>
+					<td class="virtualrotright" id="virtualrotright"><input type="number" step="1" min="-360" max="360" value="0" /></td>
+				</tr>
+				<tr class="travel">
+					<th rowspan="2">
+				        <a class="apply" href="#" data-i18n="swashButtonApply"></a>
+					</th>
+					<th style="text-align: center">Cyclic Travel [%]</th>
+					<td class="cyclictravel" id="cyclictravel"><input type="number" step="1" min="-200" max="200" value="0" /></td>
+				</tr>
+				<tr class="travel">
+					<th style="text-align: center">Collective Travel [%]</th>
+					<td class="collectivtravel" id="collectivtravel"><input type="number" step="1" min="-200" max="200" value="0" /></td>
+				</tr>
+			</table>
+    </div>
+    <div class="content_toolbar">
+	    <div class="btn">
+	        <a class="update" href="#" data-i18n="swashButtonSave"></a>
+	    </div>
+	</div>
+</div>	

@@ -167,6 +167,17 @@ var MSPCodes = {
     MSP2_CF_SERIAL_CONFIG:              0x1009,
     MSP2_SET_CF_SERIAL_CONFIG:          0x100A,
 
+    MSP2_FLETTNER_SWASH_MIX:            0x100B, 
+    MSP2_FLETTNER_SET_SWASH_MIX:        0x100C, 
+    MSP2_FLETTNER_SERVO_MIX:            0x100D, 
+    MSP2_FLETTNER_SET_SERVO_MIX:        0x100E, 
+    MSP2_FLETTNER_SWASH:                0x100F, 
+    MSP2_TILT_SETUP:		            0x1010, 
+    MSP2_TILT_SET_SETUP:	            0x1011, 
+    MSP2_TILT_SERVO_MIX:		        0x1012, 
+    MSP2_TILT_SET_SERVO_MIX:	        0x1013, 
+    MSP2_TILT_LIVE:   		            0x1014, 
+
     MSPV2_INAV_STATUS:                  0x2000,
     MSPV2_INAV_OPTICAL_FLOW:            0x2001,
     MSPV2_INAV_ANALOG:                  0x2002,

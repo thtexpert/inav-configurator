@@ -1,0 +1,299 @@
+.tab-swashservo {
+}
+.tab-swashservo input[type="number"]::-webkit-inner-spin-button {
+    border: 0;
+}
+.tab-swashservo .supported_wrapper,
+.tab-swashservo .direction_wrapper {
+    display: none;
+}
+.tab-swashservo .title {
+    margin-top: 10px;
+
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+
+    border: 1px solid #8b8b8b;
+    border-bottom: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    background-color: #ececec;
+}
+.tab-swashservo .left {
+    float: left;
+    margin-right: 4px;
+    margin-left: 0px;
+    width: calc(34% - 5px);
+}
+
+.tab-swashservo .right {
+    float: left;
+    margin-right: 4px;
+    margin-left: 0px;
+    width: calc(34% - 5px);
+}
+
+.tab-swashservo .swashmixing {
+    float: left;
+    margin-right: 0px;
+    margin-left: 0px;
+    width: calc(32% - 0px);
+}
+
+.tab-swashservo .axis path {
+  display: none;
+}
+
+.tab-swashservo .axis line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+.tab-swashservo .axis .minor line {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}
+
+.tab-swashservo circle {
+    border-bottom: 1px solid silver;
+    background-color: red;
+}
+
+ 
+.servoarm
+{
+    stroke:rgb(0,0,0);
+    stroke-width:3;
+}
+
+.tab-swashservo rect {
+	fill: #f4f4f4;
+	    
+	
+}
+
+.tab-swashservo .virtualrect {
+	fill-opacity: 0.8;
+}
+
+circle.cyclicring {
+	fill: white;
+	fill-opacity: 0.3;
+	border:none;
+}
+
+circle.servocircle {
+	stroke: black;
+    border-bottom: 1px solid silver;
+    fill: white;
+}
+
+rect.indicator {
+    border-bottom: 1px solid silver;
+    fill: red;
+}
+
+.tab-swashservo text.indicatortext {
+	stroke: black;
+	font-size: 14px;
+	text-anchor: middle;
+	dominant-baseline: central;
+}
+
+text.indicatortext:hover {
+    stroke: red;
+}
+
+.trimbox {
+    fill: #ececec;
+	border: 1px;
+	stroke:none;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.trimboxclick {
+    fill: black;
+	border: 1px;
+	stroke:none;
+	margin-left: 1px;
+	margin-right: 1px;
+	fill-opacity: 0.3;
+}
+
+.trimboxclick:hover {
+    fill: red;
+	fill-opacity: 1.0;
+}
+
+rect.collectiverange {
+	fill: white;
+	fill-opacity: 0.3;
+	border:none;
+}
+
+.tab-swashservo .number {
+    margin-bottom: 5px;
+}
+.tab-swashservo .number input {
+    width: 50px;
+    height: 18px;
+    line-height: 18px;
+
+    text-align: right;
+
+    border: 1px solid silver;
+}
+.tab-swashservo .number span {
+    margin-left: 10px;
+    margin-right: 10px;
+    line-height: 20px;
+}
+
+.tab-swashservo .buttons {
+    width: calc(100% - 20px);
+
+    position: absolute;
+    bottom: 10px;
+}
+
+.tab-swashservo .apply {
+    display: block;
+	float: center;
+
+    height: 44px;
+    line-height: 44px;
+
+    text-align: center;
+    font-weight: bold;
+
+    background-color: #37a8db;
+}
+
+.tab-swashservo .apply:hover {
+    background-color: #3394b5;
+    transition: all ease 0.2s;
+}
+
+.tab-swashservo .update,
+.tab-swashservo .refresh {
+    display: block;
+    float: right;
+
+    margin-top: 22px;
+
+    height: 28px;
+    line-height: 28px;
+
+    padding: 0 15px 0 15px;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 1px solid silver;
+    background-color: #ececec;
+}
+.tab-swashservo .refresh {
+    margin-right: 10px;
+}
+.tab-swashservo .update:hover,
+.tab-swashservo .refresh:hover {
+    background-color: #dedcdc;
+}
+
+.tab-swashservo  table.fields {
+    width: 100%;
+    border-collapse: collapse;
+}
+.tab-swashservo table.fields th {
+    line-height: 20px;
+    text-align: center;
+
+    border: 1px solid #8b8b8b;
+}
+.tab-swashservo table.fields td {
+    padding: 1px;
+    text-align: right;
+
+    border: 1px solid #8b8b8b;
+}
+
+.tab-swashservo table.fields input[type="number"] {
+    display: block;
+
+    width: calc(100%);;
+    height: 20px;
+
+    line-height: 20px;
+
+    text-align: right;
+}
+
+.tab-swashservo td.live {
+    float: none;
+
+    width: calc((100% / 3) - 12px);
+    height: 80px;
+
+    margin-right: 10px;
+
+    text-align: center;
+
+    border: 1px solid silver;
+    background-color: #f4f4f4;
+}
+.tab-swashservo td.live .meter-bar {
+    position: relative;
+
+    width: 60%;
+    height: 100px;
+}
+.tab-swashservo td.live .label {
+    position: absolute;
+    width: 100%;
+    bottom: 45px;
+
+    text-align: center;
+    font-weight: bold;
+    color: #474747;
+}
+.tab-swashservo td.live .indicator .label {
+    color: white;
+}
+
+.tab-swashservo .indicator {
+    position: absolute;
+    overflow: hidden;
+
+    width: 100%;
+
+    text-align: center;
+}
+
+
+.tab-swashservo .mixerPreview {
+    width: calc(100% - 2px);
+    
+}
+.tab-swashservo .mixerPreview img {
+    display: block;
+
+    width: calc(100% - 9px);
+    height: 140px;
+
+    padding: 5px;
+
+    border: 1px solid silver;
+    border-bottom: 0;
+}
+.tab-swashservo select.mixerList {
+    width: calc(100%);
+    height: 20px;
+
+    font-weight: bold;
+
+    border: 1px solid silver;
+}
+

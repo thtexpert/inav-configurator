@@ -122,6 +122,9 @@
     "tabAdjustments": {
         "message": "Adjustments"
     },
+    "tabSwash": {
+        "message": "Swashplate"
+    },
     "tabAuxiliary": {
         "message": "Modes"
     },
@@ -2898,5 +2901,79 @@
     },
     "gyroLpfWhyNotSlightlyHigherMessage": {
         "message": "If there are not vibration problems and motors are not overheating, try going 188Hz instead"
+    },
+
+    "swashModelNoSupport": {
+        "message": "This model doesn't support swash plates"
+    },
+    "swashmixTitle": {
+        "message": "Swash Mixer"
+    },
+    "swashmixnicktravel": {
+        "message": "Nick Travel [%]"
+    },
+    "swashmixrolltravel": {
+        "message": "Roll Travel [%]"
+    },
+    "swashmixpitchtravel": {
+        "message": "Pitch Travel [%]"
+    },
+    "swashmixcyclicring": {
+        "message": "Cyclic Ring [&deg]"
+    },
+    "swashmixpitchmax": {
+        "message": "Pitch Maximum [&deg]"
+    },
+    "swashmixpitchmin": {
+        "message": "Pitch Minimum [&deg]"
+    },
+    "swashmixcollectivoffset": {
+        "message": "Pitch Offset [&deg]"
+    },
+    "swashmixcyclicmix": {
+        "message": "Cyclic Mix [%]"
+    },
+    "swashmixcollectivemix": {
+        "message": "Coll Mix [%]"
+    },
+    "swashmixcollectivemixthreshold": {
+        "message": "Coll Mix Thres. [&deg]"
+    },
+    "swashmixcollectivemixmax": {
+        "message": "Coll Mix Maxim. [&deg]"
+    },
+    "swashmixnickdma": {
+        "message": "Nick DMA [%]"
+    },
+    "swashmixcenterall": {
+        "message": "Center All"
+    },
+    "swashservosetup": {
+        "message": "Servo Configuration"
+    },
+    "swashplateEepromSaved": {
+        "message": "Saved Swashplate setup"
+    },
+    "tiltlinkmixers": {
+        "message": "Automatic"
+    },
+    "swashNote": {
+        "message": "Swash plates set up"
+    },
+    "swashButtonSave": {
+        "message": "Save"
+    },
+    "swashButtonRefresh": {
+        "message": "Refresh"
+    },
+    "swashButtonApply": {
+        "message": "Apply"
+    },
+    "swashServoName": {
+        "message": "Name"
+    },
+    "swashSetupApply": {
+        "message": "Swash Setup <span style=\"color: green\">applied</span>"
     }
+    
 }

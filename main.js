@@ -233,8 +233,17 @@ $(document).ready(function () {
                     case 'modes':
                         TABS.modes.initialize(content_ready);
                         break;
+                    case 'swash':
+			            if (MIXER_CONFIG.platformType == PLATFORM_FLETTNER) {
+			                 TABS.swash.initialize(content_ready);
+			            }
+                        break;
                     case 'servos':
-                        TABS.servos.initialize(content_ready);
+			            if (MIXER_CONFIG.platformType == PLATFORM_FLETTNER) {
+			                 TABS.swashservo.initialize(content_ready);
+			            } else {
+                             TABS.servos.initialize(content_ready);
+                        }
                         break;
                     case 'gps':
                         TABS.gps.initialize(content_ready);

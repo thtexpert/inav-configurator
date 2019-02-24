@@ -813,6 +813,90 @@ var mspHelper = (function (gui) {
                 console.log('Serial config saved');
                 break;
 
+// TWIN flight begin
+    		case MSPCodes.MSP2_FLETTNER_SWASH:
+                SWASH_PLATE = []; // empty the array as new data is coming in
+
+                for (var i = 0; i < 12; i += 6) {
+                    var arr = {
+                        'throttle': data.getInt16(i, 1),
+                        'pitch': data.getInt16(i + 2, 1),
+                        'roll': data.getInt16(i + 4, 1),
+                    };
+
+                    SWASH_PLATE.push(arr);
+                }
+                break;
+    		case MSPCodes.MSP2_FLETTNER_SWASH_MIX:
+                SWASH_MIX.nicktravel = data.getInt16(0, 1) / 10;
+                SWASH_MIX.rolltravel = data.getInt16(2, 1) / 10;
+                SWASH_MIX.pitchtravel = data.getInt16(4, 1) / 10;
+                SWASH_MIX.cyclicring = data.getInt16(6, 1) / 100;
+                SWASH_MIX.pitchmax = data.getInt16(8, 1) / 100;
+                SWASH_MIX.pitchmin = data.getInt16(10, 1) / 100;
+                SWASH_MIX.cyclicmix = data.getInt16(12, 1) / 10;
+                SWASH_MIX.collectivemix = data.getInt16(14, 1) / 10;
+                SWASH_MIX.collectivemixthreshold = data.getInt16(16, 1) / 100;
+                SWASH_MIX.collectivemixmax = data.getInt16(18, 1) / 100;
+                SWASH_MIX.nickdma = data.getInt16(20, 1) / 10;
+                SWASH_MIX.centerall = data.getInt16(22, 1);
+				SWASH_MIX.platetype = data.getInt16(24, 1);
+				SWASH_MIX.rotationleft = data.getInt16(26, 1) / 10;
+				SWASH_MIX.rotationright = data.getInt16(28, 1) / 10;
+				SWASH_MIX.virtualrotleft = data.getInt16(30, 1) / 10;
+				SWASH_MIX.virtualrotright = data.getInt16(32, 1) / 10;
+				SWASH_MIX.cyclictravel = data.getInt16(34, 1) / 10;
+				SWASH_MIX.collectivtravel = data.getInt16(36, 1) / 10;
+				SWASH_MIX.collectivoffset = data.getInt16(38, 1) / 100;
+                break;
+    		case MSPCodes.MSP2_FLETTNER_SERVO_MIX:
+    			SERVO_MIX = []; // empty the array as new data is coming in
+                for (var i = 0; i < 6; i++) {
+	                var arr = {
+	                    'roll': data.getInt16(6 * i, 1) /10,
+	                    'nick': data.getInt16(6 * i + 2, 1) /10,
+	                    'pitch': data.getInt16(6 * i + 4, 1) /10,
+	                };
+	                SERVO_MIX.push(arr);
+                }
+                break;
+    		case MSPCodes.MSP2_TILT_SETUP:
+    			TILT_SETUP.nacellemax = data.getInt16(0, 1) / 100;
+    			TILT_SETUP.nacellemin = data.getInt16(2, 1) / 100;
+    			TILT_SETUP.nacellespeed = data.getInt16(4, 1) / 100;
+    			TILT_SETUP.cyclicring = data.getInt16(6, 1) / 100;
+    			TILT_SETUP.pitchmaxheli = data.getInt16(8, 1) / 100;
+    			TILT_SETUP.pitchmaxplane = data.getInt16(10, 1) / 100;
+    			TILT_SETUP.pitchminheli = data.getInt16(12, 1) / 100;
+    			TILT_SETUP.pitchminplane = data.getInt16(14, 1) / 100;
+    			TILT_SETUP.gainnickheli = data.getInt16(16, 1) / 10;
+    			TILT_SETUP.gainnickplane = data.getInt16(18, 1) / 10;
+    			TILT_SETUP.gaindiffcollheli = data.getInt16(20, 1) / 10;
+    			TILT_SETUP.gaindiffcollplane = data.getInt16(22, 1) / 10;
+    			TILT_SETUP.gaindiffnickheli = data.getInt16(24, 1) / 10;
+    			TILT_SETUP.gaindiffnickplane = data.getInt16(26, 1) / 10;
+    			TILT_SETUP.centerall = data.getInt16(28, 1);
+    			TILT_SETUP.spare1 = data.getInt16(30, 1) ;
+    			TILT_SETUP.spare2 = data.getInt16(32, 1) ;
+                break;
+    		case MSPCodes.MSP2_TILT_LIVE:
+    			TILT_LIVE.nacelle = data.getInt16(0, 1) / 100;
+    			TILT_LIVE.leftnick = data.getInt16(2, 1) / 100;
+    			TILT_LIVE.leftpitch = data.getInt16(4, 1) / 100;
+    			TILT_LIVE.rightnick = data.getInt16(6, 1) / 100;
+    			TILT_LIVE.rightpitch = data.getInt16(8, 1) / 100;
+    			TILT_LIVE.gainnick = data.getInt16(10, 1) / 10;
+    			TILT_LIVE.gaindiffcoll = data.getInt16(12, 1) / 10;
+    			TILT_LIVE.gaindiffnick = data.getInt16(14, 1) / 10;
+    			TILT_LIVE.pitchmin = data.getInt16(16, 1) / 100;
+    			TILT_LIVE.pitchmax = data.getInt16(18, 1) / 100;
+    			TILT_LIVE.pitchact = data.getInt16(20, 1) / 100;
+    			TILT_LIVE.spare1 = data.getInt16(22, 1) ;
+    			TILT_LIVE.spare2 = data.getInt16(24, 1) ;
+                break;
+    	break;
+
+// TWIN flight end
             case MSPCodes.MSP_MODE_RANGES:
                 //noinspection JSUndeclaredVariable
                 MODE_RANGES = []; // empty the array as new data is coming in
@@ -1815,7 +1899,106 @@ var mspHelper = (function (gui) {
                     buffer.push(BAUD_RATES.indexOf(serialPort.blackbox_baudrate));
                 }
                 break;
+// TWIN insert begin
+		case MSPCodes.MSP2_FLETTNER_SET_SWASH_MIX:
+                buffer.push(lowByte(SWASH_MIX.nicktravel * 10));
+                buffer.push(highByte(SWASH_MIX.nicktravel * 10));
+                buffer.push(lowByte(SWASH_MIX.rolltravel *10));
+                buffer.push(highByte(SWASH_MIX.rolltravel *10));
+                buffer.push(lowByte(SWASH_MIX.pitchtravel * 10));
+                buffer.push(highByte(SWASH_MIX.pitchtravel * 10));
+                buffer.push(lowByte(SWASH_MIX.cyclicring * 100))
+                buffer.push(highByte(SWASH_MIX.cyclicring * 100))
+                buffer.push(lowByte(SWASH_MIX.pitchmax * 100));
+                buffer.push(highByte(SWASH_MIX.pitchmax * 100));
+                buffer.push(lowByte(SWASH_MIX.pitchmin * 100));
+                buffer.push(highByte(SWASH_MIX.pitchmin * 100));
+                buffer.push(lowByte(SWASH_MIX.cyclicmix * 10 ));
+                buffer.push(highByte(SWASH_MIX.cyclicmix * 10 ));
+                buffer.push(lowByte(SWASH_MIX.collectivemix * 10));
+                buffer.push(highByte(SWASH_MIX.collectivemix * 10));
+                buffer.push(lowByte(SWASH_MIX.collectivemixthreshold * 100));
+                buffer.push(highByte(SWASH_MIX.collectivemixthreshold * 100));
+                buffer.push(lowByte(SWASH_MIX.collectivemixmax * 100));
+                buffer.push(highByte(SWASH_MIX.collectivemixmax * 100));
+                buffer.push(lowByte(SWASH_MIX.nickdma * 10));
+                buffer.push(highByte(SWASH_MIX.nickdma * 10));
+                buffer.push(lowByte(SWASH_MIX.centerall));
+                buffer.push(highByte(SWASH_MIX.centerall));
 
+                buffer.push(lowByte(SWASH_MIX.platetype));		// SwashPlateType H90 = 0, H120 = 1, custom = 2
+				buffer.push(highByte(SWASH_MIX.platetype));		// SwashPlateType H90 = 0, H120 = 1, custom = 2
+				
+				buffer.push(lowByte(SWASH_MIX.rotationleft * 10));	// scaling 10 = 1degree
+				buffer.push(highByte(SWASH_MIX.rotationleft * 10));	// scaling 10 = 1degree
+				
+				buffer.push(lowByte(SWASH_MIX.rotationright * 10));	// scaling 10 = 1degree
+				buffer.push(highByte(SWASH_MIX.rotationright * 10));	// scaling 10 = 1degree
+				
+				buffer.push(lowByte(SWASH_MIX.virtualrotleft * 10));	// scaling 10 = 1degree
+				buffer.push(highByte(SWASH_MIX.virtualrotleft * 10));	// scaling 10 = 1degree
+				
+				buffer.push(lowByte(SWASH_MIX.virtualrotright * 10));	// scaling 10 = 1degree
+				buffer.push(highByte(SWASH_MIX.virtualrotright * 10));	// scaling 10 = 1degree
+				
+				buffer.push(lowByte(SWASH_MIX.cyclictravel * 10));	// scaling 10 = 1%
+				buffer.push(highByte(SWASH_MIX.cyclictravel * 10));	// scaling 10 = 1%
+				
+				buffer.push(lowByte(SWASH_MIX.collectivtravel * 10));	// scaling 10 = 1%
+				buffer.push(highByte(SWASH_MIX.collectivtravel * 10));	// scaling 10 = 1%
+				
+				buffer.push(lowByte(SWASH_MIX.collectivoffset * 100));
+				buffer.push(highByte(SWASH_MIX.collectivoffset * 100));
+
+			break;
+        case MSPCodes.MSP2_FLETTNER_SET_SERVO_MIX:
+            for (var i = 0; i < 6; i++) {
+                buffer.push(lowByte(SERVO_MIX[i].roll * 10));
+                buffer.push(highByte(SERVO_MIX[i].roll * 10));
+                buffer.push(lowByte(SERVO_MIX[i].nick * 10));
+                buffer.push(highByte(SERVO_MIX[i].nick * 10));
+                buffer.push(lowByte(SERVO_MIX[i].pitch * 10));
+                buffer.push(highByte(SERVO_MIX[i].pitch * 10));
+            }
+            break;
+		case MSPCodes.MSP2_TILT_SET_SETUP:
+			console.log('1 MSP MSP_SET_TILT_SETUP.gainnickheli = ' + TILT_SETUP.gainnickheli);
+            buffer.push(lowByte(TILT_SETUP.nacellemax * 100));
+            buffer.push(highByte(TILT_SETUP.nacellemax * 100));
+            buffer.push(lowByte(TILT_SETUP.nacellemin *100));
+            buffer.push(highByte(TILT_SETUP.nacellemin *100));
+            buffer.push(lowByte(TILT_SETUP.nacellespeed * 100));
+            buffer.push(highByte(TILT_SETUP.nacellespeed * 100));
+            buffer.push(lowByte(TILT_SETUP.cyclicring * 100))
+            buffer.push(highByte(TILT_SETUP.cyclicring * 100))
+            buffer.push(lowByte(TILT_SETUP.pitchmaxheli * 100));
+            buffer.push(highByte(TILT_SETUP.pitchmaxheli * 100));
+            buffer.push(lowByte(TILT_SETUP.pitchmaxplane * 100));
+            buffer.push(highByte(TILT_SETUP.pitchmaxplane * 100));
+            buffer.push(lowByte(TILT_SETUP.pitchminheli * 100 ));
+            buffer.push(highByte(TILT_SETUP.pitchminheli * 100 ));
+            buffer.push(lowByte(TILT_SETUP.pitchminplane * 100));
+            buffer.push(highByte(TILT_SETUP.pitchminplane * 100));
+            buffer.push(lowByte(TILT_SETUP.gainnickheli * 10));
+            buffer.push(highByte(TILT_SETUP.gainnickheli * 10));
+            buffer.push(lowByte(TILT_SETUP.gainnickplane * 10));
+            buffer.push(highByte(TILT_SETUP.gainnickplane * 10));
+            buffer.push(lowByte(TILT_SETUP.gaindiffcollheli * 10));
+            buffer.push(highByte(TILT_SETUP.gaindiffcollheli * 10));
+            buffer.push(lowByte(TILT_SETUP.gaindiffcollplane * 10));
+            buffer.push(highByte(TILT_SETUP.gaindiffcollplane * 10));
+            buffer.push(lowByte(TILT_SETUP.gaindiffnickheli * 10));
+			buffer.push(highByte(TILT_SETUP.gaindiffnickheli * 10));
+			buffer.push(lowByte(TILT_SETUP.gaindiffnickplane * 10));
+			buffer.push(highByte(TILT_SETUP.gaindiffnickplane * 10));
+			buffer.push(lowByte(TILT_SETUP.centerall));
+			buffer.push(highByte(TILT_SETUP.centerall));
+			buffer.push(lowByte(TILT_SETUP.spare1));
+			buffer.push(highByte(TILT_SETUP.spare1));
+			buffer.push(lowByte(TILT_SETUP.spare2));
+			buffer.push(highByte(TILT_SETUP.spare2));
+			break;
+// TWIN insert end
             case MSPCodes.MSP_SET_3D:
                 buffer.push(lowByte(_3D.deadband3d_low));
                 buffer.push(highByte(_3D.deadband3d_low));

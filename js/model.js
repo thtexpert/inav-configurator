@@ -38,7 +38,9 @@ const
     PLATFORM_TRICOPTER      = 3,
     PLATFORM_ROVER          = 4,
     PLATFORM_BOAT           = 5,
-    PLATFORM_OTHER          = 6;
+    PLATFORM_FLETTNER       = 6;
+    PLATFORM_TILTROTOR      = 7;
+    PLATFORM_OTHER          = 8;
 
 // generate mixer
 const mixerList = [
@@ -517,7 +519,19 @@ const mixerList = [
             new ServoMixRule(3, INPUT_STABILIZED_YAW,  50, 0),
             new ServoMixRule(4, INPUT_STABILIZED_YAW,  50, 0),
         ]
-    }            
+    },
+    {
+        id: 31,
+        name: 'KMax 450',
+        model: 'custom',
+        image: 'flettner',
+        enabled: true,
+        legacy: true,
+        platform: PLATFORM_FLETTNER,
+        motorMixer: [],
+        servoMixer: []
+    }
+                
 ];
 
 const platformList = [
@@ -559,6 +573,18 @@ const platformList = [
     },
     {
         id: 6,
+        name: "Flettner",
+        enabled: true,
+        flapsPossible: false
+    },
+    {
+        id: 7,
+        name: "TiltRotor",
+        enabled: false,
+        flapsPossible: false
+    },
+    {
+        id: 8,
         name: "Other",
         enabled: false,
         flapsPossible: false

@@ -726,6 +726,18 @@ li.active .ic_adjust {
     background-image: url("../images/icons/cf_icon_adjust_white.svg");
 }
 
+.ic_swash {
+    background-image: url("../images/icons/cf_icon_swash_grey.svg");
+}
+
+.ic_swash:hover {
+    background-image: url("../images/icons/cf_icon_swash_white.svg");
+}
+
+li.active .ic_swash {
+    background-image: url("../images/icons/cf_icon_swash_white.svg");
+}
+
 .ic_servo {
     background-image: url("../images/icons/cf_icon_servo_grey.svg");
 }

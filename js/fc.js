@@ -38,6 +38,7 @@ var CONFIG,
     SENSOR_ALIGNMENT,
     RX_CONFIG,
     FAILSAFE_CONFIG,
+    trimpos,
     RXFAIL_CONFIG,
     VTX_CONFIG,
     ADVANCED_CONFIG,
@@ -56,7 +57,14 @@ var CONFIG,
     BATTERY_CONFIG,
     OUTPUT_MAPPING,
     SETTINGS,
-    BRAKING_CONFIG;
+    BRAKING_CONFIG,
+	SWASH_PLATE,
+	SWASH_MIX,
+	SERVO_MIXER,
+	SERVO_MIX,
+	TILT_SETUP,
+	TILT_LIVE;
+
 
 var FC = {
     MAX_SERVO_RATE: 125,
@@ -520,6 +528,79 @@ var FC = {
             bankAngle: null
         }
 
+         SWASH_PLATE = [];
+        
+         SWASH_MIX = {
+        	nicktravel: 				70.0,
+        	rolltravel: 				70.0,
+        	pitchtravel: 				70.0,
+        	cyclicring: 				6.00,
+        	pitchmax: 					12.00,
+        	pitchmin: 					-6.00,
+        	cyclicmix: 					30.0,
+        	collectivemix: 				0,
+        	collectivemixthreshold: 	0,
+        	collectivemixmax: 			0,
+        	nickdma: 					0,
+        	centerall: 					0,
+        	platetype: 					0,
+        	rotationleft: 				0,
+        	rotationright: 				0,
+        	virtualrotleft: 			0,
+        	virtualrotright: 			0,
+        	cyclictravel: 				0,
+        	collectivtravel: 			0,
+        	collectivoffset:			0
+        };
+        
+        SERVO_MIXER = {
+        	roll:	0,	// scaling 10 = 1%
+        	nick:	0,	// scaling 10 = 1%
+        	pitch:	0	// scaling 10 = 1%
+        };
+        SERVO_MIX =
+        {
+        	servo: [8]
+        };
+        
+        TILT_SETUP = {
+        	nacellemax:					90.00,	// heli mode nacelle position [deg]
+        	nacellemin:					30.00,	// plane mode nacelle position [deg]
+        	nacellespeed:				 7.00,	// nacelle turn rate [deg/sec]
+        	cyclicring: 				 8.00,	// cyclic ring max deflection
+        	pitchmaxheli:				14.00,	// max pitch in heli mode [deg]
+        	pitchmaxplane:				26.00,	// max pitch in plane mode [deg]
+        	pitchminheli:				-4.00,	// min pitch in heli mode [deg]
+        	pitchminplane:				 2.00,	// min pitch in plane mode [deg]
+        	gainnickheli:				70.00,	// nick gain in heli mode [%]
+        	gainnickplane:				50.00,	// nick gain in heli mode [%]
+        	gaindiffcollheli:			50.00,	// diffcoll gain in heli mode [%]
+        	gaindiffcollplane:			45.00,	// diffcoll gain in heli mode [%]
+        	gaindiffnickheli:			40.00,	// diffnick gain in heli mode [%]
+        	gaindiffnickplane:			0.00,	// diffnick gain in heli mode [%]
+        	centerall: 					0,
+        	spare1:						0.00,
+        	spare2:						0.00
+        };
+        
+        TILT_LIVE = {
+        	nacelle:					90.00,
+        	leftnick:					 0.00,
+        	leftpitch:					-2.00,
+        	rightnick:					 0.00,
+        	rightpitch:					-2.00,
+        	gainnick:					70.00,
+        	gaindiffcoll:				70.00,
+        	gaindiffnick:				70.00,
+        	pitchmin:					-4.00,
+        	pitchmax:					14.00,
+        	pitchact:					-2.00,
+        	spare1:						0.00,
+        	spare2:						0.00
+        };
+
+		trimpos = [ 0, 0, 0, 0 ,0 ,0];
+		
         RXFAIL_CONFIG = [];
 
         OUTPUT_MAPPING = new OutputMappingCollection();

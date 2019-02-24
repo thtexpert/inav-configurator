@@ -1,0 +1,165 @@
+<div class="tab_swash">
+    <div class="content_wrapper">
+
+    <div class="clear-both"></div>
+	<div class="left" id="left">
+		<div class="title">Left Swash Plate</div>
+			<table class="table1">
+					<tr>
+							<td class="xyplotcolumn">
+									<div class="xyplot" id="xyplotleft">
+									</div>
+							</td>
+							<td class="collectiveplotcolumn">
+									<div class="collectiveplot" id="collectiveplotleft">
+									</div>
+							<td>
+					</tr>
+			</table>
+	</div>
+	<div class="right" id="right">
+		<div class="title">Right Swash Plate</div>
+			<table class="table2">
+					<tr>
+							<td class="collectiveplotcolumn">
+									<div class="collectiveplot" id="collectiveplotright">
+									</div>
+							</td>
+							<td class="xyplotcolumn">
+									<div class="xyplot" id="xyplotright">
+									</div>
+							<td>
+					</tr>
+			</table>
+	</div>
+	<div class="swashmixing">
+	    <div class="title" data-i18n="swashmixTitle"></div>
+			<table>
+					<tr>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="nicktravel" min="10" max="200" />
+										<span data-i18n="swashmixnicktravel"></span>
+									</label>
+								</div>
+							</td>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="rolltravel" min="10" max="200" />
+										<span data-i18n="swashmixrolltravel"></span>
+									</label>
+								</div>
+							</td>
+					</tr>
+					<tr>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="pitchtravel" min="30" max="200" />
+										<span data-i18n="swashmixpitchtravel"></span>
+									</label>
+								</div>
+							</td>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="cyclicring" step="0.1" min="0.5" max="9.5" />
+										<span data-i18n="swashmixcyclicring"></span>
+									</label>
+								</div>
+							</td>
+					</tr>
+					<tr>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="pitchmax" step="0.1" min="0.5" max="13.5" />
+										<span data-i18n="swashmixpitchmax"></span>
+									</label>
+								</div>
+							</td>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="pitchmin" step="0.1" min="-13.5" max="-0.5" />
+										<span data-i18n="swashmixpitchmin"></span>
+									</label>
+								</div>
+							</td>
+					</tr>
+					<tr>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="collectivoffset" step="0.1" min="-10" max="+10" />
+										<span data-i18n="swashmixcollectivoffset"></span>
+									</label>
+								</div>
+							</td>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="cyclicmix" min="-100" max="100" />
+										<span data-i18n="swashmixcyclicmix"></span>
+									</label>
+								</div>
+							</td>
+					</tr>
+					<tr>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="collectivemix" min="-100" max="100" />
+										<span data-i18n="swashmixcollectivemix"></span>
+									</label>
+								</div>
+							</td>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="collectivemixthreshold" step="0.1" min="-13.5" max="13.5" />
+										<span data-i18n="swashmixcollectivemixthreshold"></span>
+									</label>
+								</div>
+							</td>
+					</tr>
+					<tr>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="collectivemixmax" step="0.1" min="-13.5" max="13.5" />
+										<span data-i18n="swashmixcollectivemixmax"></span>
+									</label>
+								</div>
+							</td>
+							<td>
+								<div class="number">
+									<label>
+										<input type="number" name="nickdma" min="-150" max="150" />
+										<span data-i18n="swashmixnickdma"></span>
+									</label>
+								</div>
+							</td>
+					</tr>
+						<td></td>
+					<tr>
+							<td>
+								<label>
+									<input type="checkbox" name="centerall" />
+									<span data-i18n="swashmixcenterall"></span>
+								</label>
+							</td>
+					</tr>
+			</table>
+	</div>
+    <div class="clear-both"></div>
+	</div>
+    <div class="content_toolbar">
+	    <div class="btn">
+	        <a class="update" href="#" data-i18n="swashButtonSave"></a>
+	        <a class="refresh" href="#" data-i18n="swashButtonRefresh"></a>
+	    </div>
+	</div>
+</div>
