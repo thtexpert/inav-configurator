@@ -92,6 +92,20 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
         }
 
         let usedServoIndex = 0;
+        if (MIXER_CONFIG.platformType == PLATFORM_FLETTNER) {
+        // block servos for FLettner support
+	        for (let i = 1; i <= 3; i++) {
+                    output = OUTPUT_MAPPING.getFwServoOutput(usedServoIndex);
+                    $('#function-' + output).html("Left " + i);
+	                usedServoIndex++;
+	        }
+	        for (let i = 1; i <= 3; i++) {
+                    output = OUTPUT_MAPPING.getFwServoOutput(usedServoIndex);
+                    $('#function-' + output).html("Right " + i);
+	                usedServoIndex++;
+	        }
+        }
+        
         for (let i = 0; i < MIXER_CONFIG.numberOfServos; i++) {
             if (SERVO_RULES.isServoConfigured(i)) {
                 if (MIXER_CONFIG.platformType == PLATFORM_MULTIROTOR || MIXER_CONFIG.platformType == PLATFORM_TRICOPTER) {

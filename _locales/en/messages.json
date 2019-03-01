@@ -1708,6 +1708,12 @@
     "controlAxisThrottle": {
         "message": "Throttle"
     },
+    "controlAxisCollective": {
+        "message": "Collective"
+    },
+    "controlAxisNacelle": {
+        "message": "Nacelle"
+    },
     "radioChannelShort": {
         "message": "CH "
     },
@@ -2909,26 +2915,26 @@
     "swashmixTitle": {
         "message": "Swash Mixer"
     },
-    "swashmixnicktravel": {
-        "message": "Nick Travel [%]"
+    "swashmixpitchtravel": {
+        "message": "Pitch Travel [%]"
     },
     "swashmixrolltravel": {
         "message": "Roll Travel [%]"
     },
-    "swashmixpitchtravel": {
-        "message": "Pitch Travel [%]"
+    "swashmixcollectivetravel": {
+        "message": "Collective Travel [%]"
     },
     "swashmixcyclicring": {
         "message": "Cyclic Ring [&deg]"
     },
-    "swashmixpitchmax": {
-        "message": "Pitch Maximum [&deg]"
+    "swashmixcollectivemax": {
+        "message": "Collective Maximum [&deg]"
     },
-    "swashmixpitchmin": {
-        "message": "Pitch Minimum [&deg]"
+    "swashmixcollectivemin": {
+        "message": "Collective Minimum [&deg]"
     },
     "swashmixcollectivoffset": {
-        "message": "Pitch Offset [&deg]"
+        "message": "Collective Offset [&deg]"
     },
     "swashmixcyclicmix": {
         "message": "Cyclic Mix [%]"
@@ -2942,8 +2948,8 @@
     "swashmixcollectivemixmax": {
         "message": "Coll Mix Maxim. [&deg]"
     },
-    "swashmixnickdma": {
-        "message": "Nick DMA [%]"
+    "swashmixpitchff": {
+        "message": "Pitch Feedforward [%]"
     },
     "swashmixcenterall": {
         "message": "Center All"

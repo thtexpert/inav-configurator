@@ -840,17 +840,17 @@ var mspHelper = (function (gui) {
                 }
                 break;
     		case MSPCodes.MSP2_FLETTNER_SWASH_MIX:
-                SWASH_MIX.nicktravel = data.getInt16(0, 1) / 10;
+                SWASH_MIX.pitchtravel = data.getInt16(0, 1) / 10;
                 SWASH_MIX.rolltravel = data.getInt16(2, 1) / 10;
-                SWASH_MIX.pitchtravel = data.getInt16(4, 1) / 10;
+                SWASH_MIX.collectivetravel = data.getInt16(4, 1) / 10;
                 SWASH_MIX.cyclicring = data.getInt16(6, 1) / 100;
-                SWASH_MIX.pitchmax = data.getInt16(8, 1) / 100;
-                SWASH_MIX.pitchmin = data.getInt16(10, 1) / 100;
+                SWASH_MIX.collectivemax = data.getInt16(8, 1) / 100;
+                SWASH_MIX.collectivemin = data.getInt16(10, 1) / 100;
                 SWASH_MIX.cyclicmix = data.getInt16(12, 1) / 10;
                 SWASH_MIX.collectivemix = data.getInt16(14, 1) / 10;
                 SWASH_MIX.collectivemixthreshold = data.getInt16(16, 1) / 100;
                 SWASH_MIX.collectivemixmax = data.getInt16(18, 1) / 100;
-                SWASH_MIX.nickdma = data.getInt16(20, 1) / 10;
+                SWASH_MIX.pitchff = data.getInt16(20, 1) / 10;
                 SWASH_MIX.centerall = data.getInt16(22, 1);
 				SWASH_MIX.platetype = data.getInt16(24, 1);
 				SWASH_MIX.rotationleft = data.getInt16(26, 1) / 10;
@@ -877,10 +877,10 @@ var mspHelper = (function (gui) {
     			TILT_SETUP.nacellemin = data.getInt16(2, 1) / 100;
     			TILT_SETUP.nacellespeed = data.getInt16(4, 1) / 100;
     			TILT_SETUP.cyclicring = data.getInt16(6, 1) / 100;
-    			TILT_SETUP.pitchmaxheli = data.getInt16(8, 1) / 100;
-    			TILT_SETUP.pitchmaxplane = data.getInt16(10, 1) / 100;
-    			TILT_SETUP.pitchminheli = data.getInt16(12, 1) / 100;
-    			TILT_SETUP.pitchminplane = data.getInt16(14, 1) / 100;
+    			TILT_SETUP.collectivemaxheli = data.getInt16(8, 1) / 100;
+    			TILT_SETUP.collectivemaxplane = data.getInt16(10, 1) / 100;
+    			TILT_SETUP.collectiveminheli = data.getInt16(12, 1) / 100;
+    			TILT_SETUP.collectiveminplane = data.getInt16(14, 1) / 100;
     			TILT_SETUP.gainnickheli = data.getInt16(16, 1) / 10;
     			TILT_SETUP.gainnickplane = data.getInt16(18, 1) / 10;
     			TILT_SETUP.gaindiffcollheli = data.getInt16(20, 1) / 10;
@@ -900,8 +900,8 @@ var mspHelper = (function (gui) {
     			TILT_LIVE.gainnick = data.getInt16(10, 1) / 10;
     			TILT_LIVE.gaindiffcoll = data.getInt16(12, 1) / 10;
     			TILT_LIVE.gaindiffnick = data.getInt16(14, 1) / 10;
-    			TILT_LIVE.pitchmin = data.getInt16(16, 1) / 100;
-    			TILT_LIVE.pitchmax = data.getInt16(18, 1) / 100;
+    			TILT_LIVE.collectivemin = data.getInt16(16, 1) / 100;
+    			TILT_LIVE.collectivemax = data.getInt16(18, 1) / 100;
     			TILT_LIVE.pitchact = data.getInt16(20, 1) / 100;
     			TILT_LIVE.spare1 = data.getInt16(22, 1) ;
     			TILT_LIVE.spare2 = data.getInt16(24, 1) ;
@@ -1913,18 +1913,18 @@ var mspHelper = (function (gui) {
                 break;
 // TWIN insert begin
 		case MSPCodes.MSP2_FLETTNER_SET_SWASH_MIX:
-                buffer.push(lowByte(SWASH_MIX.nicktravel * 10));
-                buffer.push(highByte(SWASH_MIX.nicktravel * 10));
-                buffer.push(lowByte(SWASH_MIX.rolltravel *10));
-                buffer.push(highByte(SWASH_MIX.rolltravel *10));
                 buffer.push(lowByte(SWASH_MIX.pitchtravel * 10));
                 buffer.push(highByte(SWASH_MIX.pitchtravel * 10));
+                buffer.push(lowByte(SWASH_MIX.rolltravel *10));
+                buffer.push(highByte(SWASH_MIX.rolltravel *10));
+                buffer.push(lowByte(SWASH_MIX.collectivetravel * 10));
+                buffer.push(highByte(SWASH_MIX.collectivetravel * 10));
                 buffer.push(lowByte(SWASH_MIX.cyclicring * 100))
                 buffer.push(highByte(SWASH_MIX.cyclicring * 100))
-                buffer.push(lowByte(SWASH_MIX.pitchmax * 100));
-                buffer.push(highByte(SWASH_MIX.pitchmax * 100));
-                buffer.push(lowByte(SWASH_MIX.pitchmin * 100));
-                buffer.push(highByte(SWASH_MIX.pitchmin * 100));
+                buffer.push(lowByte(SWASH_MIX.collectivemax * 100));
+                buffer.push(highByte(SWASH_MIX.collectivemax * 100));
+                buffer.push(lowByte(SWASH_MIX.collectivemin * 100));
+                buffer.push(highByte(SWASH_MIX.collectivemin * 100));
                 buffer.push(lowByte(SWASH_MIX.cyclicmix * 10 ));
                 buffer.push(highByte(SWASH_MIX.cyclicmix * 10 ));
                 buffer.push(lowByte(SWASH_MIX.collectivemix * 10));
@@ -1933,8 +1933,8 @@ var mspHelper = (function (gui) {
                 buffer.push(highByte(SWASH_MIX.collectivemixthreshold * 100));
                 buffer.push(lowByte(SWASH_MIX.collectivemixmax * 100));
                 buffer.push(highByte(SWASH_MIX.collectivemixmax * 100));
-                buffer.push(lowByte(SWASH_MIX.nickdma * 10));
-                buffer.push(highByte(SWASH_MIX.nickdma * 10));
+                buffer.push(lowByte(SWASH_MIX.pitchff * 10));
+                buffer.push(highByte(SWASH_MIX.pitchff * 10));
                 buffer.push(lowByte(SWASH_MIX.centerall));
                 buffer.push(highByte(SWASH_MIX.centerall));
 
@@ -1982,14 +1982,14 @@ var mspHelper = (function (gui) {
             buffer.push(highByte(TILT_SETUP.nacellespeed * 100));
             buffer.push(lowByte(TILT_SETUP.cyclicring * 100))
             buffer.push(highByte(TILT_SETUP.cyclicring * 100))
-            buffer.push(lowByte(TILT_SETUP.pitchmaxheli * 100));
-            buffer.push(highByte(TILT_SETUP.pitchmaxheli * 100));
-            buffer.push(lowByte(TILT_SETUP.pitchmaxplane * 100));
-            buffer.push(highByte(TILT_SETUP.pitchmaxplane * 100));
-            buffer.push(lowByte(TILT_SETUP.pitchminheli * 100 ));
-            buffer.push(highByte(TILT_SETUP.pitchminheli * 100 ));
-            buffer.push(lowByte(TILT_SETUP.pitchminplane * 100));
-            buffer.push(highByte(TILT_SETUP.pitchminplane * 100));
+            buffer.push(lowByte(TILT_SETUP.collectivemaxheli * 100));
+            buffer.push(highByte(TILT_SETUP.collectivemaxheli * 100));
+            buffer.push(lowByte(TILT_SETUP.collectivemaxplane * 100));
+            buffer.push(highByte(TILT_SETUP.collectivemaxplane * 100));
+            buffer.push(lowByte(TILT_SETUP.collectiveminheli * 100 ));
+            buffer.push(highByte(TILT_SETUP.collectiveminheli * 100 ));
+            buffer.push(lowByte(TILT_SETUP.collectiveminplane * 100));
+            buffer.push(highByte(TILT_SETUP.collectiveminplane * 100));
             buffer.push(lowByte(TILT_SETUP.gainnickheli * 10));
             buffer.push(highByte(TILT_SETUP.gainnickheli * 10));
             buffer.push(lowByte(TILT_SETUP.gainnickplane * 10));

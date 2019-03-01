@@ -523,18 +523,18 @@ TABS.swash.initialize = function (callback) {
     };
 
 	function fillSwashMixGui() {
-		$('.swashmixing .number input[name="nicktravel"]').val(SWASH_MIX.nicktravel);
-		$('.swashmixing .number input[name="rolltravel"]').val(SWASH_MIX.rolltravel);
 		$('.swashmixing .number input[name="pitchtravel"]').val(SWASH_MIX.pitchtravel);
+		$('.swashmixing .number input[name="rolltravel"]').val(SWASH_MIX.rolltravel);
+		$('.swashmixing .number input[name="collectivetravel"]').val(SWASH_MIX.collectivetravel);
 		$('.swashmixing .number input[name="cyclicring"]').val(SWASH_MIX.cyclicring);
-		$('.swashmixing .number input[name="pitchmax"]').val(SWASH_MIX.pitchmax);
-		$('.swashmixing .number input[name="pitchmin"]').val(SWASH_MIX.pitchmin);
+		$('.swashmixing .number input[name="collectivemax"]').val(SWASH_MIX.collectivemax);
+		$('.swashmixing .number input[name="collectivemin"]').val(SWASH_MIX.collectivemin);
 		$('.swashmixing .number input[name="collectivoffset"]').val(SWASH_MIX.collectivoffset);
 		$('.swashmixing .number input[name="cyclicmix"]').val(SWASH_MIX.cyclicmix);
 		$('.swashmixing .number input[name="collectivemix"]').val(SWASH_MIX.collectivemix);
 		$('.swashmixing .number input[name="collectivemixthreshold"]').val(SWASH_MIX.collectivemixthreshold);
 		$('.swashmixing .number input[name="collectivemixmax"]').val(SWASH_MIX.collectivemixmax);
-		$('.swashmixing .number input[name="nickdma"]').val(SWASH_MIX.nickdma);
+		$('.swashmixing .number input[name="pitchff"]').val(SWASH_MIX.pitchff);
 		$('.swashmixing input[name="centerall"]')[0].checked = (SWASH_MIX.centerall > 0 ? true : false);
 	};
 
@@ -592,8 +592,8 @@ TABS.swash.initialize = function (callback) {
         leftXy.updateCyclicLimit(SWASH_MIX.cyclicring);
         rightXy.updateCyclicLimit(SWASH_MIX.cyclicring);
 
-		pitchleft.updatePitchLimit(SWASH_MIX.pitchmin,SWASH_MIX.pitchmax);
-		pitchright.updatePitchLimit(SWASH_MIX.pitchmin,SWASH_MIX.pitchmax);
+		pitchleft.updatePitchLimit(SWASH_MIX.collectivemin,SWASH_MIX.collectivemax);
+		pitchright.updatePitchLimit(SWASH_MIX.collectivemin,SWASH_MIX.collectivemax);
 
 		leftXy.updatenicktrim(0,2);
 		leftXy.updaterolltrim(0,3);
@@ -607,24 +607,24 @@ TABS.swash.initialize = function (callback) {
 		
 		
 		function readSwashMixGui() {
-            SWASH_MIX.nicktravel= parseFloat($('.swashmixing .number input[name="nicktravel"]').val());
+            SWASH_MIX.pitchtravel= parseFloat($('.swashmixing .number input[name="pitchtravel"]').val());
 			SWASH_MIX.rolltravel = parseFloat($('.swashmixing .number input[name="rolltravel"]').val());
-			SWASH_MIX.pitchtravel = parseFloat($('.swashmixing .number input[name="pitchtravel"]').val());
+			SWASH_MIX.collectivetravel = parseFloat($('.swashmixing .number input[name="collectivetravel"]').val());
 			SWASH_MIX.cyclicring = parseFloat($('.swashmixing .number input[name="cyclicring"]').val());
-			SWASH_MIX.pitchmax = parseFloat($('.swashmixing .number input[name="pitchmax"]').val());
-			SWASH_MIX.pitchmin = parseFloat($('.swashmixing .number input[name="pitchmin"]').val());
+			SWASH_MIX.collectivemax = parseFloat($('.swashmixing .number input[name="collectivemax"]').val());
+			SWASH_MIX.collectivemin = parseFloat($('.swashmixing .number input[name="collectivemin"]').val());
 			SWASH_MIX.collectivoffset = parseFloat($('.swashmixing .number input[name="collectivoffset"]').val());
 			SWASH_MIX.cyclicmix = parseFloat($('.swashmixing .number input[name="cyclicmix"]').val());
 			SWASH_MIX.collectivemix = parseFloat($('.swashmixing .number input[name="collectivemix"]').val());
 			SWASH_MIX.collectivemixthreshold = parseFloat($('.swashmixing .number input[name="collectivemixthreshold"]').val());
 			SWASH_MIX.collectivemixmax = parseFloat($('.swashmixing .number input[name="collectivemixmax"]').val());
-			SWASH_MIX.nickdma = parseFloat($('.swashmixing .number input[name="nickdma"]').val());
+			SWASH_MIX.pitchff = parseFloat($('.swashmixing .number input[name="pitchff"]').val());
 			SWASH_MIX.centerall = ($('.swashmixing input[name="centerall"]')[0].checked == true ? 1 : 0);
 
 			leftXy.updateCyclicLimit(SWASH_MIX.cyclicring);
 			rightXy.updateCyclicLimit(SWASH_MIX.cyclicring);
-			pitchleft.updatePitchLimit(SWASH_MIX.pitchmin,SWASH_MIX.pitchmax);
-			pitchright.updatePitchLimit(SWASH_MIX.pitchmin,SWASH_MIX.pitchmax);
+			pitchleft.updatePitchLimit(SWASH_MIX.collectivemin,SWASH_MIX.collectivemax);
+			pitchright.updatePitchLimit(SWASH_MIX.collectivemin,SWASH_MIX.collectivemax);
 		}
 		
         $('a.update').click(function () {

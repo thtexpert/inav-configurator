@@ -106,6 +106,16 @@ TABS.receiver.initialize = function (callback) {
                 chrome.i18n.getMessage('controlAxisThrottle')
             ],
             bar_container = $('.tab-receiver .bars');
+        if (MIXER_CONFIG.platformType == PLATFORM_FLETTNER) {
+            bar_names = [
+                chrome.i18n.getMessage('controlAxisRoll'),
+                chrome.i18n.getMessage('controlAxisPitch'),
+                chrome.i18n.getMessage('controlAxisYaw'),
+                chrome.i18n.getMessage('controlAxisCollective')
+            ],
+            bar_container = $('.tab-receiver .bars');
+        }
+            
 
         for (var i = 0; i < RC.active_channels; i++) {
             var name;

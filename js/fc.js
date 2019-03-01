@@ -531,17 +531,17 @@ var FC = {
          SWASH_PLATE = [];
         
          SWASH_MIX = {
-        	nicktravel: 				70.0,
-        	rolltravel: 				70.0,
         	pitchtravel: 				70.0,
+        	rolltravel: 				70.0,
+        	collectivetravel: 				70.0,
         	cyclicring: 				6.00,
-        	pitchmax: 					12.00,
-        	pitchmin: 					-6.00,
+        	collectivemax: 					12.00,
+        	collectivemin: 					-6.00,
         	cyclicmix: 					30.0,
         	collectivemix: 				0,
         	collectivemixthreshold: 	0,
         	collectivemixmax: 			0,
-        	nickdma: 					0,
+        	pitchff: 					0,
         	centerall: 					0,
         	platetype: 					0,
         	rotationleft: 				0,
@@ -568,10 +568,10 @@ var FC = {
         	nacellemin:					30.00,	// plane mode nacelle position [deg]
         	nacellespeed:				 7.00,	// nacelle turn rate [deg/sec]
         	cyclicring: 				 8.00,	// cyclic ring max deflection
-        	pitchmaxheli:				14.00,	// max pitch in heli mode [deg]
-        	pitchmaxplane:				26.00,	// max pitch in plane mode [deg]
-        	pitchminheli:				-4.00,	// min pitch in heli mode [deg]
-        	pitchminplane:				 2.00,	// min pitch in plane mode [deg]
+        	collectivemaxheli:				14.00,	// max pitch in heli mode [deg]
+        	collectivemaxplane:				26.00,	// max pitch in plane mode [deg]
+        	collectiveminheli:				-4.00,	// min pitch in heli mode [deg]
+        	collectiveminplane:				 2.00,	// min pitch in plane mode [deg]
         	gainnickheli:				70.00,	// nick gain in heli mode [%]
         	gainnickplane:				50.00,	// nick gain in heli mode [%]
         	gaindiffcollheli:			50.00,	// diffcoll gain in heli mode [%]
@@ -592,8 +592,8 @@ var FC = {
         	gainnick:					70.00,
         	gaindiffcoll:				70.00,
         	gaindiffnick:				70.00,
-        	pitchmin:					-4.00,
-        	pitchmax:					14.00,
+        	collectivemin:					-4.00,
+        	collectivemax:					14.00,
         	pitchact:					-2.00,
         	spare1:						0.00,
         	spare2:						0.00
