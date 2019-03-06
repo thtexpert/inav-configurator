@@ -288,8 +288,8 @@ TABS.swashservo.initialize = function (callback) {
             $('div.tab-swashservo table.fields td.cyclictravel').each(function () {
             	SWASH_MIX.cyclictravel = $(this).children(0)[0].valueAsNumber;
             });
-            $('div.tab-swashservo table.fields td.collectivtravel').each(function () {
-            	SWASH_MIX.collectivtravel = $(this).children(0)[0].valueAsNumber;
+            $('div.tab-swashservo table.fields td.collectivetravel').each(function () {
+            	SWASH_MIX.collectivetravel = $(this).children(0)[0].valueAsNumber;
             });
             // update graph
     		leftswash.rotate(SWASH_MIX.rotationleft);
@@ -356,8 +356,8 @@ TABS.swashservo.initialize = function (callback) {
             $('div.tab-swashservo table.fields td.cyclictravel').each(function () {
             	$(this).children(0)[0].valueAsNumber = SWASH_MIX.cyclictravel;
             });
-            $('div.tab-swashservo table.fields td.collectivtravel').each(function () {
-            	$(this).children(0)[0].valueAsNumber = SWASH_MIX.collectivtravel;
+            $('div.tab-swashservo table.fields td.collectivetravel').each(function () {
+            	$(this).children(0)[0].valueAsNumber = SWASH_MIX.collectivetravel;
             });
             // dsiabled unrequired inputs
             $('div.tab-swashservo table.fields input').each(function () {
@@ -486,7 +486,7 @@ TABS.swashservo.initialize = function (callback) {
 					var rev = ( bit_check(SERVO_CONFIG[i].rate, 0) ? -1 : 1);
 					SERVO_MIX[i].nick = 0;
 					SERVO_MIX[i].roll = 0;
-					SERVO_MIX[i].pitch = Math.round( 10 * rev * SWASH_MIX.collectivtravel) / 10;
+					SERVO_MIX[i].pitch = Math.round( 10 * rev * SWASH_MIX.collectivetravel) / 10;
 				}
 			break;
     		case PLATE_TYPES.H120:		// H120
@@ -495,14 +495,14 @@ TABS.swashservo.initialize = function (callback) {
     					var rev = ( bit_check(SERVO_CONFIG[i].rate, 0) ? -1 : 1);
     					SERVO_MIX[i].nick = Math.round( -10 * rev * Math.cos((i * 120 + deltaleft) / 180 * Math.PI) * SWASH_MIX.cyclictravel) / 10;
     					SERVO_MIX[i].roll = Math.round( 10 * rev * Math.sin((i * 120 + deltaleft) / 180 * Math.PI) * SWASH_MIX.cyclictravel) / 10;
-    					SERVO_MIX[i].pitch = Math.round( 10 * rev * SWASH_MIX.collectivtravel) / 10;
+    					SERVO_MIX[i].pitch = Math.round( 10 * rev * SWASH_MIX.collectivetravel) / 10;
     				}
     			for(var i = 3; i<6; i++)
 				{	
 					var rev = ( bit_check(SERVO_CONFIG[i].rate, 0) ? -1 : 1);
 					SERVO_MIX[i].nick = Math.round( -10 * rev * Math.cos(((3-i) * 120 + deltaright) / 180 * Math.PI) * SWASH_MIX.cyclictravel) / 10;
 					SERVO_MIX[i].roll = Math.round( 10 * rev * Math.sin(((3-i) * 120 + deltaright) / 180 * Math.PI) * SWASH_MIX.cyclictravel) / 10;
-					SERVO_MIX[i].pitch = Math.round( 10 * rev * SWASH_MIX.collectivtravel) / 10;
+					SERVO_MIX[i].pitch = Math.round( 10 * rev * SWASH_MIX.collectivetravel) / 10;
 				}
     			break;
     		default:		// CUSTOM

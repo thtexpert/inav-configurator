@@ -1,0 +1,291 @@
+.tab_tilt {
+}
+.tab_tilt input[type="number"]::-webkit-inner-spin-button {
+    border: 0;
+}
+.tab_tilt .supported_wrapper,
+.tab_tilt .direction_wrapper {
+    display: none;
+}
+.tab_tilt .title {
+    margin-top: 10px;
+
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+
+    border: 1px solid #8b8b8b;
+
+    background-color: #ececec;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.tab_tilt .left,
+.tab_tilt .leftplots{
+    float: left;
+    margin-right: 5px;
+    margin-left: 0px;
+    width: calc(30% );
+    min-width: 180px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+.tab_tilt .right,
+.tab_tilt .rightplots{
+    float: left;
+    margin-right: 5px;
+    margin-left: 0px;
+    width: calc(30% );
+    min-width: 180px;
+}
+
+.tab_tilt .mixTab,
+.tab_tilt .nacelle,
+.tab_tilt .swashmixing {
+    float: left;
+    margin-right: 0px;
+    margin-left: 0px;
+    width: calc(40% - 15px);
+	min-width: 150px;
+}
+
+.tab_tilt .nacelleplot {
+	min-width: 140px;
+    width: calc(70%);
+}
+.tab_tilt .gainplot {
+	height: 90;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.tab_tilt .mixTable {
+    float: right;
+	border: 1px solid black;
+    border-collapse: collapse;
+    width: calc(100%);
+	
+}
+
+
+
+
+
+.tab_tilt .mixCol0 {
+    align: right;
+	height: 28px;
+	width: calc(40%);
+	border-right: 1px solid black;
+	border-top: 1px solid black;
+	border-bot: 1px solid black;
+    
+}
+
+.tab_tilt .mixCol1,  .mixCol2{
+	width: calc(30%);
+	border-right: 1px solid black;
+	border-top: 1px solid black;
+	border-bot: 1px solid black;
+}
+
+.tab-swash .table1, .table2{
+    width: calc(100% - 5px);
+}
+
+.tab_tilt .xyplot {
+    float: left;
+	width: calc(70% - 2px);
+    min-width: 100px;
+}
+
+.tab_tilt .collectiveplot {
+	float: left;
+	width: calc(30% - 2px);
+	min-width: 42px;
+}
+
+.tab_tilt .axis path {
+  display: none;
+}
+
+.tab_tilt .axis line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+.tab_tilt .axis .minor line {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}
+
+.tab_tilt circle {
+    border-bottom: 1px solid silver;
+    background-color:   #37a8db;
+}
+
+ 
+rect {
+	fill: silver;
+}
+
+ellipse.cyclicring, path.nacellelimit, rect.gainrect{
+	fill: white;
+	fill-opacity: 0.3;
+	border:none;
+}
+
+circle.indicator {
+    border-bottom: 1px solid silver;
+    fill: #37a8db;
+}
+
+rect.indicator {
+    border-bottom: 1px solid silver;
+    fill: #37a8db;
+}
+
+rect.rotors {
+    border-bottom: 1px solid silver;
+    fill: #37a8db;
+}
+
+rect.trimming {
+    border-bottom: 1px solid silver;
+    fill: black;
+	}
+.tab_tilt text.indicatortext {
+    stroke: black;
+    font-family: monospace;
+    font-size: 12px;
+	dominant-baseline: central;
+}
+
+
+text.indicatortext:hover {
+    stroke: red;
+}
+
+.trimbox {
+    fill: #ececec;
+	border: 1px;
+	stroke:none;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.trimboxclick {
+    fill: black;
+	border: 1px;
+	stroke:none;
+	margin-left: 1px;
+	margin-right: 1px;
+	fill-opacity: 0.3;
+}
+
+.trimboxclick:hover {
+    fill: #37a8db;
+	fill-opacity: 1.0;
+}
+
+rect.collectiverange {
+	fill: white;
+	fill-opacity: 0.3;
+	border:none;
+}
+
+.tab_tilt .number {
+    margin-bottom: 5px;
+}
+.tab_tilt .number input {
+    width: 50px;
+    height: 18px;
+    line-height: 18px;
+
+    text-align: right;
+
+    border: 1px solid silver;
+}
+.tab_tilt .number span {
+    margin-left: 5px;
+    margin-right: 5px;
+    line-height: 20px;
+}
+
+.tab_tilt .buttons {
+    width: calc(100% - 20px);
+
+    position: absolute;
+    bottom: 10px;
+}
+.tab_tilt .update,
+.tab_tilt .refresh {
+    display: block;
+    float: right;
+
+    margin-top: 22px;
+
+    height: 28px;
+    line-height: 28px;
+
+    padding: 0 15px 0 15px;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 1px solid silver;
+    background-color: #ececec;
+}
+.tab_tilt .refresh {
+    margin-right: 10px;
+}
+.tab_tilt .update:hover,
+.tab_tilt .refresh:hover {
+    background-color: #dedcdc;
+}
+
+.tab_tilt  table.fields {
+    width: 100%;
+    border-collapse: collapse;
+    align: right;
+}
+.tab_tilt table.fields th {
+	line-height: 20px;
+    text-align: center;
+
+    border: 1px solid #8b8b8b;
+}
+.tab_tilt table.fields td {
+    padding: 1px;
+
+    border: 1px solid #8b8b8b;
+}
+
+.tab_tilt table.fields input[type="number"] {
+    display: block;
+
+    width: 80px;
+    height: 20px;
+
+    line-height: 20px;
+
+    text-align: right;
+}
+
+.tab_tilt polygon.fuselage,
+.tab_tilt polygon.tiltline,
+.tab_tilt polygon.gainline {
+	fill: grey;
+    stroke: black;
+    stroke-width: 2;
+}
+
+.tab_tilt .center {
+	float:left;
+    margin-top: 22px;	
+}

@@ -631,16 +631,16 @@ var mspHelper = (function (gui) {
                 console.log('Servo Configuration written to FC');
                 break;
 			case MSPCodes.MSP2_FLETTNER_SET_SWASH_MIX:
-                console.log('Flettner Swash Mix written to FC');
+                console.log('Flettner Swash Mix saved');
 				break;
 	        case MSPCodes.MSP2_FLETTNER_SET_SERVO_MIX:
-                console.log('Flettner Servo Mix written to FC');
+                console.log('Flettner Servo Mix saved');
 	            break;
 			case MSPCodes.MSP2_TILT_SET_SETUP:
-                console.log('Tilt Setup written to FC');
+                console.log('Tilt Setup saved');
 	            break;
 			case MSPCodes.MSP2_TILT_SET_SERVO_MIX:
-                console.log('Tilt Servo mix written to FC');
+                console.log('Tilt Servo Mix saved');
 	            break;
             case MSPCodes.MSP_RTC:
                 if (data.length >= 6) {
@@ -858,7 +858,7 @@ var mspHelper = (function (gui) {
 				SWASH_MIX.virtualrotleft = data.getInt16(30, 1) / 10;
 				SWASH_MIX.virtualrotright = data.getInt16(32, 1) / 10;
 				SWASH_MIX.cyclictravel = data.getInt16(34, 1) / 10;
-				SWASH_MIX.collectivtravel = data.getInt16(36, 1) / 10;
+				SWASH_MIX.collectivetravel = data.getInt16(36, 1) / 10;
 				SWASH_MIX.collectivoffset = data.getInt16(38, 1) / 100;
                 break;
     		case MSPCodes.MSP2_FLETTNER_SERVO_MIX:
@@ -881,30 +881,47 @@ var mspHelper = (function (gui) {
     			TILT_SETUP.collectivemaxplane = data.getInt16(10, 1) / 100;
     			TILT_SETUP.collectiveminheli = data.getInt16(12, 1) / 100;
     			TILT_SETUP.collectiveminplane = data.getInt16(14, 1) / 100;
-    			TILT_SETUP.gainnickheli = data.getInt16(16, 1) / 10;
-    			TILT_SETUP.gainnickplane = data.getInt16(18, 1) / 10;
+    			TILT_SETUP.gainpitchheli = data.getInt16(16, 1) / 10;
+    			TILT_SETUP.gainpitchplane = data.getInt16(18, 1) / 10;
     			TILT_SETUP.gaindiffcollheli = data.getInt16(20, 1) / 10;
     			TILT_SETUP.gaindiffcollplane = data.getInt16(22, 1) / 10;
-    			TILT_SETUP.gaindiffnickheli = data.getInt16(24, 1) / 10;
-    			TILT_SETUP.gaindiffnickplane = data.getInt16(26, 1) / 10;
+    			TILT_SETUP.gaindiffpitchheli = data.getInt16(24, 1) / 10;
+    			TILT_SETUP.gaindiffpitchplane = data.getInt16(26, 1) / 10;
     			TILT_SETUP.centerall = data.getInt16(28, 1);
-    			TILT_SETUP.spare1 = data.getInt16(30, 1) ;
-    			TILT_SETUP.spare2 = data.getInt16(32, 1) ;
+    			TILT_SETUP.platetype = data.getInt16(30, 1) ;
+    			TILT_SETUP.cyclictravel = data.getInt16(32, 1) / 10;
+    			TILT_SETUP.collectivetravel = data.getInt16(34, 1) / 10;
+    			TILT_SETUP.nacelletype = data.getInt16(36, 1) ;
+    			TILT_SETUP.spare2 = data.getInt16(38, 1) ;
+                break;
+    		case MSPCodes.MSP2_TILT_SERVO_MIX:
+    			TILT_SERVO_MIX = []; // empty the array as new data is coming in
+                for (var i = 0; i < 4 ; i++) {
+	                var arr = {
+	                    'pitch': data.getInt16(4 * i, 1) /10,
+	                    'collective': data.getInt16(4 * i + 2, 1) /10,
+	                };
+	                TILT_SERVO_MIX.push(arr);
+                }
+                for (var i = 4; i < 6 ; i++) {
+	                var arr = {
+	                    'pitch': data.getInt16(4 * i, 1) ,
+	                    'collective': data.getInt16(4 * i + 2, 1) ,
+	                };
+	                TILT_SERVO_MIX.push(arr);
+                }
                 break;
     		case MSPCodes.MSP2_TILT_LIVE:
     			TILT_LIVE.nacelle = data.getInt16(0, 1) / 100;
-    			TILT_LIVE.leftnick = data.getInt16(2, 1) / 100;
-    			TILT_LIVE.leftpitch = data.getInt16(4, 1) / 100;
-    			TILT_LIVE.rightnick = data.getInt16(6, 1) / 100;
-    			TILT_LIVE.rightpitch = data.getInt16(8, 1) / 100;
-    			TILT_LIVE.gainnick = data.getInt16(10, 1) / 10;
+    			TILT_LIVE.leftpitch = data.getInt16(2, 1) / 100;
+    			TILT_LIVE.leftcollective = data.getInt16(4, 1) / 100;
+    			TILT_LIVE.rightpitch = data.getInt16(6, 1) / 100;
+    			TILT_LIVE.rightcollective = data.getInt16(8, 1) / 100;
+    			TILT_LIVE.gainpitch = data.getInt16(10, 1) / 10;
     			TILT_LIVE.gaindiffcoll = data.getInt16(12, 1) / 10;
-    			TILT_LIVE.gaindiffnick = data.getInt16(14, 1) / 10;
+    			TILT_LIVE.gaindiffpitch = data.getInt16(14, 1) / 10;
     			TILT_LIVE.collectivemin = data.getInt16(16, 1) / 100;
     			TILT_LIVE.collectivemax = data.getInt16(18, 1) / 100;
-    			TILT_LIVE.pitchact = data.getInt16(20, 1) / 100;
-    			TILT_LIVE.spare1 = data.getInt16(22, 1) ;
-    			TILT_LIVE.spare2 = data.getInt16(24, 1) ;
                 break;
     	break;
 
@@ -1956,8 +1973,8 @@ var mspHelper = (function (gui) {
 				buffer.push(lowByte(SWASH_MIX.cyclictravel * 10));	// scaling 10 = 1%
 				buffer.push(highByte(SWASH_MIX.cyclictravel * 10));	// scaling 10 = 1%
 				
-				buffer.push(lowByte(SWASH_MIX.collectivtravel * 10));	// scaling 10 = 1%
-				buffer.push(highByte(SWASH_MIX.collectivtravel * 10));	// scaling 10 = 1%
+				buffer.push(lowByte(SWASH_MIX.collectivetravel * 10));	// scaling 10 = 1%
+				buffer.push(highByte(SWASH_MIX.collectivetravel * 10));	// scaling 10 = 1%
 				
 				buffer.push(lowByte(SWASH_MIX.collectivoffset * 100));
 				buffer.push(highByte(SWASH_MIX.collectivoffset * 100));
@@ -1990,25 +2007,45 @@ var mspHelper = (function (gui) {
             buffer.push(highByte(TILT_SETUP.collectiveminheli * 100 ));
             buffer.push(lowByte(TILT_SETUP.collectiveminplane * 100));
             buffer.push(highByte(TILT_SETUP.collectiveminplane * 100));
-            buffer.push(lowByte(TILT_SETUP.gainnickheli * 10));
-            buffer.push(highByte(TILT_SETUP.gainnickheli * 10));
-            buffer.push(lowByte(TILT_SETUP.gainnickplane * 10));
-            buffer.push(highByte(TILT_SETUP.gainnickplane * 10));
+            buffer.push(lowByte(TILT_SETUP.gainpitchheli * 10));
+            buffer.push(highByte(TILT_SETUP.gainpitchheli * 10));
+            buffer.push(lowByte(TILT_SETUP.gainpitchplane * 10));
+            buffer.push(highByte(TILT_SETUP.gainpitchplane * 10));
             buffer.push(lowByte(TILT_SETUP.gaindiffcollheli * 10));
             buffer.push(highByte(TILT_SETUP.gaindiffcollheli * 10));
             buffer.push(lowByte(TILT_SETUP.gaindiffcollplane * 10));
             buffer.push(highByte(TILT_SETUP.gaindiffcollplane * 10));
-            buffer.push(lowByte(TILT_SETUP.gaindiffnickheli * 10));
-			buffer.push(highByte(TILT_SETUP.gaindiffnickheli * 10));
-			buffer.push(lowByte(TILT_SETUP.gaindiffnickplane * 10));
-			buffer.push(highByte(TILT_SETUP.gaindiffnickplane * 10));
+            buffer.push(lowByte(TILT_SETUP.gaindiffpitchheli * 10));
+			buffer.push(highByte(TILT_SETUP.gaindiffpitchheli * 10));
+			buffer.push(lowByte(TILT_SETUP.gaindiffpitchplane * 10));
+			buffer.push(highByte(TILT_SETUP.gaindiffpitchplane * 10));
 			buffer.push(lowByte(TILT_SETUP.centerall));
 			buffer.push(highByte(TILT_SETUP.centerall));
-			buffer.push(lowByte(TILT_SETUP.spare1));
-			buffer.push(highByte(TILT_SETUP.spare1));
+			buffer.push(lowByte(TILT_SETUP.platetype));
+			buffer.push(highByte(TILT_SETUP.platetype));
+			buffer.push(lowByte(TILT_SETUP.cyclictravel * 10));
+			buffer.push(highByte(TILT_SETUP.cyclictravel * 10));
+			buffer.push(lowByte(TILT_SETUP.collectivetravel * 10));
+			buffer.push(highByte(TILT_SETUP.collectivetravel * 10));
+			buffer.push(lowByte(TILT_SETUP.nacelletype));
+			buffer.push(highByte(TILT_SETUP.nacelletype));
 			buffer.push(lowByte(TILT_SETUP.spare2));
 			buffer.push(highByte(TILT_SETUP.spare2));
 			break;
+        case MSPCodes.MSP2_TILT_SET_SERVO_MIX:
+            for (var i = 0; i < 4; i++) {
+                buffer.push(lowByte(TILT_SERVO_MIX[i].pitch * 10));
+                buffer.push(highByte(TILT_SERVO_MIX[i].pitch * 10));
+                buffer.push(lowByte(TILT_SERVO_MIX[i].collective * 10));
+                buffer.push(highByte(TILT_SERVO_MIX[i].collective * 10));
+            }
+            for (var i = 4; i < 6; i++) {
+                buffer.push(lowByte(TILT_SERVO_MIX[i].pitch));
+                buffer.push(highByte(TILT_SERVO_MIX[i].pitch));
+                buffer.push(lowByte(TILT_SERVO_MIX[i].collective));
+                buffer.push(highByte(TILT_SERVO_MIX[i].collective));
+            }
+            break;
 // TWIN insert end
             case MSPCodes.MSP_SET_3D:
                 buffer.push(lowByte(_3D.deadband3d_low));
@@ -2543,6 +2580,11 @@ var mspHelper = (function (gui) {
                 onCompleteCallback();
             }
         }
+    };
+
+    self.sendTiltrotorMixer = function (onCompleteCallback) {
+        MSP.send_message(MSPCodes.MSP2_TILT_SET_SETUP, mspHelper.crunch(MSPCodes.MSP2_TILT_SET_SETUP), false, function(){});
+        onCompleteCallback();
     };
 
     self.sendModeRanges = function (onCompleteCallback) {
@@ -3412,6 +3454,11 @@ var mspHelper = (function (gui) {
             callback();
         }
     };
+    
+    self.loadTiltrotorMixer = function (callback) {
+    	MSP.send_message(MSPCodes.MSP2_TILT_SETUP, false, false, callback);
+    };
+    
 
     self.loadMotors = function (callback) {
         MSP.send_message(MSPCodes.MSP_MOTOR, false, false, callback);

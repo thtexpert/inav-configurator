@@ -530,7 +530,76 @@ const mixerList = [
         platform: PLATFORM_FLETTNER,
         motorMixer: [],
         servoMixer: []
+    },
+    {
+        id: 32,
+        name: 'Osprey Rotormast',
+        model: 'custom',
+        image: 'Osprey_2_tilt',
+        enabled: true,
+        legacy: true,
+        platform: PLATFORM_TILTROTOR,
+        motorMixer: [],
+        servoMixer: [],
+        tiltMixer:
+        {
+        	nacellemax:					90.00,	// heli mode nacelle position [deg]
+        	nacellemin:					0.00,	// plane mode nacelle position [deg]
+        	nacellespeed:				6.40,	// nacelle turn rate [deg/sec]
+        	cyclicring: 				 15.00,	// cyclic ring max deflection
+        	collectivemaxheli:				18.00,	// max pitch in heli mode [deg]
+        	collectivemaxplane:				26.00,	// max pitch in plane mode [deg]
+        	collectiveminheli:				-6.00,	// min pitch in heli mode [deg]
+        	collectiveminplane:				 0.00,	// min pitch in plane mode [deg]
+        	gainpitchheli:				45.00,	// nick gain in heli mode [%]
+        	gainpitchplane:				55.00,	// nick gain in heli mode [%]
+        	gaindiffcollheli:			45.00,	// diffcoll gain in heli mode [%]
+        	gaindiffcollplane:			45.00,	// diffcoll gain in heli mode [%]
+        	gaindiffpitchheli:			50.00,	// diffnick gain in heli mode [%]
+        	gaindiffpitchplane:			80.00,	// diffnick gain in heli mode [%]
+        	platetype:					0,
+        	cyclictravel:					75.0,
+        	collectivetravel:			75.0,
+        	nacelletype:					2,
+        	spare2:						0.00
+        }
+    },
+    {
+        id: 33,
+        name: 'Osprey',
+        model: 'custom',
+        image: 'Osprey_1_tilt_1_flap',
+        enabled: true,
+        legacy: true,
+        platform: PLATFORM_TILTROTOR,
+        motorMixer: [],
+        servoMixer: [
+            new ServoMixRule(5, INPUT_RC_AUX3,  50, 0)
+        ],
+        tiltMixer:
+        {
+        	nacellemax:					90.00,	// heli mode nacelle position [deg]
+        	nacellemin:					0.00,	// plane mode nacelle position [deg]
+        	nacellespeed:				6.40,	// nacelle turn rate [deg/sec]
+        	cyclicring: 				 15.00,	// cyclic ring max deflection
+        	collectivemaxheli:				18.00,	// max pitch in heli mode [deg]
+        	collectivemaxplane:				26.00,	// max pitch in plane mode [deg]
+        	collectiveminheli:				-6.00,	// min pitch in heli mode [deg]
+        	collectiveminplane:				 0.00,	// min pitch in plane mode [deg]
+        	gainpitchheli:				45.00,	// nick gain in heli mode [%]
+        	gainpitchplane:				55.00,	// nick gain in heli mode [%]
+        	gaindiffcollheli:			45.00,	// diffcoll gain in heli mode [%]
+        	gaindiffcollplane:			45.00,	// diffcoll gain in heli mode [%]
+        	gaindiffpitchheli:			50.00,	// diffnick gain in heli mode [%]
+        	gaindiffpitchplane:			80.00,	// diffnick gain in heli mode [%]
+        	platetype:					0,
+        	cyclictravel:					75.0,
+        	collectivetravel:			75.0,
+        	nacelletype:					1,
+        	spare2:						0.00
+        }
     }
+    
                 
 ];
 
@@ -580,7 +649,7 @@ const platformList = [
     {
         id: 7,
         name: "TiltRotor",
-        enabled: false,
+        enabled: true,
         flapsPossible: false
     },
     {
@@ -682,6 +751,11 @@ helper.mixer = (function (mixerList) {
                 );
             }
         }
+    }
+
+    publicScope.loadTiltrotorSetup = function (mixer) {
+    	delete TILT_SETUP;
+        TILT_SETUP = mixer.tiltMixer;
     }
 
     return publicScope;

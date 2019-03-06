@@ -1,0 +1,242 @@
+<div class="tab_tilt">
+	<div class="left" id="left">
+		<div class="title">Left Swash Plate</div>
+									<div class="xyplot" id="xyplotleft">
+									</div>
+									<div class="collectiveplot" id="collectiveplotleft">
+									</div>
+	</div>
+	<div class="right" id="right">
+		<div class="title">Right Swash Plate</div>
+									<div class="collectiveplot" id="collectiveplotright">
+									</div>
+									<div class="xyplot" id="xyplotright">
+									</div>
+	</div>
+	<div class="nacelle">
+		<div class="title">Nacelle</div>
+			<table>
+					<tr>
+						<td class="nacelleplot" rowspan="6" id="nacelleplot">
+						</td>
+						<td>
+								<label>
+									<span>Heli Mode [&deg]</span>
+								</label>
+						</td>
+					</tr>	
+					<tr>
+						<td>
+							<div class="number">
+								<label>
+									<input type="number" name="nacelleheli" min="-10" max="100" />
+								</label>
+							</div>
+						</td>
+					</tr>	
+					<tr>
+						<td>
+								<label>
+									<span>Plane Mode [&deg]</span>
+								</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="number">
+								<label>
+									<input type="number" name="nacelleplane" min="-10" max="100" />
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+									<span>Transition Speed [&deg/sec]</span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="number">
+								<label>
+									<input type="number" name="nacellespeed" step="0.1" min="1" max="120" />
+								</label>
+							</div>
+						</td>
+					</tr>
+			</table>
+	</div>
+    <div class="clear-both"></div>
+
+		<div class="leftplots" id="leftplots">
+			<table>
+				<tr>
+					<div class="title">Pitch Gain</div>
+					<div class="gainplot" id="nickGainPlot">
+					</div>
+				</tr>
+				<tr>
+					<div class="title">Collective</div>
+					<div class="gainplot" id="pitchPlot">
+					</div>
+				</tr>
+			</table>
+	    </div>
+		<div class="rightplots" id="rightplots">
+			<table>
+				<tr>
+					<div class="title">Diff Collective</div>
+					<div class="gainplot" id="diffCollPlot">
+					</div>
+				</tr>
+				<tr>
+					<div class="title">Diff Pitch</div>
+					<div class="gainplot" id="diffNickPlot">
+					</div>
+				</tr>
+			</table>
+	    </div>
+	    <div class="mixTab">
+	    <div class="title" data-i18n="swashmixTitle"></div>
+			<table class="mixTable">
+				<tr>
+					<td class="mixCol0">
+						Cyclic Ring Limit [&deg]
+					</td>
+					<td colspan="2" align="center">
+						<div class="number">
+							<label>
+								<input type="number" title="Swash plate pitch movement is limited to +/- this value" name="cyclicring" step="0.1" min="0.5" max="20" />
+							</label>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th class="mixCol0">
+					</th>
+					<th class="mixCol1">
+						Heli [90 &deg]
+					</th>
+					<th class="mixCol2">
+						Plane [0 &deg]
+					</th>
+				</tr>
+				<tr>
+					<td class="mixCol0">
+						Pitch Gain [%]
+					</td>
+					<td class="mixCol1" align="right">
+						<div class="number">
+							<label>
+								<input type="number" name="nicktravel_90" min="0" max="350" />
+							</label>
+						</div>
+					</td>
+					<td class="mixCol2" align="right">
+						<div class="number">
+							<label>
+								<input type="number" name="nicktravel_0" min="0" max="350" />
+							</label>
+						</div>
+					</td>
+				</tr>
+							
+				<tr>
+					<td class="mixCol0">
+						Collective Max [&deg]
+					</td>
+					<td class="mixCol1" align="right">
+						<div class="number">
+							<label>
+								<input type="number" name="pitchmax_90" step="0.1" min="-10" max="50" />
+							</label>
+						</div>
+					</td>
+					<td class="mixCol2" align="right">
+						<div class="number">
+							<label>
+								<input type="number" name="pitchmax_0" step="0.1" min="-10" max="50" />
+							</label>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td class="mixCol0">
+						Collective Min [&deg]
+					</td>
+					<td class="mixCol1" align="right">
+						<div class="number">
+							<label>
+								<input type="number" name="pitchmin_90" step="0.1" min="-10" max="50" />
+							</label>
+						</div>
+					</td>
+					<td class="mixCol2" align="right">
+						<div class="number">
+							<label>
+								<input type="number" name="pitchmin_0" step="0.1" min="-10" max="50" />
+							</label>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="mixCol0">
+						Diff Collective [%]
+					</td>
+					<td class="mixCol1" align="right">
+						<div class="number">
+							<label>
+								(PITCH)
+								<input type="number" name="collmix_90" step="1" min="-200" max="200" />
+							</label>
+						</div>
+					</td>
+					<td class="mixCol2" align="right">
+						<div class="number">
+							<label>
+								(YAW)
+								<input type="number" name="collmix_0" step="1" min="-200" max="200" />
+							</label>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td class="mixCol0">
+						Diff Pitch [%]
+					</td>
+					<td class="mixCol1" align="right">
+						<div class="number">
+							<label>
+								(YAW)
+								<input type="number" name="nickmix_90" step="1" min="-200" max="200" />
+							</label>
+						</div>
+					</td>
+					<td class="mixCol2" align="right">
+						<div class="number">
+							<label>
+								(PITCH)
+								<input type="number" name="nickmix_0" step="1" min="-200" max="200" />
+							</label>
+						</div>
+					</td>
+				</tr>
+			</table>
+	    	<div>
+				<label class="center">
+					<input type="checkbox" name="centerall" title="Check to set swashplates to zero collective and zero nick"/>
+					<span data-i18n="swashmixcenterall"></span>
+				</label>
+			</div>			
+		</div>					
+    <div class="clear-both"></div>
+    <div class="content_toolbar">
+	    <div class="btn">
+	        <a class="update" href="#" data-i18n="swashButtonSave"></a>
+	        <a class="refresh" href="#" data-i18n="swashButtonRefresh"></a>
+	    </div>
+    </div>
+</div>

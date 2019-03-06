@@ -63,6 +63,7 @@ var CONFIG,
 	SERVO_MIXER,
 	SERVO_MIX,
 	TILT_SETUP,
+	TILT_SERVO_MIXER,
 	TILT_LIVE;
 
 
@@ -549,7 +550,6 @@ var FC = {
         	virtualrotleft: 			0,
         	virtualrotright: 			0,
         	cyclictravel: 				0,
-        	collectivtravel: 			0,
         	collectivoffset:			0
         };
         
@@ -572,31 +572,34 @@ var FC = {
         	collectivemaxplane:				26.00,	// max pitch in plane mode [deg]
         	collectiveminheli:				-4.00,	// min pitch in heli mode [deg]
         	collectiveminplane:				 2.00,	// min pitch in plane mode [deg]
-        	gainnickheli:				70.00,	// nick gain in heli mode [%]
-        	gainnickplane:				50.00,	// nick gain in heli mode [%]
+        	gainpitchheli:				70.00,	// nick gain in heli mode [%]
+        	gainpitchplane:				50.00,	// nick gain in heli mode [%]
         	gaindiffcollheli:			50.00,	// diffcoll gain in heli mode [%]
         	gaindiffcollplane:			45.00,	// diffcoll gain in heli mode [%]
-        	gaindiffnickheli:			40.00,	// diffnick gain in heli mode [%]
-        	gaindiffnickplane:			0.00,	// diffnick gain in heli mode [%]
-        	centerall: 					0,
-        	spare1:						0.00,
+        	gaindiffpitchheli:			40.00,	// diffnick gain in heli mode [%]
+        	gaindiffpitchplane:			0.00,	// diffnick gain in heli mode [%]
+        	platetype:					0,
+        	cyclictravel:					50.0,
+        	collectivetravel:			50.0,
+        	nacelletype:					2,
         	spare2:						0.00
         };
         
+        TILT_SERVO_MIX = [];
+
+        TILT_SWASH_PLATE = [];
+
         TILT_LIVE = {
         	nacelle:					90.00,
-        	leftnick:					 0.00,
-        	leftpitch:					-2.00,
-        	rightnick:					 0.00,
-        	rightpitch:					-2.00,
-        	gainnick:					70.00,
+        	leftpitch:					 0.00,
+        	leftcollective:					-2.00,
+        	rightpitch:					 0.00,
+        	rightcollective:					-2.00,
+        	gainpitch:					70.00,
         	gaindiffcoll:				70.00,
-        	gaindiffnick:				70.00,
+        	gaindiffpitch:				70.00,
         	collectivemin:					-4.00,
         	collectivemax:					14.00,
-        	pitchact:					-2.00,
-        	spare1:						0.00,
-        	spare2:						0.00
         };
 
 		trimpos = [ 0, 0, 0, 0 ,0 ,0];

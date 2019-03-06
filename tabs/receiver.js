@@ -115,6 +115,17 @@ TABS.receiver.initialize = function (callback) {
             ],
             bar_container = $('.tab-receiver .bars');
         }
+        if (MIXER_CONFIG.platformType == PLATFORM_TILTROTOR) {
+            bar_names = [
+                chrome.i18n.getMessage('controlAxisRoll'),
+                chrome.i18n.getMessage('controlAxisPitch'),
+                chrome.i18n.getMessage('controlAxisYaw'),
+                chrome.i18n.getMessage('controlAxisCollective'),
+                chrome.i18n.getMessage("radioChannelShort") + (5),
+                chrome.i18n.getMessage('controlAxisNacelle'),
+            ],
+            bar_container = $('.tab-receiver .bars');
+        }
             
 
         for (var i = 0; i < RC.active_channels; i++) {

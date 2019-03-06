@@ -1,0 +1,264 @@
+.tab-tiltservo {
+}
+.tab-tiltservo input[type="number"]::-webkit-inner-spin-button {
+    border: 0;
+}
+.tab-tiltservo .supported_wrapper,
+.tab-tiltservo .direction_wrapper {
+    display: none;
+}
+.tab-tiltservo .title {
+    margin-top: 10px;
+
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+
+    border: 1px solid #8b8b8b;
+    border-bottom: 0;
+
+    background-color: #ececec;
+}
+.tab-tiltservo .left
+.tab-tiltservo .leftnacelle  {
+    float: left;
+    margin-right: 4px;
+    margin-left: 0px;
+    width: calc(44% - 5px);
+}
+
+.tab-tiltservo .right
+.tab-tiltservo .rightnacelle {
+    float: left;
+    margin-right: 4px;
+    margin-left: 0px;
+    width: calc(44% - 5px);
+}
+
+.tab-tiltservo .axis path {
+  display: none;
+}
+
+.tab-tiltservo .axis line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+.tab-tiltservo .axis .minor line {
+  stroke: #777;
+  stroke-dasharray: 2,2;
+}
+
+.tab-tiltservo circle {
+    border-bottom: 1px solid silver;
+    background-color:   #37a8db;
+}
+
+ 
+.servoarm
+{
+    stroke:rgb(0,0,0);
+    stroke-width:3;
+}
+
+.tab-tiltservo rect {
+	fill: #f4f4f4;
+	    
+	
+}
+
+.tab-tiltservo .virtualrect {
+	fill-opacity: 0.8;
+}
+
+circle.cyclicring {
+	fill: white;
+	fill-opacity: 0.3;
+	border:none;
+}
+
+circle.servocircle {
+	stroke: black;
+    border-bottom: 1px solid silver;
+    fill: white;
+}
+
+rect.indicator {
+    border-bottom: 1px solid silver;
+    fill: #37a8db;
+}
+
+.tab-tiltservo text.indicatortext {
+	stroke: black;
+	font-size: 14px;
+	text-anchor: middle;
+	dominant-baseline: central;
+}
+
+text.indicatortext:hover {
+    stroke: red;
+}
+
+.trimbox {
+    fill: #ececec;
+	border: 1px;
+	stroke:none;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.trimboxclick {
+    fill: black;
+	border: 1px;
+	stroke:none;
+	margin-left: 1px;
+	margin-right: 1px;
+	fill-opacity: 0.3;
+}
+
+.trimboxclick:hover {
+    fill: #37a8db;
+	fill-opacity: 1.0;
+}
+
+rect.collectiverange {
+	fill: white;
+	fill-opacity: 0.3;
+	border:none;
+}
+
+.tab-tiltservo .number {
+    margin-bottom: 5px;
+}
+.tab-tiltservo .number input {
+    width: 50px;
+    height: 18px;
+    line-height: 18px;
+
+    text-align: right;
+
+    border: 1px solid silver;
+}
+.tab-tiltservo .number span {
+    margin-left: 10px;
+    margin-right: 10px;
+    line-height: 20px;
+}
+
+.tab-tiltservo .buttons {
+    width: calc(100% - 20px);
+
+    position: absolute;
+    bottom: 10px;
+}
+
+.tab-tiltservo .apply {
+    display: block;
+	float: center;
+
+    height: 44px;
+    line-height: 44px;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 1px solid silver;
+    background-color: #ececec;
+}
+
+.tab-tiltservo .update,
+.tab-tiltservo .refresh {
+    display: block;
+    float: right;
+
+    margin-top: 22px;
+
+    height: 28px;
+    line-height: 28px;
+
+    padding: 0 15px 0 15px;
+
+    text-align: center;
+    font-weight: bold;
+
+    border: 1px solid silver;
+    background-color: #ececec;
+}
+.tab-tiltservo .refresh {
+    margin-right: 10px;
+}
+.tab-tiltservo .update:hover,
+.tab-tiltservo .refresh:hover {
+    background-color: #dedcdc;
+}
+
+.tab-tiltservo  table.fields {
+    width: 100%;
+    border-collapse: collapse;
+}
+.tab-tiltservo table.fields th {
+    line-height: 20px;
+    text-align: center;
+
+    border: 1px solid #8b8b8b;
+}
+.tab-tiltservo table.fields td {
+    padding: 1px;
+    text-align: right;
+
+    border: 1px solid #8b8b8b;
+}
+
+.tab-tiltservo table.fields input[type="number"] {
+    display: block;
+
+    width: calc(100%);;
+    height: 20px;
+
+    line-height: 20px;
+
+    text-align: right;
+}
+
+.tab-tiltservo td.live {
+    float: none;
+
+    width: calc((100% / 3) - 12px);
+    height: 80px;
+
+    margin-right: 10px;
+
+    text-align: center;
+
+    border: 1px solid silver;
+    background-color: #f4f4f4;
+}
+.tab-tiltservo td.live .meter-bar {
+    position: relative;
+
+    width: 60%;
+    height: 100px;
+}
+.tab-tiltservo td.live .label {
+    position: absolute;
+    width: 100%;
+    bottom: 45px;
+
+    text-align: center;
+    font-weight: bold;
+    color: #474747;
+}
+.tab-tiltservo td.live .indicator .label {
+    color: white;
+}
+
+.tab-tiltservo .indicator {
+    position: absolute;
+    overflow: hidden;
+
+    width: 100%;
+
+    text-align: center;
+}
+
+

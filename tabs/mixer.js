@@ -24,6 +24,7 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
         mspHelper.loadMotors,
         mspHelper.loadServoMixRules,
         mspHelper.loadMotorMixRules,
+        mspHelper.loadTiltrotorMixer,
         mspHelper.loadOutputMapping
     ]);
     loadChainer.setExitPoint(loadHtml);
@@ -31,6 +32,7 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
 
     saveChainer.setChain([
         mspHelper.saveMixerConfig,
+        mspHelper.sendTiltrotorMixer,
         mspHelper.sendServoMixer,
         mspHelper.sendMotorMixer,
         mspHelper.saveToEeprom
@@ -105,6 +107,24 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
 	                usedServoIndex++;
 	        }
         }
+        if (MIXER_CONFIG.platformType == PLATFORM_TILTROTOR) {
+        // block servos for FLettner support
+	        for (let i = 1; i <= 2; i++) {
+                    output = OUTPUT_MAPPING.getFwServoOutput(usedServoIndex);
+                    $('#function-' + output).html("Left " + i);
+	                usedServoIndex++;
+	        }
+	        for (let i = 3; i <= 4; i++) {
+                    output = OUTPUT_MAPPING.getFwServoOutput(usedServoIndex);
+                    $('#function-' + output).html("Right " + i);
+	                usedServoIndex++;
+	        }
+	        for (let i = 1; i <= TILT_SETUP.nacelletype; i++) {
+                    output = OUTPUT_MAPPING.getFwServoOutput(usedServoIndex);
+                    $('#function-' + output).html("Nacelle " + i);
+	                usedServoIndex++;
+	        }
+        }
         
         for (let i = 0; i < MIXER_CONFIG.numberOfServos; i++) {
             if (SERVO_RULES.isServoConfigured(i)) {
@@ -114,7 +134,7 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
                     output = OUTPUT_MAPPING.getFwServoOutput(usedServoIndex);
                 }
                 if (output !== null) {
-                    $('#function-' + output).html("Servo " + i);
+                    $('#function-' + output).html("Servo " + (i + 1));
                 }
                 usedServoIndex++;
             }
@@ -339,6 +359,7 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
         $('#execute-button').click(function () {
             helper.mixer.loadServoRules(currentMixerPreset);
             helper.mixer.loadMotorRules(currentMixerPreset);
+            helper.mixer.loadTiltrotorSetup(currentMixerPreset);
             renderServoMixRules();
             renderMotorMixRules();
             renderOutputMapping();
@@ -349,6 +370,7 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
         $('#load-mixer-button').click(function () {
             helper.mixer.loadServoRules(currentMixerPreset);
             helper.mixer.loadMotorRules(currentMixerPreset);
+            helper.mixer.loadTiltrotorSetup(currentMixerPreset);
             renderServoMixRules();
             renderMotorMixRules();
             renderOutputMapping();

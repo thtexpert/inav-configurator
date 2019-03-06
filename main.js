@@ -237,10 +237,15 @@ $(document).ready(function () {
 			            if (MIXER_CONFIG.platformType == PLATFORM_FLETTNER) {
 			                 TABS.swash.initialize(content_ready);
 			            }
+			            if (MIXER_CONFIG.platformType == PLATFORM_TILTROTOR) {
+			                 TABS.tilt.initialize(content_ready);
+			            }
                         break;
                     case 'servos':
 			            if (MIXER_CONFIG.platformType == PLATFORM_FLETTNER) {
 			                 TABS.swashservo.initialize(content_ready);
+			            } else if (MIXER_CONFIG.platformType == PLATFORM_TILTROTOR) {
+			                 TABS.tiltservo.initialize(content_ready);
 			            } else {
                              TABS.servos.initialize(content_ready);
                         }
