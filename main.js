@@ -186,6 +186,14 @@ $(document).ready(function () {
                 function content_ready() {
                     GUI.tab_switch_in_progress = false;
                 }
+                
+				$(".tab_swash").css({'display' : 'none'});
+				if(CONFIGURATOR.connectionValid)
+				{
+					if (MIXER_CONFIG.platformType == PLATFORM_FLETTNER || MIXER_CONFIG.platformType == PLATFORM_TILTROTOR) {
+						$(".tab_swash").css({'display' : 'block'});
+					}
+				}
 
                 switch (tab) {
                     case 'landing':

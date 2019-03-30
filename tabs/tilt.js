@@ -991,6 +991,47 @@ TABS.tilt.initialize = function (callback) {
             lastNacelle = TILT_LIVE.nacelle +0.01;
         }
 
+        function send_servo_configuration(servoIndex) {
+
+            var buffer = [];
+
+            // send one at a time, with index
+
+            var servoConfiguration = SERVO_CONFIG[servoIndex];
+
+            buffer.push(servoIndex);
+
+            buffer.push(lowByte(servoConfiguration.min));
+            buffer.push(highByte(servoConfiguration.min));
+
+            buffer.push(lowByte(servoConfiguration.max));
+            buffer.push(highByte(servoConfiguration.max));
+
+            buffer.push(lowByte(servoConfiguration.middle));
+            buffer.push(highByte(servoConfiguration.middle));
+
+            buffer.push(lowByte(servoConfiguration.rate));
+
+            buffer.push(0);
+            buffer.push(0);
+
+            var out = servoConfiguration.indexOfChannelToForward;
+            if (out == undefined) {
+                out = 255; // Cleanflight defines "CHANNEL_FORWARDING_DISABLED" as "(uint8_t)0xFF"
+            }
+            buffer.push(out);
+
+            //Mock 4 bytes of servoConfiguration.reversedInputSources
+            buffer.push(0);
+            buffer.push(0);
+            buffer.push(0);
+            buffer.push(0);
+
+                console.log('Write SERVO_CONFIG[' + servoIndex + ']');
+
+            MSP.send_message(MSPCodes.MSP_SET_SERVO_CONFIGURATION, buffer, false, function () {});
+		};
+
         function executetrim(firstnum, mixer, direction)
         {
         	if(trimgain[mixer] > 0)
@@ -1009,8 +1050,8 @@ TABS.tilt.initialize = function (callback) {
             		}
             		// transfer to HW with lower resolution
             		SERVO_CONFIG[firstnum + i].middle = (servomiddle[firstnum + i]).toFixed(0);
+            		send_servo_configuration(firstnum + i);
         		}
-                MSP.send_message(MSPCodes.MSP_SET_SERVO_CONFIGURATION, mspHelper.crunch(MSPCodes.MSP2_SET_SERVO_CONF), false, function () { } );
         	}
         }
         
