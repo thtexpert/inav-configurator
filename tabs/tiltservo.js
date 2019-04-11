@@ -514,11 +514,6 @@ TABS.tiltservo.initialize = function (callback) {
         // enable Motor data pulling
         helper.interval.add('servo_pull', get_servo_data, 50, true);
 
-        // status data pulled via separate timer with static speed
-        helper.interval.add('status_pull', function status_pull() {
-            MSP.send_message(MSPCodes.MSP_STATUS);
-        }, 400, true);
-
         if (callback) callback();
 
 

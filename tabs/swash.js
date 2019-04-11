@@ -750,11 +750,6 @@ TABS.swash.initialize = function (callback) {
         // enable swash data pulling
         helper.interval.add('swashplate_data', get_swashplate_data, 50, true);
 
-        // status data pulled via separate timer with static speed
-        helper.interval.add('status_pull', function status_pull() {
-            MSP.send_message(MSPCodes.MSP_STATUS);
-        }, 400, true);
-
         if (callback) callback();
 
 

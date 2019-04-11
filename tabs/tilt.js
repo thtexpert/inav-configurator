@@ -1132,11 +1132,6 @@ TABS.tilt.initialize = function (callback) {
         // enable swash data pulling
         helper.interval.add('get_tilt_live_data', get_tilt_live_data, 50, true);
 
-        // status data pulled via separate timer with static speed
-        helper.interval.add('status_pull', function status_pull() {
-            MSP.send_message(MSPCodes.MSP_STATUS);
-        }, 400, true);
-
         if (callback) callback();
 
 
