@@ -29,6 +29,7 @@
     margin-left: 0px;
     width: calc(30% );
     min-width: 180px;
+    max-width: 300px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -43,6 +44,7 @@
     margin-left: 0px;
     width: calc(30% );
     min-width: 180px;
+    max-width: 300px;
 }
 
 .tab_tilt .mixTab,
@@ -53,10 +55,12 @@
     margin-left: 0px;
     width: calc(40% - 15px);
 	min-width: 150px;
+    max-width: 250px;
 }
 
 .tab_tilt .nacelleplot {
 	min-width: 140px;
+    max-width: 250px;
     width: calc(70%);
 }
 .tab_tilt .gainplot {
@@ -102,12 +106,14 @@
     float: left;
 	width: calc(70% - 2px);
     min-width: 100px;
+    max-width: 220px;
 }
 
 .tab_tilt .collectiveplot {
 	float: left;
 	width: calc(30% - 2px);
 	min-width: 42px;
+    max-width: 60px;
 }
 
 .tab_tilt .axis path {
