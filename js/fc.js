@@ -535,6 +535,7 @@ var FC = {
         	pitchtravel: 				70.0,
         	rolltravel: 				70.0,
         	collectivetravel: 				70.0,
+        	collectivoffset:			0,
         	cyclicring: 				6.00,
         	collectivemax: 					12.00,
         	collectivemin: 					-6.00,
@@ -549,8 +550,8 @@ var FC = {
         	rotationright: 				0,
         	virtualrotleft: 			0,
         	virtualrotright: 			0,
-        	cyclictravel: 				0,
-        	collectivoffset:			0
+        	cyclicgain: 				0,
+        	collectivegain:				0
         };
         
         SERVO_MIXER = {

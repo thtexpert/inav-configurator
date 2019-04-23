@@ -843,23 +843,23 @@ var mspHelper = (function (gui) {
                 SWASH_MIX.pitchtravel = data.getInt16(0, 1) / 10;
                 SWASH_MIX.rolltravel = data.getInt16(2, 1) / 10;
                 SWASH_MIX.collectivetravel = data.getInt16(4, 1) / 10;
-                SWASH_MIX.cyclicring = data.getInt16(6, 1) / 100;
-                SWASH_MIX.collectivemax = data.getInt16(8, 1) / 100;
-                SWASH_MIX.collectivemin = data.getInt16(10, 1) / 100;
-                SWASH_MIX.cyclicmix = data.getInt16(12, 1) / 10;
-                SWASH_MIX.collectivemix = data.getInt16(14, 1) / 10;
-                SWASH_MIX.collectivemixthreshold = data.getInt16(16, 1) / 100;
-                SWASH_MIX.collectivemixmax = data.getInt16(18, 1) / 100;
-                SWASH_MIX.pitchff = data.getInt16(20, 1) / 10;
-                SWASH_MIX.centerall = data.getInt16(22, 1);
-				SWASH_MIX.platetype = data.getInt16(24, 1);
-				SWASH_MIX.rotationleft = data.getInt16(26, 1) / 10;
-				SWASH_MIX.rotationright = data.getInt16(28, 1) / 10;
-				SWASH_MIX.virtualrotleft = data.getInt16(30, 1) / 10;
-				SWASH_MIX.virtualrotright = data.getInt16(32, 1) / 10;
-				SWASH_MIX.cyclictravel = data.getInt16(34, 1) / 10;
-				SWASH_MIX.collectivetravel = data.getInt16(36, 1) / 10;
-				SWASH_MIX.collectivoffset = data.getInt16(38, 1) / 100;
+				SWASH_MIX.collectivoffset = data.getInt16(6, 1) / 100;
+                SWASH_MIX.cyclicring = data.getInt16(8, 1) / 100;
+                SWASH_MIX.collectivemax = data.getInt16(10, 1) / 100;
+                SWASH_MIX.collectivemin = data.getInt16(12, 1) / 100;
+                SWASH_MIX.cyclicmix = data.getInt16(14, 1) / 10;
+                SWASH_MIX.collectivemix = data.getInt16(16, 1) / 10;
+                SWASH_MIX.collectivemixthreshold = data.getInt16(18, 1) / 100;
+                SWASH_MIX.collectivemixmax = data.getInt16(20, 1) / 100;
+                SWASH_MIX.pitchff = data.getInt16(22, 1) / 10;
+                SWASH_MIX.centerall = data.getInt16(24, 1);
+				SWASH_MIX.platetype = data.getInt16(26, 1);
+				SWASH_MIX.rotationleft = data.getInt16(28, 1) / 10;
+				SWASH_MIX.rotationright = data.getInt16(30, 1) / 10;
+				SWASH_MIX.virtualrotleft = data.getInt16(32, 1) / 10;
+				SWASH_MIX.virtualrotright = data.getInt16(34, 1) / 10;
+				SWASH_MIX.cyclicgain = data.getInt16(36, 1) / 10;
+				SWASH_MIX.collectivegain = data.getInt16(38, 1) / 10;
                 break;
     		case MSPCodes.MSP2_FLETTNER_SERVO_MIX:
     			SERVO_MIX = []; // empty the array as new data is coming in
@@ -1936,6 +1936,8 @@ var mspHelper = (function (gui) {
                 buffer.push(highByte(SWASH_MIX.rolltravel *10));
                 buffer.push(lowByte(SWASH_MIX.collectivetravel * 10));
                 buffer.push(highByte(SWASH_MIX.collectivetravel * 10));
+				buffer.push(lowByte(SWASH_MIX.collectivoffset * 100));
+				buffer.push(highByte(SWASH_MIX.collectivoffset * 100));
                 buffer.push(lowByte(SWASH_MIX.cyclicring * 100))
                 buffer.push(highByte(SWASH_MIX.cyclicring * 100))
                 buffer.push(lowByte(SWASH_MIX.collectivemax * 100));
@@ -1970,15 +1972,12 @@ var mspHelper = (function (gui) {
 				buffer.push(lowByte(SWASH_MIX.virtualrotright * 10));	// scaling 10 = 1degree
 				buffer.push(highByte(SWASH_MIX.virtualrotright * 10));	// scaling 10 = 1degree
 				
-				buffer.push(lowByte(SWASH_MIX.cyclictravel * 10));	// scaling 10 = 1%
-				buffer.push(highByte(SWASH_MIX.cyclictravel * 10));	// scaling 10 = 1%
+				buffer.push(lowByte(SWASH_MIX.cyclicgain * 10));	// scaling 10 = 1%
+				buffer.push(highByte(SWASH_MIX.cyclicgain * 10));	// scaling 10 = 1%
 				
-				buffer.push(lowByte(SWASH_MIX.collectivetravel * 10));	// scaling 10 = 1%
-				buffer.push(highByte(SWASH_MIX.collectivetravel * 10));	// scaling 10 = 1%
+				buffer.push(lowByte(SWASH_MIX.collectivegain * 10));	// scaling 10 = 1%
+				buffer.push(highByte(SWASH_MIX.collectivegain * 10));	// scaling 10 = 1%
 				
-				buffer.push(lowByte(SWASH_MIX.collectivoffset * 100));
-				buffer.push(highByte(SWASH_MIX.collectivoffset * 100));
-
 			break;
         case MSPCodes.MSP2_FLETTNER_SET_SERVO_MIX:
             for (var i = 0; i < 6; i++) {
