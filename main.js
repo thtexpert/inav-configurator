@@ -276,6 +276,9 @@ $(document).ready(function () {
                     case 'sensors':
                         TABS.sensors.initialize(content_ready);
                         break;
+                    case 'sys_ident':
+                        TABS.sys_ident.initialize(content_ready);
+                        break;
                     case 'logging':
                         TABS.logging.initialize(content_ready);
                         break;

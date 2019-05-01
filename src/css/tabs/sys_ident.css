@@ -1,0 +1,272 @@
+.tab-sys_ident .si_left {
+    float: left;
+    width: 70%;
+}
+
+.tab-sys_ident .spacer {
+    padding-right: 15px;
+    width: calc(100% - 15px);
+    float: left;
+}
+
+.tab-sys_ident .si_right {
+    float: left;
+    width: 30%;
+}
+
+.tab-sys_ident .info {
+    margin-bottom: 10px;
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+.tab-sys_ident .setup td {
+    background-color: #CCC;
+    padding: 4px;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    font-weight: bold;
+    text-align: right;
+    width: 10em;
+}
+
+.tab-sys_ident .setup td:nth-child(even) {
+	background: white; 
+	width: 6em;
+    margin-right: 20px;
+}
+
+.tab-sys_ident .setup th {
+    background-color: #828885;
+    padding: 4px;
+    border-left: 0 solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    color: white;
+    text-align: left;
+    width: 12em;
+}
+
+.tab-sys_ident .setup tr:first-child th {
+    border-top-left-radius: 5px;
+}
+
+.tab-sys_ident .setup tr:first-child td {
+    border-top-right-radius: 5px;
+}
+
+.tab-sys_ident .setup tr:last-child th {
+    border-bottom-left-radius: 5px;
+}
+
+.tab-sys_ident .setup tr:last-child td {
+    border-bottom-right-radius: 5px;
+}
+
+.tab-sys_ident .setup {
+    /*border: 0px solid #ccc; */
+    margin-bottom: 10px;
+        float: right;
+}
+
+.tab-sys_ident table, .tab-capture_titlebar table td {
+    padding: 1px;
+    border-bottom: 0 solid #ccc;
+}
+
+.tab-sys_ident table th {
+    /*padding: 0;*/
+    border: 0;
+    height: 10px;
+    font-weight: normal;
+}
+
+.tab-sys_ident .capture_titlebar th {
+    padding: 5px;
+    text-align: left;
+    border-right: 1px solid #ccc;
+    width: calc(100% -1px);
+}
+
+.tab-sys_ident .capture_titlebar th:first-child {
+    text-align: left;
+}
+
+.tab-sys_ident .capture_titlebar th:last-child {
+    border-right: none;
+}
+
+.tab-sys_ident .recordtable .btn {
+    display: block;
+	float: right;
+
+    height: 20px;
+    line-height: 20px;
+
+    text-align: center;
+    font-weight: bold;
+
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
+.tab-sys_ident .recordtable .btn:hover {
+    background-color: #3394b5;
+    transition: all ease 0.2s;
+}
+
+.tab-sys_ident .recordtable {
+    border-collapse: collapse;
+}
+
+.tab-sys_ident .plot_control {
+    float: right;
+    width: 160px;
+    /* border: 1px solid silver; */
+    height: 160px;
+    margin: 0;
+    background-color: #ECECEC;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.tab-sys_ident .plot_control .title {
+    line-height: 20px;
+    font-weight: bold;
+    padding-left: 10px;
+    padding-top: 10px;
+    text-align: left;
+}
+
+/* SVG classes*/
+.tab-sys_ident svg {
+    float: left;
+    width: calc(100% - 10px);
+    height: 240px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.tab-sys_ident .grid .tick {
+    stroke: silver;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.tab-sys_ident .grid path {
+    stroke-width: 0;
+}
+
+.tab-sys_ident .data .line {
+    stroke-width: 2px;
+    fill: none;
+}
+
+.tab-sys_ident .axis path, .tab-sys_ident .axis line {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.tab-sys_ident text {
+    stroke: none;
+    fill: #828885;
+    font-size: 10px;
+}
+
+.tab-sys_ident select {
+    float: right;
+}
+
+.tab-sys_ident .recordtable td {
+    text-align: center;
+    border-right: 1px solid #ccc;
+    width: 100px;
+}
+
+.tab-sys_ident .recordtable th {
+    background-color: #ccc;
+}
+
+.tab-sys_ident .recordtable tr:nth-child(2n) td {
+    background-color: #ebe7e7;
+}
+
+
+
+.tab-sys_ident .line:nth-child(1) {
+    stroke: #f1453d;
+}
+
+.tab-sys_ident .line:nth-child(2) {
+    stroke: #673fb4;
+}
+
+.tab-sys_ident .line:nth-child(3) {
+    stroke: #2b98f0;
+}
+
+.tab-sys_ident .line:nth-child(4) {
+    stroke: #1fbcd2;
+}
+
+.tab-sys_ident .line:nth-child(5) {
+    stroke: #159588;
+}
+
+.tab-sys_ident .line:nth-child(6) {
+    stroke: #50ae55;
+}
+
+.tab-sys_ident .line:nth-child(7) {
+    stroke: #cdda49;
+}
+
+.tab-sys_ident .line:nth-child(8) {
+    stroke: #fdc02f;
+}
+
+.tab-sys_ident .line:nth-child(9) {
+    stroke: #fc5830;
+}
+
+.tab-sys_ident .line:nth-child(10) {
+    stroke: #785549;
+}
+
+.tab-sys_ident .line:nth-child(11) {
+    stroke: #9e9e9e;
+}
+
+.tab-sys_ident .line:nth-child(12) {
+    stroke: #617d8a;
+}
+
+.tab-sys_ident .line:nth-child(13) {
+    stroke: #cf267d;
+}
+
+.tab-sys_ident .line:nth-child(14) {
+    stroke: #7a1464;
+}
+
+.tab-sys_ident .line:nth-child(15) {
+    stroke: #3a7a14;
+}
+
+
+.tab-sys_ident a.debug-trace {
+    float: right;
+    margin-right: 1em;
+    font-size: 90%;
+}
+
+.tab-sys_ident a.debug-trace:hover {
+    text-decoration: underline;
+}

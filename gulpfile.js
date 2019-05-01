@@ -97,6 +97,7 @@ sources.js = [
     './js/boards.js',
     './js/servoMixerRuleCollection.js',
     './js/motorMixerRuleCollection.js',
+    './js/sysidData.js',
     './js/vtx.js',
     './main.js',
     './tabs/*.js',

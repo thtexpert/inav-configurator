@@ -1,0 +1,100 @@
+<div id="content-watermark"></div>
+<div class="tab-sys_ident toolbar_fixed_bottom">
+    <div class="content_wrapper">
+        <div class="tab_title" i18n="tabSystemIdent">tabSystemIdent</div>
+        <div class="cf_doc_version_bt">
+            <a id="button-documentation" href="https://github.com/iNavFlight/inav/releases" target="_blank"></a>
+        </div>
+        <div class="si_left">
+	        <div class="spacer">
+			    <table class="recordtable">
+			    </table>
+		        <svg id="xcorrplot">
+		            <g class="grid x" transform="translate(40, 220)"></g>
+		            <g class="grid y" transform="translate(40, 10)"></g>
+		            <g class="data" transform="translate(41, 10)"></g>
+		            <g class="axis x" transform="translate(40, 220)"></g>
+		            <g class="axis y" transform="translate(40, 10)"></g>
+		        </svg>
+            	<select name="timerange">
+					 <option value="50">50ms</option>
+					 <option value="100">100ms</option>
+					 <option value="150" selected="selected">150ms</option>
+					 <option value="200">200ms</option>
+					 <option value="300">300ms</option>
+					 <option value="500">500ms</option>
+					 <option value="1000">1000ms</option>
+				</select>
+	        </div>
+        </div>
+        <div class="si_right">
+	    	<table class="setup">
+		        <thead>
+		        </thead>
+		        <tbody>
+		            <tr>
+		                <th>
+		                    <p>Axis</p>
+		                </th>
+		                <td>
+		                	<select name="axis">
+								 <option value="0" selected="selected">Roll</option>
+								 <option value="1">Pitch</option>
+								 <option value="2">Yaw</option>
+							</select>
+		                </td>
+		            </tr>
+		            <tr>
+		                <th>
+		                    <p>Denumerator</p>
+		                </th>
+		                <td>
+		                	<input type="number" name ="denum" step="1" min="1" max="16" value="8" />
+		                </td>
+		            </tr>
+		            <tr>
+		                <th>
+		                    <p>Level</p>
+		                </th>
+		                <td>
+		                	<input type="number" name ="level" step="1" min="1" max="250" value="25" />
+		                </td>
+		            </tr>
+		            <tr>
+		                <td colspan="2"></td>
+		            </tr>
+		            <tr>
+		                <th>
+		                    <p>P</p>
+		                </th>
+                        <td><input name="pid-p" type="number" name="p" step="1" min="0" max="255" /></td>
+    	            </tr>
+		            <tr>
+		                <th>
+		                    <p>I</p>
+		                </th>
+                        <td><input name="pid-i" type="number" name="p" step="1" min="0" max="255" /></td>
+    	            </tr>
+		            <tr>
+		                <th>
+		                    <p>D</p>
+		                </th>
+                        <td><input name="pid-d" type="number" name="p" step="1" min="0" max="255" /></td>
+    	            </tr>
+		        </tbody>
+		    </table>
+        </div>
+	    <div class="clear-both"></div>
+    </div>
+    <div class="clear-both"></div>
+    <div class="content_toolbar">
+        <div class="btn save_btn">
+            <a class="update" href="#" data-i18n="pidTuningButtonSave"></a>
+        </div>
+        <div class="btn refresh_btn">
+            <a class="refresh" href="#" data-i18n="pidTuningButtonRefresh"></a>
+        </div>
+    </div>
+
+</div>
+    

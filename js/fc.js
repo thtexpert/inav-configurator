@@ -64,7 +64,9 @@ var CONFIG,
 	SERVO_MIX,
 	TILT_SETUP,
 	TILT_SERVO_MIXER,
-	TILT_LIVE;
+	TILT_LIVE,
+	SYSID_SETUP,
+	SYSID_DATA;
 
 
 var FC = {
@@ -603,6 +605,25 @@ var FC = {
         	collectivemax:					14.00,
         };
 
+		SYSID_SETUP = {
+		    axis: 0,
+		    order: 8,
+		    denum: 1,
+		    level: 25,
+		    activeset: 0,
+		};
+		
+		SYSID_DATA = {
+		    activeset: 0,
+		    data: new Array(8),
+		};
+		
+        for (var i = 0; i < 8; i++) {
+            SYSID_DATA.data[i] = new sysidData(i);
+            SYSID_DATA.data[i].timestamp = new Date().getTime();
+            // TODO fill with setupdata like PID, filters, level,...
+        }
+		
 		trimpos = [ 0, 0, 0, 0 ,0 ,0];
 		
         RXFAIL_CONFIG = [];
@@ -697,6 +718,11 @@ var FC = {
             features.push(
                 {bit: 0, group: 'other', name: 'THR_VBAT_COMP', haveTip: true, showNameInTip: true},
                 {bit: 3, group: 'other', name: 'BAT_PROFILE_AUTOSWITCH', haveTip: true, showNameInTip: true}
+            );
+        }
+        if (semver.gte(CONFIG.flightControllerVersion, '2.1.0')) {
+            features.push(
+	            {bit: 9, group: 'other', name: 'SYSTEM_IDENT', showNameInTip: true}
             );
         }
 

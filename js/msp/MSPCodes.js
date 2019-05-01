@@ -178,6 +178,11 @@ var MSPCodes = {
     MSP2_TILT_SET_SERVO_MIX:	        0x1013, 
     MSP2_TILT_LIVE:   		            0x1014, 
 
+	MSP2_SYSID_SET_SETUP:               0x1017,
+	MSP2_SYSID_GET_SETUP:               0x1018,
+	MSP2_SYSID_INIT_CAPTURE_READ:       0x1019,
+	MSP2_SYSID_GET_CAPTURE_SMPLS:       0x101A,
+
     MSPV2_INAV_STATUS:                  0x2000,
     MSPV2_INAV_OPTICAL_FLOW:            0x2001,
     MSPV2_INAV_ANALOG:                  0x2002,

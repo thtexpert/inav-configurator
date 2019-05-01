@@ -110,6 +110,9 @@
     "tabRawSensorData": {
         "message": "Sensors"
     },
+    "tabSystemIdent": {
+        "message": "System Identification"
+    },
     "tabCLI": {
         "message": "CLI"
     },
@@ -602,6 +605,9 @@
     },
     "featureFW_LAUNCH": {
         "message": "Permanently enable Launch Mode for Fixed Wing"
+    },
+    "featureSYSTEM_IDENT": {
+        "message": "System Identification for in flight dynamic response measurement"
     },
     "configurationFeatureEnabled": {
         "message": "Enabled"

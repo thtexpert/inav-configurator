@@ -563,7 +563,19 @@ var mspHelper = (function (gui) {
                 MOTOR_RULES.cleanup();
 
                 break;
-
+// system identification
+            case MSPCodes.MSP2_SYSID_GET_SETUP:
+            	SYSID_SETUP.axis = data.getUint8(0);
+		    	SYSID_SETUP.order = data.getUint8(1);
+		    	SYSID_SETUP.denum = data.getUint8(2);
+		    	SYSID_SETUP.level = data.getUint8(3);
+                break;
+            case MSPCodes.MSP2_SYSID_GET_CAPTURE_SMPLS:
+            	for(i = 0; i < data.byteLength; i +=4)
+            	{
+            		SYSID_DATA.data[SYSID_DATA.activeset].capture.push(data.getInt32(i,true));
+            	}
+                break;
             case MSPCodes.MSP2_COMMON_SET_MOTOR_MIXER:
                 console.log("motor mixer saved");
                 break;
@@ -641,6 +653,12 @@ var mspHelper = (function (gui) {
 	            break;
 			case MSPCodes.MSP2_TILT_SET_SERVO_MIX:
                 console.log('Tilt Servo Mix saved');
+	            break;
+            case MSPCodes.MSP2_SYSID_SET_SETUP:
+                console.log('System Identification Setup saved');
+	            break;
+            case MSPCodes.MSP2_SYSID_INIT_CAPTURE_READ:
+                console.log('System Identification Capture read prepared');
 	            break;
             case MSPCodes.MSP_RTC:
                 if (data.length >= 6) {
@@ -2046,6 +2064,19 @@ var mspHelper = (function (gui) {
             }
             break;
 // TWIN insert end
+// system identification
+            case MSPCodes.MSP2_SYSID_SET_SETUP:
+			    buffer.push(SYSID_SETUP.axis);
+			    buffer.push(SYSID_SETUP.order);
+			    buffer.push(SYSID_SETUP.denum);
+			    buffer.push(SYSID_SETUP.level);
+            	break;
+            case MSPCodes.MSP2_SYSID_INIT_CAPTURE_READ:
+                buffer.push(0);
+                buffer.push(0);
+                SYSID_DATA.data[SYSID_DATA.activeset].capture = [];
+            	break;
+//
             case MSPCodes.MSP_SET_3D:
                 buffer.push(lowByte(_3D.deadband3d_low));
                 buffer.push(highByte(_3D.deadband3d_low));
