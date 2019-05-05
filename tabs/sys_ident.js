@@ -4,7 +4,7 @@ TABS.sys_ident = {};
 TABS.sys_ident.initialize = function (callback) {
     var self = this;
 	var timebase = 150;
-	
+	var frequencyrange = 150;
     if (GUI.active_tab != 'sys_ident') {
         GUI.active_tab = 'sys_ident';
         googleAnalytics.sendAppView('sys_ident');
@@ -19,13 +19,13 @@ TABS.sys_ident.initialize = function (callback) {
         return data;
     }
 
-    function prepareSamplesForPlot(data, setId, xcorr, denum) {
+    function prepareSamplesForPlot(data, setId, xcorr, xtick) {
     	data[setId] = new Array();
         data[setId].min = -.001;
         data[setId].max = .001;
         for (var i = 0; i < xcorr.length; i++) {
             var dataPoint = xcorr[i];
-            data[setId].push([i * denum * FC_CONFIG.loopTime/1000, dataPoint]);
+            data[setId].push([i * xtick, dataPoint]); // for xcorr  i * denum * FC_CONFIG.loopTime/1000
             if (dataPoint < data[setId].min) {
                 data[setId].min = dataPoint;
             }
@@ -33,13 +33,6 @@ TABS.sys_ident.initialize = function (callback) {
                 data[setId].max = dataPoint;
             }
         }
-        /*
-        while (data[0].length > 300) {
-            for (i = 0; i < data.length; i++) {
-                data[i].shift();
-            }
-        }
-        */
         return xcorr.length + 1;
     }
 
@@ -54,13 +47,6 @@ TABS.sys_ident.initialize = function (callback) {
                 data[i].max = dataPoint;
             }
         }
-        /*
-        while (data[0].length > 300) {
-            for (i = 0; i < data.length; i++) {
-                data[i].shift();
-            }
-        }
-        */
         return sampleNumber + 1;
     }
 
@@ -186,9 +172,9 @@ TABS.sys_ident.initialize = function (callback) {
 				text = text + '<td class="' + entries[i] + setnum + '">' + txt + '</td>'
 			}
 			    
-			//text = text + '<td><div class="btn delete_btn"> \
-            //				<a class="deletecapture" href="#" data-setnumber=' + setnum + '>Delete</a> \
-        	//			</div></td>';
+			text = text + '<td><div class="btn delete_btn"> \
+            				<a class="deletecapture" href="#" data-setnumber=' + setnum + '>Delete</a> \
+        				</div></td>';
 			text = text + '<td><div class="btn read_btn"> \
             				<a class="readcapture" href="#" data-setnumber=' + setnum + '>Read</a> \
         				</div></td>';
@@ -197,6 +183,7 @@ TABS.sys_ident.initialize = function (callback) {
 		 $('div.tab-sys_ident table.recordtable').append(text);
     }
 	xcorr_data = initDataArray(1);
+	noise_data = initDataArray(1);
 	
    	MSP.send_message(MSPCodes.MSP2_SYSID_GET_SETUP, false, false,load_html);
 
@@ -206,17 +193,17 @@ TABS.sys_ident.initialize = function (callback) {
 
 		addtableEntries();
 	    var plotHelpers = initGraphHelpers('#xcorrplot', (1 << SYSID_SETUP.order) - 1);
+	    var plotNoiseHelpers = initGraphHelpers('#noiseplot', (1 << SYSID_SETUP.order));
 
 	    update_setup_gui();
 	    plotExistingCaptures();
 	
 	    function updateReadDeleteButtons()
 	    {
-	    	/*
-			for(i=0; i < SYSID_DATA.data.length - 1; i++)
+			for(i=0; i < SYSID_DATA.data.length; i++)
 			{
 				db = $('a.deletecapture')[i];
-				if(SYSID_DATA.data[i].numOfSamples > 0 && SYSID_DATA.data[i+1].numOfSamples  <= 0)
+				if(SYSID_DATA.data[i].numOfSamples > 0)
 				{
 					// enable delete button
 					db.hidden = false;
@@ -227,17 +214,7 @@ TABS.sys_ident.initialize = function (callback) {
 				}
 	    	}
 	    	i = SYSID_DATA.data.length - 1;
-	    	db = $('a.deletecapture')[i];
-	    	if(SYSID_DATA.data[i].numOfSamples > 0)
-			{
-				// enable delete button
-				db.hidden = false;
-			}
-			else
-			{
-				db.hidden = true;
-			}
-			*/
+
 			for(i=1; i < SYSID_DATA.data.length ; i++)
 			{
 				db = $('a.readcapture')[i];
@@ -263,12 +240,18 @@ TABS.sys_ident.initialize = function (callback) {
                 'Yaw'];
 			for(i=0; i < SYSID_DATA.data.length; i++)
 			{
-				if(SYSID_DATA.data[i].xcorr.length > 0)
+				if(SYSID_DATA.data[i].numOfSamples > 0)
 				{
 					updateGraphHelperSize(plotHelpers);
-					prepareSamplesForPlot(xcorr_data, i,  SYSID_DATA.data[i].xcorr, SYSID_DATA.data[i].setup.denum) 
+					prepareSamplesForPlot(xcorr_data, i,  SYSID_DATA.data[i].xcorr, SYSID_DATA.data[i].setup.denum * FC_CONFIG.loopTime/1000) 
 					//updateGraphHelperSize(plotHelpers);
 					drawGraph(plotHelpers, xcorr_data, timebase);
+					
+					var samplerate = 1/( FC_CONFIG.loopTime / 1000 / 1000 * SYSID_DATA.data[i].setup.denum);
+					prepareSamplesForPlot(noise_data, i, SYSID_DATA.data[i].noise, SYSID_DATA.data[i].samplerate / (SYSID_DATA.data[i].numOfSamples + 1));
+					updateGraphHelperSize(plotNoiseHelpers);
+					drawGraph(plotNoiseHelpers, noise_data, frequencyrange);
+					
 //    	entries = [ "Time", "Axis", "Proportional" ,"Integral" ,"Derivative", "Level", "Denum","Delete","Read" ];
 					$('div.tab-sys_ident table.recordtable td.Time' + i + '')[0].innerText = SYSID_DATA.data[i].setup.timestamp;
 					$('div.tab-sys_ident table.recordtable td.Axis' + i + '')[0].innerText = axisnames[SYSID_DATA.data[i].setup.axis];
@@ -280,6 +263,16 @@ TABS.sys_ident.initialize = function (callback) {
 					// copy colors from lines to Time column
 					c = ($('div.tab-sys_ident svg#xcorrplot g.data path:nth-child(' + (i+1) + ')')).css('stroke');
 					($('div.tab-sys_ident table.recordtable td.Time' + i + '')).css({'color' : c}) 
+				}
+				else
+				{
+					$('div.tab-sys_ident table.recordtable td.Time' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Axis' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Proportional' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Integral' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Derivative' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Level' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Denum' + i + '')[0].innerText = '-';
 				}
 			}
 			updateReadDeleteButtons();
@@ -312,11 +305,16 @@ TABS.sys_ident.initialize = function (callback) {
 			SYSID_DATA.data[setnum].setup.level = SYSID_SETUP.level;
 			SYSID_DATA.data[setnum].setup.timestamp = formattedDate;
 			updateGraphHelperSize(plotHelpers);
-			prepareSamplesForPlot(xcorr_data, setnum,  SYSID_DATA.data[setnum].xcorr, SYSID_DATA.data[setnum].setup.denum) 
+			prepareSamplesForPlot(xcorr_data, setnum,  SYSID_DATA.data[setnum].xcorr, SYSID_DATA.data[setnum].setup.denum * FC_CONFIG.loopTime/1000) 
 			updateGraphHelperSize(plotHelpers);
 			drawGraph(plotHelpers, xcorr_data, timebase);
 		    plotExistingCaptures();
+		 	// FFT for noise
+			prepareSamplesForPlot(noise_data, setnum, SYSID_DATA.data[setnum].noise, SYSID_DATA.data[setnum].samplerate / (SYSID_DATA.data[setnum].numOfSamples + 1));
+			updateGraphHelperSize(plotNoiseHelpers);
+			drawGraph(plotNoiseHelpers, noise_data, frequencyrange);
 		}
+		
 	    // read sample data
 	    function readsampledata() {
 	    	l = SYSID_DATA.data[SYSID_DATA.activeset].capture.length
@@ -387,6 +385,11 @@ TABS.sys_ident.initialize = function (callback) {
 	    	plotExistingCaptures();
         });
 	    
+	    $('div.tab-sys_ident select[name="frequencyrange"]').change(function() {
+	    	frequencyrange = $('div.tab-sys_ident select[name="frequencyrange"]').val();
+	    	plotExistingCaptures();
+        });
+
         $('a.readcapture').click(function () {
         	var info = $(this).data('setnumber');
         	update_setup_gui();
@@ -395,10 +398,13 @@ TABS.sys_ident.initialize = function (callback) {
         });
 
         $('a.deletecapture').click(function () {
+        	return;
         	var info = $(this).data('setnumber');
         	SYSID_DATA.activeset = info;
         	SYSID_DATA.data[SYSID_DATA.activeset].xcorr = new Array();
-        	xcorr_data[SYSID_DATA.activeset] = new Array[2];
+        	prepareSamplesForPlot(xcorr_data, setnum,  SYSID_DATA.data[SYSID_DATA.activeset].xcorr, SYSID_DATA.data[setnum].setup.denum)
+        	xcorr_data[info].min = -0.1;
+        	xcorr_data[info].max = +0.1;
         	SYSID_DATA.data[SYSID_DATA.activeset].numOfSamples = 0;
         	plotExistingCaptures();
         });

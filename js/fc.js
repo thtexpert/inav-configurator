@@ -613,17 +613,20 @@ var FC = {
 		    activeset: 0,
 		};
 		
-		SYSID_DATA = {
-		    activeset: 0,
-		    data: new Array(8),
-		};
+		if(SYSID_DATA === undefined)
+		{
+			SYSID_DATA = {
+			    activeset: 0,
+			    data: new Array(8),
+			};
 		
-        for (var i = 0; i < 8; i++) {
-            SYSID_DATA.data[i] = new sysidData(i);
-            SYSID_DATA.data[i].timestamp = new Date().getTime();
-            // TODO fill with setupdata like PID, filters, level,...
-        }
-		
+	        for (var i = 0; i < 8; i++) {
+	            SYSID_DATA.data[i] = new sysidData(i);
+	            SYSID_DATA.data[i].timestamp = new Date().getTime();
+	            // TODO fill with setupdata like PID, filters, level,...
+	        }
+		}
+				
 		trimpos = [ 0, 0, 0, 0 ,0 ,0];
 		
         RXFAIL_CONFIG = [];

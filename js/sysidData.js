@@ -8,6 +8,7 @@ let sysidData = function(setnum)
 	let self = {};
 	self.capture = new Array();
 	self.numOfSamples = 0;
+	self.samplerate = 1;
 	self.setnum = setnum;
 	self.setup = {
 		p: 0,
@@ -21,6 +22,8 @@ let sysidData = function(setnum)
 	
 	let prbs = [];
 	let data = [];
+	
+	self.noise = [];
 	self.xcorr = [];
 	
 	function getnumOfSamples() {
@@ -31,6 +34,16 @@ let sysidData = function(setnum)
 		decodeData(self.capture, getnumOfSamples());
 		//calcXcorr(prbs, prbs, 1.0);  // e.g. autocorrelation
 		calcXcorr(prbs, data, 1.0); 
+		var fftLength = SYSID_DATA.data[SYSID_DATA.activeset].capture.length;
+		var fftOutput = new Array(fftLength * 2);
+		var fft = new FFT.complex(fftLength, false);
+		fft.simple(fftOutput, SYSID_DATA.data[SYSID_DATA.activeset].capture, 'real');
+	 	self.noise = new Array();
+		for (var i = 0; i < fftLength; i++) {
+			self.noise[i] = Math.abs(fftOutput[i]);
+		}
+		self.noise[0] = 0; // remove DC component
+		self.samplerate = 1/( FC_CONFIG.loopTime / 1000 / 1000 * SYSID_DATA.data[SYSID_DATA.activeset].setup.denum);
 	};
 	
 	function calcXcorr(values1, values2, level) {
