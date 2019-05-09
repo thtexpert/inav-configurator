@@ -158,7 +158,7 @@ TABS.sys_ident.initialize = function (callback) {
     function addtableEntries()
     {
     	text = '<tr "headers">';
-    	entries = [ "Time", "Axis", "Proportional" ,"Integral" ,"Derivative", "Level", "Denum"," "," " ];
+    	entries = [ "Time", "Axis", "Proportional" ,"Integral" ,"Derivative", "Level", "Denum","MeanShift"," " ];
 
 		for(i=0; i<entries.length;i++){
 			txt = entries[i];
@@ -167,14 +167,11 @@ TABS.sys_ident.initialize = function (callback) {
 		text = text + '</tr>';   
 		for(setnum = 0; setnum < SYSID_DATA.data.length; setnum++){
 			text = text + '<tr>';   
-			for(i=0; i<entries.length - 2;i++){
+			for(i=0; i<entries.length - 1; i++){
 				txt = '-';
 				text = text + '<td class="' + entries[i] + setnum + '">' + txt + '</td>'
 			}
 			    
-			text = text + '<td><div class="btn delete_btn"> \
-            				<a class="deletecapture" href="#" data-setnumber=' + setnum + '>Delete</a> \
-        				</div></td>';
 			text = text + '<td><div class="btn read_btn"> \
             				<a class="readcapture" href="#" data-setnumber=' + setnum + '>Read</a> \
         				</div></td>';
@@ -195,25 +192,11 @@ TABS.sys_ident.initialize = function (callback) {
 	    var plotHelpers = initGraphHelpers('#xcorrplot', (1 << SYSID_SETUP.order) - 1);
 	    var plotNoiseHelpers = initGraphHelpers('#noiseplot', (1 << SYSID_SETUP.order));
 
-	    update_setup_gui();
 	    plotExistingCaptures();
+	    update_setup_gui();
 	
 	    function updateReadDeleteButtons()
 	    {
-			for(i=0; i < SYSID_DATA.data.length; i++)
-			{
-				db = $('a.deletecapture')[i];
-				if(SYSID_DATA.data[i].numOfSamples > 0)
-				{
-					// enable delete button
-					db.hidden = false;
-				}
-				else
-				{
-					db.hidden = true;
-				}
-	    	}
-	    	i = SYSID_DATA.data.length - 1;
 
 			for(i=1; i < SYSID_DATA.data.length ; i++)
 			{
@@ -245,12 +228,12 @@ TABS.sys_ident.initialize = function (callback) {
 					updateGraphHelperSize(plotHelpers);
 					prepareSamplesForPlot(xcorr_data, i,  SYSID_DATA.data[i].xcorr, SYSID_DATA.data[i].setup.denum * FC_CONFIG.loopTime/1000) 
 					//updateGraphHelperSize(plotHelpers);
-					drawGraph(plotHelpers, xcorr_data, timebase);
+					// drawGraph(plotHelpers, xcorr_data, timebase);
 					
 					var samplerate = 1/( FC_CONFIG.loopTime / 1000 / 1000 * SYSID_DATA.data[i].setup.denum);
 					prepareSamplesForPlot(noise_data, i, SYSID_DATA.data[i].noise, SYSID_DATA.data[i].samplerate / (SYSID_DATA.data[i].numOfSamples + 1));
 					updateGraphHelperSize(plotNoiseHelpers);
-					drawGraph(plotNoiseHelpers, noise_data, frequencyrange);
+					// drawGraph(plotNoiseHelpers, noise_data, frequencyrange);
 					
 //    	entries = [ "Time", "Axis", "Proportional" ,"Integral" ,"Derivative", "Level", "Denum","Delete","Read" ];
 					$('div.tab-sys_ident table.recordtable td.Time' + i + '')[0].innerText = SYSID_DATA.data[i].setup.timestamp;
@@ -260,6 +243,7 @@ TABS.sys_ident.initialize = function (callback) {
 					$('div.tab-sys_ident table.recordtable td.Derivative' + i + '')[0].innerText = SYSID_DATA.data[i].setup.d;
 					$('div.tab-sys_ident table.recordtable td.Level' + i + '')[0].innerText = SYSID_DATA.data[i].setup.level;
 					$('div.tab-sys_ident table.recordtable td.Denum' + i + '')[0].innerText = SYSID_DATA.data[i].setup.denum;
+					$('div.tab-sys_ident table.recordtable td.MeanShift' + i + '')[0].innerText = SYSID_DATA.data[i].meanshift.toFixed(1) + " %";
 					// copy colors from lines to Time column
 					c = ($('div.tab-sys_ident svg#xcorrplot g.data path:nth-child(' + (i+1) + ')')).css('stroke');
 					($('div.tab-sys_ident table.recordtable td.Time' + i + '')).css({'color' : c}) 
@@ -275,6 +259,9 @@ TABS.sys_ident.initialize = function (callback) {
 					$('div.tab-sys_ident table.recordtable td.Denum' + i + '')[0].innerText = '-';
 				}
 			}
+			drawGraph(plotHelpers, xcorr_data, timebase);
+    		drawGraph(plotNoiseHelpers, noise_data, frequencyrange);
+			
 			updateReadDeleteButtons();
 		}
 		function OnsamplesRead()
@@ -395,18 +382,6 @@ TABS.sys_ident.initialize = function (callback) {
         	update_setup_gui();
         	SYSID_DATA.activeset = info;
         	MSP.send_message(MSPCodes.MSP2_SYSID_INIT_CAPTURE_READ, mspHelper.crunch(MSPCodes.MSP2_SYSID_INIT_CAPTURE_READ), false, readsampledata)
-        });
-
-        $('a.deletecapture').click(function () {
-        	return;
-        	var info = $(this).data('setnumber');
-        	SYSID_DATA.activeset = info;
-        	SYSID_DATA.data[SYSID_DATA.activeset].xcorr = new Array();
-        	prepareSamplesForPlot(xcorr_data, setnum,  SYSID_DATA.data[SYSID_DATA.activeset].xcorr, SYSID_DATA.data[setnum].setup.denum)
-        	xcorr_data[info].min = -0.1;
-        	xcorr_data[info].max = +0.1;
-        	SYSID_DATA.data[SYSID_DATA.activeset].numOfSamples = 0;
-        	plotExistingCaptures();
         });
 
 		// refresh

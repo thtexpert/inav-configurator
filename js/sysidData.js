@@ -10,6 +10,7 @@ let sysidData = function(setnum)
 	self.numOfSamples = 0;
 	self.samplerate = 1;
 	self.setnum = setnum;
+	self.meanshift = 0;
 	self.setup = {
 		p: 0,
 		i: 0,
@@ -34,7 +35,10 @@ let sysidData = function(setnum)
 		decodeData(self.capture, getnumOfSamples());
 		//calcXcorr(prbs, prbs, 1.0);  // e.g. autocorrelation
 		calcXcorr(prbs, data, 1.0); 
+		// last sample contains mean shift of axis
 		var fftLength = SYSID_DATA.data[SYSID_DATA.activeset].capture.length;
+		self.meanshift = self.capture[fftLength - 1]/10;
+		data[fftLength] = 0;
 		var fftOutput = new Array(fftLength * 2);
 		var fft = new FFT.complex(fftLength, false);
 		fft.simple(fftOutput, SYSID_DATA.data[SYSID_DATA.activeset].capture, 'real');
@@ -44,6 +48,8 @@ let sysidData = function(setnum)
 		}
 		self.noise[0] = 0; // remove DC component
 		self.samplerate = 1/( FC_CONFIG.loopTime / 1000 / 1000 * SYSID_DATA.data[SYSID_DATA.activeset].setup.denum);
+		
+		
 	};
 	
 	function calcXcorr(values1, values2, level) {
