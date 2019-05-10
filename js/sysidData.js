@@ -8,7 +8,6 @@ let sysidData = function(setnum)
 	let self = {};
 	self.capture = new Array();
 	self.numOfSamples = 0;
-	self.samplerate = 1;
 	self.setnum = setnum;
 	self.meanshift = 0;
 	self.setup = {
@@ -18,7 +17,9 @@ let sysidData = function(setnum)
 		axis: 0,
 		denum: 8,
 		level: 25,
-		timestamp: 0
+		timestamp: 0,
+		looptime: 1000,
+		samplerate: 1
 	}
 	
 	let prbs = [];
@@ -47,7 +48,8 @@ let sysidData = function(setnum)
 			self.noise[i] = Math.abs(fftOutput[i]);
 		}
 		self.noise[0] = 0; // remove DC component
-		self.samplerate = 1/( FC_CONFIG.loopTime / 1000 / 1000 * SYSID_DATA.data[SYSID_DATA.activeset].setup.denum);
+		self.setup.looptime = FC_CONFIG.loopTime;
+		self.setup.samplerate = 1/( self.setup.loopTime / 1000 / 1000 * self.setup.denum);
 		
 		
 	};

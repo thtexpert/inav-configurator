@@ -226,12 +226,12 @@ TABS.sys_ident.initialize = function (callback) {
 				if(SYSID_DATA.data[i].numOfSamples > 0)
 				{
 					updateGraphHelperSize(plotHelpers);
-					prepareSamplesForPlot(xcorr_data, i,  SYSID_DATA.data[i].xcorr, SYSID_DATA.data[i].setup.denum * FC_CONFIG.loopTime/1000) 
+					prepareSamplesForPlot(xcorr_data, i,  SYSID_DATA.data[i].xcorr, SYSID_DATA.data[i].setup.denum * SYSID_DATA.data[i].setup.looptime/1000) 
 					//updateGraphHelperSize(plotHelpers);
 					// drawGraph(plotHelpers, xcorr_data, timebase);
 					
-					var samplerate = 1/( FC_CONFIG.loopTime / 1000 / 1000 * SYSID_DATA.data[i].setup.denum);
-					prepareSamplesForPlot(noise_data, i, SYSID_DATA.data[i].noise, SYSID_DATA.data[i].samplerate / (SYSID_DATA.data[i].numOfSamples + 1));
+					SYSID_DATA.data[i].samplerate = 1/( SYSID_DATA.data[i].setup.looptime / 1000 / 1000 * SYSID_DATA.data[i].setup.denum);
+					prepareSamplesForPlot(noise_data, i, SYSID_DATA.data[i].noise, SYSID_DATA.data[i].samplerate / (SYSID_DATA.data[i].numOfSamples + 1)/2);
 					updateGraphHelperSize(plotNoiseHelpers);
 					// drawGraph(plotNoiseHelpers, noise_data, frequencyrange);
 					
@@ -291,13 +291,14 @@ TABS.sys_ident.initialize = function (callback) {
 			SYSID_DATA.data[setnum].setup.denum = SYSID_SETUP.denum;
 			SYSID_DATA.data[setnum].setup.level = SYSID_SETUP.level;
 			SYSID_DATA.data[setnum].setup.timestamp = formattedDate;
+			
 			updateGraphHelperSize(plotHelpers);
-			prepareSamplesForPlot(xcorr_data, setnum,  SYSID_DATA.data[setnum].xcorr, SYSID_DATA.data[setnum].setup.denum * FC_CONFIG.loopTime/1000) 
+			prepareSamplesForPlot(xcorr_data, setnum,  SYSID_DATA.data[setnum].xcorr, SYSID_DATA.data[setnum].setup.denum * SYSID_DATA.data[setnum].setup.looptime/1000) 
 			updateGraphHelperSize(plotHelpers);
 			drawGraph(plotHelpers, xcorr_data, timebase);
 		    plotExistingCaptures();
 		 	// FFT for noise
-			prepareSamplesForPlot(noise_data, setnum, SYSID_DATA.data[setnum].noise, SYSID_DATA.data[setnum].samplerate / (SYSID_DATA.data[setnum].numOfSamples + 1));
+			prepareSamplesForPlot(noise_data, setnum, SYSID_DATA.data[setnum].noise, SYSID_DATA.data[setnum].samplerate / (SYSID_DATA.data[setnum].numOfSamples + 1) / 2);
 			updateGraphHelperSize(plotNoiseHelpers);
 			drawGraph(plotNoiseHelpers, noise_data, frequencyrange);
 		}

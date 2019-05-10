@@ -774,6 +774,18 @@ li.active .ic_led {
     background-image: url("../images/icons/cf_icon_led_white.svg");
 }
 
+.ic_sysid {
+    background-image: url("../images/icons/cf_icon_sysid_grey.svg");
+}
+
+.ic_sysid:hover {
+    background-image: url("../images/icons/cf_icon_sysid_white.svg");
+}
+
+li.active .ic_sysid {
+    background-image: url("../images/icons/cf_icon_sysid_white.svg");
+}
+
 .ic_sensors {
     background-image: url("../images/icons/cf_icon_sensors_grey.svg");
 }
