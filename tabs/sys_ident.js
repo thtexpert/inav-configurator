@@ -192,6 +192,32 @@ TABS.sys_ident.initialize = function (callback) {
 	    var plotHelpers = initGraphHelpers('#xcorrplot', (1 << SYSID_SETUP.order) - 1);
 	    var plotNoiseHelpers = initGraphHelpers('#noiseplot', (1 << SYSID_SETUP.order));
 
+        $('div.tab-sys_ident select[name="timerange"], div.tab-sys_ident select[name="frequencyrange"]').change(function () {
+            // if any of the select fields change value, all of the select values are grabbed
+            // and timers are re-initialized with the new settings
+            var sys_ident = {
+                'timerange':      parseInt($('div.tab-sys_ident select[name="timerange"]').val(), 10),
+                'frequencyrange':     parseInt($('div.tab-sys_ident select[name="frequencyrange"]').val(), 10),
+            };
+            // store current/latest refresh rates in the storage
+            chrome.storage.local.set({'sys_ident': sys_ident});
+        });
+
+        // set refresh speeds according to configuration saved in storage
+        chrome.storage.local.get('sys_ident', function (result) {
+            if (result.sys_ident) {
+                $('div.tab-sys_ident select[name="timerange"]').val(result.sys_ident.timerange);
+                $('div.tab-sys_ident select[name="frequencyrange"]').val(result.sys_ident.frequencyrange);
+
+                // start polling data by triggering refresh rate change event
+                $('div.tab-sys_ident select[name="frequencyrange"]').change();
+            } else {
+                // start polling immediatly (as there is no configuration saved in the storage)
+                $('div.tab-sys_ident select[name="frequencyrange"]').change();
+            }
+        });
+
+
 	    plotExistingCaptures();
 	    update_setup_gui();
 	
