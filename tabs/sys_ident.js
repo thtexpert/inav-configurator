@@ -211,9 +211,11 @@ TABS.sys_ident.initialize = function (callback) {
 
                 // start polling data by triggering refresh rate change event
                 $('div.tab-sys_ident select[name="frequencyrange"]').change();
+                $('div.tab-sys_ident select[name="timerange"]').change();
             } else {
                 // start polling immediatly (as there is no configuration saved in the storage)
                 $('div.tab-sys_ident select[name="frequencyrange"]').change();
+                $('div.tab-sys_ident select[name="timerange"]').change();
             }
         });
 
