@@ -423,20 +423,27 @@ TABS.sys_ident.initialize = function (callback) {
 
         // update == save.
         $('a.update').click(function () {
-	    	SYSID_SETUP.axis = $('.setup select[name="axis"]').val();
-	    	SYSID_SETUP.denum = $('.setup input[name="denum"]').val();
-	    	SYSID_SETUP.level = $('.setup input[name="level"]').val();
-	    	PIDs[SYSID_SETUP.axis][0] = $('.setup input[name="pid-p"]').val();
-	    	PIDs[SYSID_SETUP.axis][1] = $('.setup input[name="pid-i"]').val();
-	    	PIDs[SYSID_SETUP.axis][2] = $('.setup input[name="pid-d"]').val();
-            MSP.send_message(MSPCodes.MSP_SET_PID, mspHelper.crunch(MSPCodes.MSP_SET_PID), false, dummy);
-            MSP.send_message(MSPCodes.MSP2_SYSID_SET_SETUP, mspHelper.crunch(MSPCodes.MSP2_SYSID_SET_SETUP), false, dummy);
-            
-			MSP.send_message(MSPCodes.MSP_EEPROM_WRITE, false, false, function () {
-				GUI.log(chrome.i18n.getMessage('systemIdentificationEepromSave'));
-			});
+        	if( FC.isModeEnabled('ARM') === true)
+        	{
+        		GUI.log('<span style=\"color: red\">Failed</span> to Save EEPROM, FC still armed');
+        	}
+        	else
+        	{
+		    	SYSID_SETUP.axis = $('.setup select[name="axis"]').val();
+		    	SYSID_SETUP.denum = $('.setup input[name="denum"]').val();
+		    	SYSID_SETUP.level = $('.setup input[name="level"]').val();
+		    	PIDs[SYSID_SETUP.axis][0] = $('.setup input[name="pid-p"]').val();
+		    	PIDs[SYSID_SETUP.axis][1] = $('.setup input[name="pid-i"]').val();
+		    	PIDs[SYSID_SETUP.axis][2] = $('.setup input[name="pid-d"]').val();
+	            MSP.send_message(MSPCodes.MSP_SET_PID, mspHelper.crunch(MSPCodes.MSP_SET_PID), false, dummy);
+	            MSP.send_message(MSPCodes.MSP2_SYSID_SET_SETUP, mspHelper.crunch(MSPCodes.MSP2_SYSID_SET_SETUP), false, dummy);
+	            
+				MSP.send_message(MSPCodes.MSP_EEPROM_WRITE, false, false, function () {
+					GUI.log(chrome.i18n.getMessage('pidTuningEepromSaved'));
+				});
+			}
 		});    
-	    // reset read pointer
+
      	GUI.content_ready(callback);
      }
 };

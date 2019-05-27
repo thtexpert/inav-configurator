@@ -249,6 +249,7 @@ gulp.task('apps-win64', gulp.series('dist', function(done) {
         buildDir: appsDir,
         platforms: ['win64'],
         flavor: 'normal',
+        version: '0.36.1',
         macIcns: './images/inav.icns',
         winIco: './images/inav.ico',
     });
@@ -263,6 +264,31 @@ gulp.task('apps-win64', gulp.series('dist', function(done) {
         done();
     });
 }));
+
+// Create app directories in ./apps
+gulp.task('debug-win64', gulp.series('dist', function(done) {
+    var builder = new NwBuilder({
+        files: './dist/**/*',
+        buildDir: appsDir,
+        platforms: ['win64'],
+        flavor: 'sdk',
+        version: '0.36.1',
+        macIcns: './images/inav.icns',
+        winIco: './images/inav.ico',
+    });
+    builder.on('log', console.log);
+    builder.build(function (err) {
+        if (err) {
+            console.log("Error building NW apps:" + err);
+            done();
+            return;
+        }
+        // Package apps as .zip files
+        done();
+    });
+}));
+
+
 function get_release_filename(platform, ext) {
     var pkg = require('./package.json');
     return 'TWIN-Configurator_' + platform + '_' + pkg.version + '.' + ext;
