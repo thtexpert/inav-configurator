@@ -132,7 +132,8 @@ let sysidData = function(setnum)
 		  if(sy == 0 || sx == 0)
 		  	return 0; //
 	
-	      var correlation = (sum_values_average /  (n * sx * sy)).toFixed(9);
+	      //var correlation = (sum_values_average /  (n * sx * sy)).toFixed(9);
+	      var correlation = (sum_values_average /  (n)).toFixed(9);
 	      return parseFloat(correlation);
 	    }
 	}
