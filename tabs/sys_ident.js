@@ -367,6 +367,8 @@ TABS.sys_ident.initialize = function (callback) {
 	    	$('.setup select[name="axis"]').val(SYSID_SETUP.axis);
 	    	$('.setup input[name="denum"]').val(SYSID_SETUP.denum);
 	    	$('.setup input[name="level"]').val(SYSID_SETUP.level);
+	    	var duration = SYSID_SETUP.denum * ((1 << SYSID_SETUP.order) - 1)  * 1.5 * FC_CONFIG.loopTime + 500000; 
+	    	$('#sysid-duration')[0].innerText = (duration/1000000).toFixed(1) + " s";; 
 	    	$('.setup input[name="pid-p"]').val(PIDs[SYSID_SETUP.axis][0]);
 	    	$('.setup input[name="pid-i"]').val(PIDs[SYSID_SETUP.axis][1]);
 	    	$('.setup input[name="pid-d"]').val(PIDs[SYSID_SETUP.axis][2]);
@@ -379,9 +381,10 @@ TABS.sys_ident.initialize = function (callback) {
 	    	PIDs[SYSID_SETUP.axis][0] = $('.setup input[name="pid-p"]').val();
 	    	PIDs[SYSID_SETUP.axis][1] = $('.setup input[name="pid-i"]').val();
 	    	PIDs[SYSID_SETUP.axis][2] = $('.setup input[name="pid-d"]').val();
+	    	update_setup_gui();
             MSP.send_message(MSPCodes.MSP_SET_PID, mspHelper.crunch(MSPCodes.MSP_SET_PID), false, dummy);
             MSP.send_message(MSPCodes.MSP2_SYSID_SET_SETUP, mspHelper.crunch(MSPCodes.MSP2_SYSID_SET_SETUP), false, dummy);
-            
+	    	update_setup_gui();
         });
 
 	    $('div.tab-sys_ident .setup select').change(function () {

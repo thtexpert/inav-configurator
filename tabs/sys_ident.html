@@ -1,10 +1,6 @@
 <div id="content-watermark"></div>
 <div class="tab-sys_ident">
     <div class="content_wrapper">
-        <div class="tab_title" i18n="tabSystemIdent">tabSystemIdent</div>
-        <div class="cf_doc_version_bt">
-            <a id="button-documentation" href="https://github.com/iNavFlight/inav/releases" target="_blank"></a>
-        </div>
         <div class="si_left">
 	        <div class="spacer">
 			    <table class="recordtable">
@@ -17,7 +13,7 @@
 			            <g class="axis x" transform="translate(40, 160)"></g>
 			            <g class="axis y" transform="translate(40, 10)"></g>
 			        </svg>
-	            	<select name="timerange">
+	            	<select class="axisscale" name="timerange">
 						 <option value="50">50ms</option>
 						 <option value="100">100ms</option>
 						 <option value="150">150ms</option>
@@ -35,7 +31,7 @@
 			            <g class="axis x" transform="translate(40, 160)"></g>
 			            <g class="axis y" transform="translate(40, 10)"></g>
 			        </svg>
-	            	<select name="frequencyrange">
+	            	<select class="axisscale" name="frequencyrange">
 						 <option value="50">50Hz</option>
 						 <option value="100" selected="selected">100Hz</option>
 						 <option value="150">150Hz</option>
@@ -45,6 +41,7 @@
 	        </div>
         </div>
         <div class="si_right">
+	        <div class="tab_title" i18n="tabSystemIdent">tabSystemIdent</div>
 	    	<table class="setup">
 		        <thead>
 		        </thead>
@@ -67,6 +64,14 @@
 		                </th>
 		                <td>
 		                	<input type="number" name ="denum" step="1" min="1" max="16" value="8" />
+		                </td>
+		            </tr>
+		            <tr>
+		                <th>
+		                    Duration <div class="helpicon cf_tip" title="Typical time until PRBS sequence will be finished."></div>
+		                </th>
+		                <td>
+		                	<a id="sysid-duration"> 0 sec </a>
 		                </td>
 		            </tr>
 		            <tr>
