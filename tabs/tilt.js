@@ -811,7 +811,7 @@ tplotXy.prototype.updatenicktrim = function(y,ax)
 var cyclicfullscale = 6;
 var cycliclimit = 5;
 var servomiddle = new Array(6);
-var trimgain = [1,1,1]; // the axis of left and right are getting same gain (typical max 100)
+var trimgain = [0,0,0];
 
 TABS.tilt = {};
 TABS.tilt.initialize = function (callback) {
@@ -883,9 +883,9 @@ TABS.tilt.initialize = function (callback) {
         localize();
         // get maximum servo gain for trim adjustments
         // left and right axis get same gain
-        for(var m = 0; m < 3; m++)
+        for(var m = 1; m < 3; m++)
         {
-        	for(var i in [0,1,2,3])
+        	for(var i = 0; i < 4; i++)
     		{
         		switch (m) {
         		case 1:
@@ -931,7 +931,7 @@ TABS.tilt.initialize = function (callback) {
 		pitchleft.updatetrim(0,0);
 		pitchright.updatetrim(0,1);
 		leftXy.updatenicktrim(0,2);
-		rightXy.updatenicktrim(0,4);
+		rightXy.updatenicktrim(0,3);
 
 		leftXy.updateIndicator(0,0);
 		rightXy.updateIndicator(0,0);
@@ -1036,15 +1036,15 @@ TABS.tilt.initialize = function (callback) {
         {
         	if(trimgain[mixer] > 0)
         	{
-            	var step = 8 * direction / trimgain[mixer];
+            	var step = direction / trimgain[mixer];
             	
             	for(var i = 0; i < 2; i++)
         		{
             		switch (mixer) {
-            		case 0:
+            		case 1:
             			servomiddle[firstnum + i] += step * TILT_SERVO_MIX[firstnum + i].pitch; 
             			break
-            		case 1:
+            		case 2:
             			servomiddle[firstnum + i] += step * TILT_SERVO_MIX[firstnum + i].collective; 
             			break
             		}
@@ -1058,13 +1058,13 @@ TABS.tilt.initialize = function (callback) {
 
         document.getElementById("leftcollectivedown").addEventListener("click",function () {   	executetrim(0 ,2, -1); pitchleft.updatetrim(-2,0);});
         document.getElementById("leftcollectiveup").addEventListener("click",function () {   	executetrim(0 ,2, +1); pitchleft.updatetrim(+2,0);});
-        document.getElementById("rightcollectivedown").addEventListener("click",function () {   executetrim(3 ,2, -1); pitchright.updatetrim(-2,1);});
-        document.getElementById("rightcollectiveup").addEventListener("click",function () {   	executetrim(3 ,2, +1); pitchright.updatetrim(+2,1);});
+        document.getElementById("rightcollectivedown").addEventListener("click",function () {   executetrim(2 ,2, -1); pitchright.updatetrim(-2,1);});
+        document.getElementById("rightcollectiveup").addEventListener("click",function () {   	executetrim(2 ,2, +1); pitchright.updatetrim(+2,1);});
         
         document.getElementById("leftnickforward").addEventListener("click",function () {   	executetrim(0 ,1, -1);leftXy.updatenicktrim(-2,2);});
         document.getElementById("leftnickbackward").addEventListener("click",function () {   	executetrim(0 ,1, +1);leftXy.updatenicktrim(+2,2);});
-        document.getElementById("rightnickforward").addEventListener("click",function () {   	executetrim(3 ,1, -1);rightXy.updatenicktrim(-2,4);});
-        document.getElementById("rightnickbackward").addEventListener("click",function () {   	executetrim(3 ,1, +1);rightXy.updatenicktrim(+2,4);});
+        document.getElementById("rightnickforward").addEventListener("click",function () {   	executetrim(2 ,1, -1);rightXy.updatenicktrim(-2,3);});
+        document.getElementById("rightnickbackward").addEventListener("click",function () {   	executetrim(2 ,1, +1);rightXy.updatenicktrim(+2,3);});
 
 //        document.getElementById("leftrollright").addEventListener("click",function () {   	executetrim(0 ,0, +1);leftXy.updaterolltrim(-2,3);});
 //        document.getElementById("leftrollleft").addEventListener("click",function () {   	executetrim(0 ,0, -1);leftXy.updaterolltrim(+2,3);});
