@@ -23,16 +23,19 @@ TABS.sys_ident.initialize = function (callback) {
     	data[setId] = new Array();
         data[setId].min = -.001;
         data[setId].max = .001;
-        for (var i = 0; i < xcorr.length; i++) {
-            var dataPoint = xcorr[i];
-            data[setId].push([i * xtick, dataPoint]); // for xcorr  i * denum * FC_CONFIG.loopTime/1000
-            if (dataPoint < data[setId].min) {
-                data[setId].min = dataPoint;
-            }
-            if (dataPoint > data[setId].max) {
-                data[setId].max = dataPoint;
-            }
-        }
+        if(SYSID_DATA.data[setId].setup.visible)
+        {
+	        for (var i = 0; i < xcorr.length; i++) {
+	            var dataPoint = xcorr[i];
+	            data[setId].push([i * xtick, dataPoint]); // for xcorr  i * denum * FC_CONFIG.loopTime/1000
+	            if (dataPoint < data[setId].min) {
+	                data[setId].min = dataPoint;
+	            }
+	            if (dataPoint > data[setId].max) {
+	                data[setId].max = dataPoint;
+	            }
+	        }
+	    }
         return xcorr.length + 1;
     }
 
@@ -143,9 +146,17 @@ TABS.sys_ident.initialize = function (callback) {
 		MSP.send_message(MSPCodes.MSP_LOOP_TIME, false, false, load_html);
 	}
 	
+	function readPwms() {
+		MSP.send_message(MSPCodes.MSP_ADVANCED_CONFIG, false, false, readLooptime);
+	}
+	
+	function readFilters() {
+		MSP.send_message(MSPCodes.MSP_FILTER_CONFIG, false, false, readPwms);
+	}
+
     function readSysIdSetup()
     {
-    	MSP.send_message(MSPCodes.MSP2_SYSID_GET_SETUP, mspHelper.crunch(MSPCodes.MSP2_SYSID_GET_SETUP), false,readLooptime);
+    	MSP.send_message(MSPCodes.MSP2_SYSID_GET_SETUP, mspHelper.crunch(MSPCodes.MSP2_SYSID_GET_SETUP), false, readFilters);
     }
 
     function readPIDs()
@@ -158,7 +169,7 @@ TABS.sys_ident.initialize = function (callback) {
     function addtableEntries()
     {
     	text = '<tr "headers">';
-    	entries = [ "Time", "Axis", "Proportional" ,"Integral" ,"Derivative", "Level", "Denum","MeanShift"," " ];
+    	entries = [ "Visible","Time", "Axis", "Prop" ,"Integ" ,"Der", "PWM", "LPF", "Notch1", "Notch2", "D_LPF", "D_Notch", "Level", "Denum","MeanShift"," " ];
 
 		for(i=0; i<entries.length;i++){
 			txt = entries[i];
@@ -166,8 +177,11 @@ TABS.sys_ident.initialize = function (callback) {
 		} 
 		text = text + '</tr>';   
 		for(setnum = 0; setnum < SYSID_DATA.data.length; setnum++){
-			text = text + '<tr>';   
-			for(i=0; i<entries.length - 1; i++){
+			text = text + '<tr>'; 
+			text = text + '<td>'
+			text = text + '<input name="' + entries[0] + setnum + '" type="checkbox" ></td>'
+			
+			for(i=1; i<entries.length - 1; i++){
 				txt = '-';
 				text = text + '<td class="' + entries[i] + setnum + '">' + txt + '</td>'
 			}
@@ -263,12 +277,19 @@ TABS.sys_ident.initialize = function (callback) {
 					updateGraphHelperSize(plotNoiseHelpers);
 					// drawGraph(plotNoiseHelpers, noise_data, frequencyrange);
 					
-//    	entries = [ "Time", "Axis", "Proportional" ,"Integral" ,"Derivative", "Level", "Denum","Delete","Read" ];
+//    	entries = [ "Time", "Axis", "Prop" ,"Integ" ,"Der", "Level", "Denum","Delete","Read" ];
+					$('input[name="Visible' + i + '"]')[0].checked = SYSID_DATA.data[i].setup.visible;
 					$('div.tab-sys_ident table.recordtable td.Time' + i + '')[0].innerText = SYSID_DATA.data[i].setup.timestamp;
 					$('div.tab-sys_ident table.recordtable td.Axis' + i + '')[0].innerText = axisnames[SYSID_DATA.data[i].setup.axis];
-					$('div.tab-sys_ident table.recordtable td.Proportional' + i + '')[0].innerText = SYSID_DATA.data[i].setup.p;
-					$('div.tab-sys_ident table.recordtable td.Integral' + i + '')[0].innerText = SYSID_DATA.data[i].setup.i;
-					$('div.tab-sys_ident table.recordtable td.Derivative' + i + '')[0].innerText = SYSID_DATA.data[i].setup.d;
+					$('div.tab-sys_ident table.recordtable td.Prop' + i + '')[0].innerText = SYSID_DATA.data[i].setup.p;
+					$('div.tab-sys_ident table.recordtable td.Integ' + i + '')[0].innerText = SYSID_DATA.data[i].setup.i;
+					$('div.tab-sys_ident table.recordtable td.Der' + i + '')[0].innerText = SYSID_DATA.data[i].setup.d;
+					$('div.tab-sys_ident table.recordtable td.PWM' + i + '')[0].innerText = SYSID_DATA.data[i].setup.motorPwmRate + '/' + SYSID_DATA.data[i].setup.servoPwmRate;
+					$('div.tab-sys_ident table.recordtable td.LPF' + i + '')[0].innerText = SYSID_DATA.data[i].setup.filters.gyroSoftLpfHz+ '/' + SYSID_DATA.data[i].setup.filters.gyroStage2LowpassHz;
+					$('div.tab-sys_ident table.recordtable td.Notch1' + i + '')[0].innerText = SYSID_DATA.data[i].setup.filters.gyroNotchHz1+ '/' + SYSID_DATA.data[i].setup.filters.gyroNotchCutoff1;
+					$('div.tab-sys_ident table.recordtable td.Notch2' + i + '')[0].innerText = SYSID_DATA.data[i].setup.filters.gyroNotchHz2+ '/' + SYSID_DATA.data[i].setup.filters.gyroNotchCutoff2;
+					$('div.tab-sys_ident table.recordtable td.D_LPF' + i + '')[0].innerText = SYSID_DATA.data[i].setup.filters.dtermLpfHz;
+					$('div.tab-sys_ident table.recordtable td.D_Notch' + i + '')[0].innerText = SYSID_DATA.data[i].setup.filters.dtermNotchHz+ '/' + SYSID_DATA.data[i].setup.filters.dtermNotchCutoff;
 					$('div.tab-sys_ident table.recordtable td.Level' + i + '')[0].innerText = SYSID_DATA.data[i].setup.level;
 					$('div.tab-sys_ident table.recordtable td.Denum' + i + '')[0].innerText = SYSID_DATA.data[i].setup.denum;
 					$('div.tab-sys_ident table.recordtable td.MeanShift' + i + '')[0].innerText = SYSID_DATA.data[i].meanshift.toFixed(1) + " %";
@@ -278,11 +299,12 @@ TABS.sys_ident.initialize = function (callback) {
 				}
 				else
 				{
+					$('input[name="Visible' + i + '"]')[0].checked = false;
 					$('div.tab-sys_ident table.recordtable td.Time' + i + '')[0].innerText = '-';
 					$('div.tab-sys_ident table.recordtable td.Axis' + i + '')[0].innerText = '-';
-					$('div.tab-sys_ident table.recordtable td.Proportional' + i + '')[0].innerText = '-';
-					$('div.tab-sys_ident table.recordtable td.Integral' + i + '')[0].innerText = '-';
-					$('div.tab-sys_ident table.recordtable td.Derivative' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Prop' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Integ' + i + '')[0].innerText = '-';
+					$('div.tab-sys_ident table.recordtable td.Der' + i + '')[0].innerText = '-';
 					$('div.tab-sys_ident table.recordtable td.Level' + i + '')[0].innerText = '-';
 					$('div.tab-sys_ident table.recordtable td.Denum' + i + '')[0].innerText = '-';
 				}
@@ -406,6 +428,14 @@ TABS.sys_ident.initialize = function (callback) {
 	    
 	    $('div.tab-sys_ident select[name="frequencyrange"]').change(function() {
 	    	frequencyrange = $('div.tab-sys_ident select[name="frequencyrange"]').val();
+	    	plotExistingCaptures();
+        });
+
+	    $('div.tab-sys_ident .recordtable input').change(function () {
+			for(i=0; i < SYSID_DATA.data.length; i++)
+			{
+				SYSID_DATA.data[i].setup.visible = $('input[name="Visible' + i + '"]')[0].checked;
+			}
 	    	plotExistingCaptures();
         });
 

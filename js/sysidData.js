@@ -19,7 +19,24 @@ let sysidData = function(setnum)
 		level: 25,
 		timestamp: 0,
 		looptime: 1000,
-		samplerate: 1
+		samplerate: 1,
+		motorPwmRate: null,
+        servoPwmRate: null,
+        visible: true,
+		filters: {
+            gyroSoftLpfHz: null,
+            dtermLpfHz: null,
+            yawLpfHz: null,
+            gyroNotchHz1: null,
+            gyroNotchCutoff1: null,
+            dtermNotchHz: null,
+            dtermNotchCutoff: null,
+            gyroNotchHz2: null,
+            gyroNotchCutoff2: null,
+            accNotchHz: null,
+            accNotchCutoff: null,
+            gyroStage2LowpassHz: null
+        }
 	}
 	
 	let prbs = [];
@@ -48,10 +65,23 @@ let sysidData = function(setnum)
 			self.noise[i] = Math.abs(fftOutput[i]);
 		}
 		self.noise[0] = 0; // remove DC component
-		self.setup.looptime = FC_CONFIG.loopTime;
+		self.setup.looptime = CONFIG.cycleTime; // FC_CONFIG.loopTime;
 		self.setup.samplerate = 1/( self.setup.loopTime / 1000 / 1000 * self.setup.denum);
-		
-		
+		self.setup.motorPwmRate = ADVANCED_CONFIG.motorPwmRate;
+        self.setup.servoPwmRate = ADVANCED_CONFIG.servoPwmRate;
+        self.setup.filters.gyroSoftLpfHz = FILTER_CONFIG.gyroSoftLpfHz;
+        self.setup.filters.dtermLpfHz = FILTER_CONFIG.dtermLpfHz;
+        self.setup.filters.yawLpfHz = FILTER_CONFIG.yawLpfHz;
+        self.setup.filters.gyroNotchHz1 = FILTER_CONFIG.gyroNotchHz1;
+        self.setup.filters.gyroNotchCutoff1 = FILTER_CONFIG.gyroNotchCutoff1;
+        self.setup.filters.dtermNotchHz = FILTER_CONFIG.dtermNotchHz;
+        self.setup.filters.dtermNotchCutoff = FILTER_CONFIG.dtermNotchCutoff;
+        self.setup.filters.gyroNotchHz2 = FILTER_CONFIG.gyroNotchHz2;
+        self.setup.filters.gyroNotchCutoff2 = FILTER_CONFIG.gyroNotchCutoff2;
+        self.setup.filters.accNotchHz = FILTER_CONFIG.accNotchHz;
+        self.setup.filters.accNotchCutoff = FILTER_CONFIG.accNotchCutoff;
+        self.setup.filters.gyroStage2LowpassHz = FILTER_CONFIG.gyroStage2LowpassHz;
+        self.setup.visible = true;
 	};
 	
 	function calcXcorr(values1, values2, level) {

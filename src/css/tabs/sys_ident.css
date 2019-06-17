@@ -1,6 +1,6 @@
 .tab-sys_ident .si_left {
     float: left;
-    width: 70%;
+    width: 80%;
 }
 
 .tab-sys_ident .spacer {
@@ -11,7 +11,7 @@
 
 .tab-sys_ident .si_right {
     float: left;
-    width: 30%;
+    width: calc(20% - 15px);;
 }
 
 .tab-sys_ident .info {
