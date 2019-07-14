@@ -44,12 +44,7 @@ TABS.configuration.initialize = function (callback, scrollPosition) {
         loadCraftName
     ];
 
-    if (semver.gte(CONFIG.flightControllerVersion, '1.8.1')) {
-        loadChain.push(mspHelper.loadMiscV2);
-    } else {
-        loadChain.push(mspHelper.loadMisc);
-    }
-
+    loadChain.push(mspHelper.loadMiscV2);
     loadChainer.setChain(loadChain);
     loadChainer.setExitPoint(load_html);
     loadChainer.execute();
@@ -71,12 +66,7 @@ TABS.configuration.initialize = function (callback, scrollPosition) {
         saveCraftName,
     ];
 
-    if (semver.gte(CONFIG.flightControllerVersion, '1.8.1')) {
-        saveChain.push(mspHelper.saveMiscV2);
-    } else {
-        saveChain.push(mspHelper.saveMisc);
-    }
-
+    saveChain.push(mspHelper.saveMiscV2);
     saveChain.push(mspHelper.saveToEeprom);
 
     saveChainer.setChain(saveChain);
@@ -417,14 +407,6 @@ TABS.configuration.initialize = function (callback, scrollPosition) {
         $('#maxthrottle').val(MISC.maxthrottle);
         $('#mincommand').val(MISC.mincommand);
 
-        // Battery thresholds resolution is 100mV and voltage scale max is 255 before 1.8.1
-        if (semver.lt(CONFIG.flightControllerVersion, '1.8.1')) {
-            $('#mincellvoltage').attr('step', '0.1');
-            $('#maxcellvoltage').attr('step', '0.1');
-            $('#warningcellvoltage').attr('step', '0.1');
-            $('#voltagescale').attr('max', '255');
-        }
-
         // fill battery voltage
         $('#voltagesource').val(MISC.voltage_source);
         $('#cells').val(MISC.battery_cells);
@@ -477,7 +459,7 @@ TABS.configuration.initialize = function (callback, scrollPosition) {
             }
 
             if (ADVANCED_CONFIG.motorPwmProtocol >= 5) {
-                //DSHOT protocols, simplify UI
+                //DSHOT/SERIALSHOT protocols, simplify UI
                 $('.hide-for-shot').addClass('is-hidden');
             } else {
                 $('.hide-for-shot').removeClass('is-hidden');
@@ -583,7 +565,6 @@ TABS.configuration.initialize = function (callback, scrollPosition) {
             $gyroLpfMessage.removeClass('warning-box');
 
             if (MIXER_CONFIG.platformType == PLATFORM_MULTIROTOR || MIXER_CONFIG.platformType == PLATFORM_TRICOPTER) {
-                console.log($gyroLpfMessage);
                 switch (parseInt(INAV_PID_CONFIG.gyroscopeLpf, 10)) {
                     case 0:
                         $gyroLpfMessage.html(chrome.i18n.getMessage('gyroLpfSuggestedMessage'));
@@ -691,68 +672,50 @@ TABS.configuration.initialize = function (callback, scrollPosition) {
             INAV_PID_CONFIG.attitudeTaskFrequency = $attitudeFrequency.val();
         });
 
-        if (semver.gte(CONFIG.flightControllerVersion, "1.5.0")) {
 
-            var $sensorAcc = $('#sensor-acc'),
-                $sensorMag = $('#sensor-mag'),
-                $sensorBaro = $('#sensor-baro'),
-                $sensorPitot = $('#sensor-pitot'),
-                $sensorRangefinder = $('#sensor-rangefinder'),
-                $sensorOpflow = $('#sensor-opflow');
+        var $sensorAcc = $('#sensor-acc'),
+            $sensorMag = $('#sensor-mag'),
+            $sensorBaro = $('#sensor-baro'),
+            $sensorPitot = $('#sensor-pitot'),
+            $sensorRangefinder = $('#sensor-rangefinder'),
+            $sensorOpflow = $('#sensor-opflow');
 
-            GUI.fillSelect($sensorAcc, FC.getAccelerometerNames());
-            $sensorAcc.val(SENSOR_CONFIG.accelerometer);
-            $sensorAcc.change(function () {
-                SENSOR_CONFIG.accelerometer = $sensorAcc.val();
-            });
+        GUI.fillSelect($sensorAcc, FC.getAccelerometerNames());
+        $sensorAcc.val(SENSOR_CONFIG.accelerometer);
+        $sensorAcc.change(function () {
+            SENSOR_CONFIG.accelerometer = $sensorAcc.val();
+        });
 
 
-            GUI.fillSelect($sensorMag, FC.getMagnetometerNames());
-            $sensorMag.val(SENSOR_CONFIG.magnetometer);
-            $sensorMag.change(function () {
-                SENSOR_CONFIG.magnetometer = $sensorMag.val();
-            });
+        GUI.fillSelect($sensorMag, FC.getMagnetometerNames());
+        $sensorMag.val(SENSOR_CONFIG.magnetometer);
+        $sensorMag.change(function () {
+            SENSOR_CONFIG.magnetometer = $sensorMag.val();
+        });
 
-            GUI.fillSelect($sensorBaro, FC.getBarometerNames());
-            $sensorBaro.val(SENSOR_CONFIG.barometer);
-            $sensorBaro.change(function () {
-                SENSOR_CONFIG.barometer = $sensorBaro.val();
-            });
+        GUI.fillSelect($sensorBaro, FC.getBarometerNames());
+        $sensorBaro.val(SENSOR_CONFIG.barometer);
+        $sensorBaro.change(function () {
+            SENSOR_CONFIG.barometer = $sensorBaro.val();
+        });
 
-            GUI.fillSelect($sensorPitot, FC.getPitotNames());
-            $sensorPitot.val(SENSOR_CONFIG.pitot);
-            $sensorPitot.change(function () {
-                SENSOR_CONFIG.pitot = $sensorPitot.val();
-            });
+        GUI.fillSelect($sensorPitot, FC.getPitotNames());
+        $sensorPitot.val(SENSOR_CONFIG.pitot);
+        $sensorPitot.change(function () {
+            SENSOR_CONFIG.pitot = $sensorPitot.val();
+        });
 
-            GUI.fillSelect($sensorRangefinder, FC.getRangefinderNames());
-            $sensorRangefinder.val(SENSOR_CONFIG.rangefinder);
-            $sensorRangefinder.change(function () {
-                SENSOR_CONFIG.rangefinder = $sensorRangefinder.val();
-            });
+        GUI.fillSelect($sensorRangefinder, FC.getRangefinderNames());
+        $sensorRangefinder.val(SENSOR_CONFIG.rangefinder);
+        $sensorRangefinder.change(function () {
+            SENSOR_CONFIG.rangefinder = $sensorRangefinder.val();
+        });
 
-            GUI.fillSelect($sensorOpflow, FC.getOpticalFlowNames());
-            $sensorOpflow.val(SENSOR_CONFIG.opflow);
-            $sensorOpflow.change(function () {
-                SENSOR_CONFIG.opflow = $sensorOpflow.val();
-            });
-
-            $(".requires-v1_5").show();
-        } else {
-            $(".requires-v1_5").hide();
-        }
-
-        if (semver.gte(CONFIG.flightControllerVersion, "1.7.0")) {
-            $(".requires-v1_7").show();
-        } else {
-            $(".requires-v1_7").hide();
-        }
-
-        if (semver.gte(CONFIG.flightControllerVersion, "1.8.1")) {
-            $(".requires-v1_8_1").show();
-        } else {
-            $(".requires-v1_8_1").hide();
-        }
+        GUI.fillSelect($sensorOpflow, FC.getOpticalFlowNames());
+        $sensorOpflow.val(SENSOR_CONFIG.opflow);
+        $sensorOpflow.change(function () {
+            SENSOR_CONFIG.opflow = $sensorOpflow.val();
+        });
 
         if (semver.gte(CONFIG.flightControllerVersion, "2.0.0")) {
             $(".requires-v2_0_0").show();
@@ -896,15 +859,13 @@ TABS.configuration.initialize = function (callback, scrollPosition) {
             /*
              * send gyro LPF and async_mode tracking
              */
-            if (semver.gte(CONFIG.flightControllerVersion, "1.5.0")) {
-                googleAnalytics.sendEvent('Setting', 'GyroLpf', FC.getGyroLpfValues()[INAV_PID_CONFIG.gyroscopeLpf].label);
-                googleAnalytics.sendEvent('Setting', 'AsyncMode', FC.getAsyncModes()[INAV_PID_CONFIG.asynchronousMode]);
+            googleAnalytics.sendEvent('Setting', 'GyroLpf', FC.getGyroLpfValues()[INAV_PID_CONFIG.gyroscopeLpf].label);
+            googleAnalytics.sendEvent('Setting', 'AsyncMode', FC.getAsyncModes()[INAV_PID_CONFIG.asynchronousMode]);
 
-                googleAnalytics.sendEvent('Board', 'Accelerometer', FC.getAccelerometerNames()[SENSOR_CONFIG.accelerometer]);
-                googleAnalytics.sendEvent('Board', 'Magnetometer', FC.getMagnetometerNames()[SENSOR_CONFIG.magnetometer]);
-                googleAnalytics.sendEvent('Board', 'Barometer', FC.getBarometerNames()[SENSOR_CONFIG.barometer]);
-                googleAnalytics.sendEvent('Board', 'Pitot', FC.getPitotNames()[SENSOR_CONFIG.pitot]);
-            }
+            googleAnalytics.sendEvent('Board', 'Accelerometer', FC.getAccelerometerNames()[SENSOR_CONFIG.accelerometer]);
+            googleAnalytics.sendEvent('Board', 'Magnetometer', FC.getMagnetometerNames()[SENSOR_CONFIG.magnetometer]);
+            googleAnalytics.sendEvent('Board', 'Barometer', FC.getBarometerNames()[SENSOR_CONFIG.barometer]);
+            googleAnalytics.sendEvent('Board', 'Pitot', FC.getPitotNames()[SENSOR_CONFIG.pitot]);
 
             for (var i = 0; i < features.length; i++) {
                 var featureName = features[i].name;
@@ -917,11 +878,7 @@ TABS.configuration.initialize = function (callback, scrollPosition) {
         });
 
         helper.interval.add('config_load_analog', function () {
-            if (semver.gte(CONFIG.flightControllerVersion, '1.8.1')) {
-                $('#batteryvoltage').val([ANALOG.voltage.toFixed(2)]);
-            } else {
-                $('#batteryvoltage').val([ANALOG.voltage.toFixed(1)]);
-            }
+            $('#batteryvoltage').val([ANALOG.voltage.toFixed(2)]);
             $('#batterycurrent').val([ANALOG.amperage.toFixed(2)]);
         }, 100, true); // 10 fps
 

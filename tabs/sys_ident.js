@@ -374,7 +374,12 @@ TABS.sys_ident.initialize = function (callback) {
 
 	    function readPIDs()
 	    {
-        	MSP.send_message(MSPCodes.MSP_PID, mspHelper.crunch(MSPCodes.MSP_PID), false,dummy);
+	        if (semver.gte(CONFIG.flightControllerVersion, '2.2.0')) {
+	            MSP.send_message(MSPCodes.MSP2_PID, false, false, dummy);
+	        } else {
+	            MSP.send_message(MSPCodes.MSP_PID, false, false, dummy);
+	        }
+        	//MSP.send_message(MSPCodes.MSP_PID, mspHelper.crunch(MSPCodes.MSP_PID), false,dummy);
 	    }
 	    
 	    function dummy()

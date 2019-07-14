@@ -49,7 +49,8 @@ sources.css = [
     './src/css/dropdown-lists/css/style_lists.css',
     './js/libraries/switchery/switchery.css',
     './js/libraries/jbox/jBox.css',
-    './node_modules/openlayers/dist/ol.css'
+    './node_modules/openlayers/dist/ol.css',
+    './src/css/logic.css'
 ];
 
 sources.js = [
@@ -60,6 +61,8 @@ sources.js = [
     './js/libraries/d3.min.js',
     './js/libraries/jquery.nouislider.all.min.js',
     './node_modules/three/three.min.js',
+    './js/libraries/nw-dialog.js',
+    './js/libraries/bundle_xml2js.js',
     './js/libraries/Projector.js',
     './js/libraries/CanvasRenderer.js',
     './js/libraries/jquery.flightindicators.js',
@@ -84,6 +87,7 @@ sources.js = [
     './js/serial.js',
     './js/servoMixRule.js',
     './js/motorMixRule.js',
+    './js/logicCondition.js',
     './js/settings.js',
     './js/outputMapping.js',
     './js/model.js',
@@ -97,6 +101,7 @@ sources.js = [
     './js/boards.js',
     './js/servoMixerRuleCollection.js',
     './js/motorMixerRuleCollection.js',
+    './js/logicConditionsCollection.js',
     './js/sysidData.js',
     './js/complex.js',
     './js/vtx.js',

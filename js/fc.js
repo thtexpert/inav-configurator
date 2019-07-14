@@ -19,6 +19,7 @@ var CONFIG,
     SERVO_CONFIG,
     SERVO_RULES,
     MOTOR_RULES,
+    LOGIC_CONDITIONS,
     SERIAL_CONFIG,
     SENSOR_DATA,
     MOTOR_DATA,
@@ -74,6 +75,12 @@ var FC = {
     MIN_SERVO_RATE: 0,
     isNewMixer: function () {
         return !!(typeof CONFIG != "undefined" && semver.gte(CONFIG.flightControllerVersion, "2.0.0"));
+    },
+    isRpyFfComponentUsed: function () {
+        return MIXER_CONFIG.platformType == PLATFORM_AIRPLANE;
+    },
+    isRpyDComponentUsed: function () {
+        return MIXER_CONFIG.platformType != PLATFORM_AIRPLANE;
     },
     resetState: function () {
         SENSOR_STATUS = {
@@ -139,7 +146,7 @@ var FC = {
         PID_names = [];
         PIDs = new Array(10);
         for (var i = 0; i < 10; i++) {
-            PIDs[i] = new Array(3);
+            PIDs[i] = new Array(4);
         }
 
         RC_MAP = [];
@@ -179,6 +186,7 @@ var FC = {
         SERVO_CONFIG = [];
         SERVO_RULES = new ServoMixerRuleCollection();
         MOTOR_RULES = new MotorMixerRuleCollection();
+        LOGIC_CONDITIONS = new LogicConditionsCollection();
 
         MIXER_CONFIG = {
             yawMotorDirection: 0,
@@ -403,6 +411,9 @@ var FC = {
                 X: null,
                 Y: null,
                 Z: null
+            },
+            opflow: {
+                Scale: null
             }
         };
 
@@ -667,26 +678,9 @@ var FC = {
             );
         }
 
-        if (semver.lt(CONFIG.flightControllerVersion, "1.6.0")) {
-            features.push(
-                {bit: 2, group: 'other', name: 'INFLIGHT_ACC_CAL', showNameInTip: true},
-                {bit: 9, group: 'other', name: 'SONAR', showNameInTip: true},
-                {bit: 8, group: 'rxFailsafe', name: 'FAILSAFE'}
-            );
-        }
-
         features.push(
             {bit: 28, group: 'esc-priority', name: 'PWM_OUTPUT_ENABLE', haveTip: true}
         );
-
-        /*
-         * Transponder disabled until not implemented in firmware
-         */
-        if (false && semver.gte(CONFIG.apiVersion, "1.16.0")) {
-            features.push(
-                {bit: 21, group: 'other', name: 'TRANSPONDER', haveTip: true, showNameInTip: true}
-            );
-        }
 
         if (semver.gte(CONFIG.apiVersion, "1.21.0")) {
             features.push(
@@ -698,24 +692,18 @@ var FC = {
             {bit: 27, group: 'other', name: 'PWM_SERVO_DRIVER', haveTip: true, showNameInTip: true}
         );
 
-        if (semver.gte(CONFIG.flightControllerVersion, '1.5.0')) {
-            features.push(
-                {bit: 29, group: 'other', name: 'OSD', haveTip: false, showNameInTip: false}
-            );
-        }
+        features.push(
+            {bit: 29, group: 'other', name: 'OSD', haveTip: false, showNameInTip: false}
+        );
 
-        if (semver.gte(CONFIG.flightControllerVersion, '1.7.3')) {
-            features.push(
-                {bit: 22, group: 'other', name: 'AIRMODE', haveTip: false, showNameInTip: false}
-            );
-        }
+        features.push(
+            {bit: 22, group: 'other', name: 'AIRMODE', haveTip: false, showNameInTip: false}
+        );
 
-        if (semver.gte(CONFIG.flightControllerVersion, '1.8.1')) {
-            features.push(
-                {bit: 30, group: 'other', name: 'FW_LAUNCH', haveTip: false, showNameInTip: false},
-                {bit: 2, group: 'other', name: 'TX_PROF_SEL', haveTip: false, showNameInTip: false}
-            );
-        }
+        features.push(
+            {bit: 30, group: 'other', name: 'FW_LAUNCH', haveTip: false, showNameInTip: false},
+            {bit: 2, group: 'other', name: 'TX_PROF_SEL', haveTip: false, showNameInTip: false}
+        );
 
         if (semver.gte(CONFIG.flightControllerVersion, '2.0.0')) {
             features.push(
@@ -748,7 +736,7 @@ var FC = {
     getLooptimes: function () {
         return {
             125: {
-                defaultLooptime: 2000,
+                defaultLooptime: 1000,
                 looptimes: {
                     4000: "250Hz",
                     3000: "334Hz",
@@ -761,7 +749,7 @@ var FC = {
                 }
             },
             1000: {
-                defaultLooptime: 2000,
+                defaultLooptime: 1000,
                 looptimes: {
                     4000: "250Hz",
                     2000: "500Hz",
@@ -830,22 +818,14 @@ var FC = {
         ];
     },
     getGpsProtocols: function () {
-        var data = [
+        return [
             'NMEA',
             'UBLOX',
             'I2C-NAV',
-            'DJI NAZA'
+            'DJI NAZA',
+            'UBLOX7',
+            'MTK'
         ];
-
-        if (semver.gte(CONFIG.flightControllerVersion, "1.7.1")) {
-            data.push('UBLOX7')
-        }
-
-        if (semver.gte(CONFIG.flightControllerVersion, "1.7.2")) {
-            data.push('MTK')
-        }
-
-        return data;
     },
     getGpsBaudRates: function () {
         return [
@@ -902,12 +882,10 @@ var FC = {
 
         // Versions using feature bits don't allow not having an
         // RX and fallback to RX_PPM.
-        if (semver.gt(CONFIG.flightControllerVersion, "1.7.3")) {
-            rxTypes.push({
-                name: 'RX_NONE',
-                value: 0,
-            });
-        }
+        rxTypes.push({
+            name: 'RX_NONE',
+            value: 0,
+        });
 
         return rxTypes;
     },
@@ -921,25 +899,10 @@ var FC = {
                 }
             }
         }
-        if (semver.gt(CONFIG.flightControllerVersion, "1.7.3")) {
-            return RX_CONFIG.receiver_type == rxType.value;
-        }
-        return bit_check(BF_CONFIG.features, rxType.bit);
+        return RX_CONFIG.receiver_type == rxType.value;
     },
     setRxTypeEnabled: function(rxType) {
-        if (semver.gt(CONFIG.flightControllerVersion, "1.7.3")) {
-            RX_CONFIG.receiver_type = rxType.value;
-        } else {
-            // Clear other rx features before
-            var rxTypes = this.getRxTypes();
-            for (var ii = 0; ii < rxTypes.length; ii++) {
-                BF_CONFIG.features = bit_clear(BF_CONFIG.features, rxTypes[ii].bit);
-            }
-            // Set the feature for this rx type (if any, RX_NONE is set by clearing all)
-            if (rxType.bit !== undefined) {
-                BF_CONFIG.features = bit_set(BF_CONFIG.features, rxType.bit);
-            }
-        }
+        RX_CONFIG.receiver_type = rxType.value;
     },
     getSerialRxTypes: function () {
         var data = [
@@ -950,13 +913,10 @@ var FC = {
             'SUMH',
             'XBUS_MODE_B',
             'XBUS_MODE_B_RJ01',
-            'IBUS'
+            'IBUS',
+            'JETI EXBUS',
+            'TBS Crossfire'
         ];
-
-        if (semver.gte(CONFIG.flightControllerVersion, "1.6.0")) {
-            data.push('JETI EXBUS');
-            data.push('TBS Crossfire');
-        }
 
         if (semver.gte(CONFIG.flightControllerVersion, "1.9.1")) {
             data.push('FPort');
@@ -1075,6 +1035,14 @@ var FC = {
                 rates: {
                     16000: "16kHz"
                 }
+            },
+            9: {
+                name: "SERIALSHOT",
+                message: "escProtocolExperimental",
+                defaultRate: 4000,
+                rates: {
+                    4000: "4kHz"
+                }
             }
         };
     },
@@ -1132,10 +1100,11 @@ var FC = {
         return ["NONE", "AUTO", "HMC5883", "AK8975", "GPSMAG", "MAG3110", "AK8963", "IST8310", "QMC5883", "MPU9250", "IST8308", "LIS3MDL", "FAKE"];
     },
     getBarometerNames: function () {
-        if (semver.gte(CONFIG.flightControllerVersion, "1.6.2")) {
+        if (semver.gte(CONFIG.flightControllerVersion, "2.0.0")) {
+            return ["NONE", "AUTO", "BMP085", "MS5611", "BMP280", "MS5607", "LPS25H", "FAKE"];
+        } else if (semver.gte(CONFIG.flightControllerVersion, "1.6.2")) {
             return ["NONE", "AUTO", "BMP085", "MS5611", "BMP280", "MS5607", "FAKE"];
-        }
-        else {
+        } else {
             return ["NONE", "AUTO", "BMP085", "MS5611", "BMP280", "FAKE"];
         }
     },
@@ -1148,7 +1117,13 @@ var FC = {
         }
     },
     getRangefinderNames: function () {
-        return [ "NONE", "HCSR04", "SRF10", "INAV_I2C", "VL53L0X", "MSP", "UIB"];
+        let data = [ "NONE", "HCSR04", "SRF10", "INAV_I2C", "VL53L0X", "MSP", "UIB"];
+
+        if (semver.gte(CONFIG.flightControllerVersion, "2.1.0")) {
+            data.push("Benewake TFmini")
+        }
+
+        return data;
     },
     getOpticalFlowNames: function () {
         return [ "NONE", "PMW3901", "CXOF", "MSP", "FAKE" ];
@@ -1189,33 +1164,27 @@ var FC = {
         ]
     },
     getPidNames: function () {
-
-        if (semver.lt(CONFIG.flightControllerVersion, "1.6.0")) {
-            return PID_names;
-        } else {
-            return [
-                'Roll',
-                'Pitch',
-                'Yaw',
-                'Position Z',
-                'Position XY',
-                'Velocity XY',
-                'Surface',
-                'Level',
-                'Heading',
-                'Velocity Z'
-            ];
-        }
+        return [
+            'Roll',
+            'Pitch',
+            'Yaw',
+            'Position Z',
+            'Position XY',
+            'Velocity XY',
+            'Surface',
+            'Level',
+            'Heading',
+            'Velocity Z'
+        ];
     },
     getRthAltControlMode: function () {
-        return ["Current", "Extra", "Fixed", "Max", "At Least"];
+        if (semver.gte(CONFIG.flightControllerVersion, '2.2.0'))
+            return ["Current", "Extra", "Fixed", "Max", "At least", "At least, linear descent"];
+        else
+            return ["Current", "Extra", "Fixed", "Max", "At least"];
     },
     getRthAllowLanding: function() {
-        var values = ["Never", "Always"];
-        if (semver.gt(CONFIG.flightControllerVersion, '1.7.3')) {
-            values.push("Only on failsafe");
-        }
-        return values;
+        return ["Never", "Always", "Only on failsafe"];
     },
     getFailsafeProcedure: function () {
         return {
@@ -1253,10 +1222,10 @@ var FC = {
     },
     getServoMixInputNames: function () {
         return [
-            'Stabilised Roll',      // 0
-            'Stabilised Pitch',     // 1
-            'Stabilised Yaw',       // 2
-            'Stabilised Throttle',  // 3
+            'Stabilized Roll',      // 0
+            'Stabilized Pitch',     // 1
+            'Stabilized Yaw',       // 2
+            'Stabilized Throttle',  // 3
             'RC Roll',              // 4
             'RC Pitch',             // 5
             'RC Yaw',               // 6
@@ -1276,6 +1245,13 @@ var FC = {
             'RC Channel 14',        // 20
             'RC Channel 15',        // 21
             'RC Channel 16',        // 22
+            'Stabilized Roll+',     // 23
+            'Stabilized Roll-',     // 24
+            'Stabilized Pitch+',    // 25
+            'Stabilized Pitch-',    // 26
+            'Stabilized Yaw+',      // 27
+            'Stabilized Yaw-',      // 28,
+            'ONE'                   // 29,
         ];
     },
     getServoMixInputName: function (input) {
@@ -1293,5 +1269,126 @@ var FC = {
     },
     isModeEnabled: function (name) {
         return FC.isModeBitSet(FC.getModeId(name));
+    },
+    getLogicOperators: function () {
+        return {
+            0: {
+                name: "True",
+                hasOperand: [false, false]
+            },
+            1: {
+                name: "Equal",
+                hasOperand: [true, true]
+            },
+            2: {
+                name: "Greater Than",
+                hasOperand: [true, true]
+            },
+            3: {
+                name: "Lower Than",
+                hasOperand: [true, true]
+            },
+            4: {
+                name: "Low",
+                hasOperand: [true, false]
+            },
+            5: {
+                name: "Mid",
+                hasOperand: [true, false]
+            },
+            6: {
+                name: "High",
+                hasOperand: [true, false]
+            },
+            7: {
+                name: "AND",
+                hasOperand: [true, true]
+            },
+            8: {
+                name: "OR",
+                hasOperand: [true, true]
+            },
+            9: {
+                name: "XOR",
+                hasOperand: [true, true]
+            },
+            10: {
+                name: "NAND",
+                hasOperand: [true, true]
+            },
+            11: {
+                name: "NOR",
+                hasOperand: [true, true]
+            },
+            12: {
+                name: "NOT",
+                hasOperand: [true, false]
+            }
+        }
+    },
+    getOperandTypes: function () {
+        return {
+            0: {
+                name: "Value",
+                type: "value",
+                min: -1000000,
+                max: 1000000,
+                step: 1,
+                default: 0
+            },
+            1: {
+                name: "RC Channel",
+                type: "range",
+                range: [1, 16],
+                default: 1
+            },
+            2: {
+                name: "Flight",
+                type: "dictionary",
+                default: 0,
+                values: {
+                    0: "ARM timer [s]",
+                    1: "Home distance [m]",
+                    2: "Trip distance [m]",
+                    3: "RSSI", 
+                    4: "Vbat [deci-Volt] [1V = 10]",
+                    5: "Cell voltage [deci-Volt] [1V = 10]",
+                    6: "Current [centi-Amp] [1A = 100]",
+                    7: "Current drawn [mAh]",
+                    8: "GPS Sats",
+                    9: "Ground speed [cm/s]",
+                    10: "3D speed [cm/s]",
+                    11: "Air speed [cm/s]",
+                    12: "Altitude [cm]",
+                    13: "Vertical speed [cm/s]",
+                    14: "Throttle position [%]",
+                    15: "Roll [deg]",
+                    16: "Pitch [deg]",
+                    17: "Flight mode"
+                }
+            },
+            3: {
+                name: "Flight Mode",
+                type: "dictionary",
+                default: 0,
+                values: {
+                    0: "Failsafe",
+                    1: "Manual",
+                    2: "RTH",
+                    3: "Position Hold",
+                    4: "Cruise",
+                    5: "Altitude Hold",
+                    6: "Angle",
+                    7: "Horizon",
+                    8: "Air"
+                }
+            },
+            4: {
+                name: "Logic Condition",
+                type: "range",
+                range: [0, 15],
+                default: 0
+            },
+        }
     }
 };

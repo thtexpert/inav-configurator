@@ -167,21 +167,22 @@ var MSPCodes = {
     MSP2_CF_SERIAL_CONFIG:              0x1009,
     MSP2_SET_CF_SERIAL_CONFIG:          0x100A,
 
-    MSP2_FLETTNER_SWASH_MIX:            0x100B, 
-    MSP2_FLETTNER_SET_SWASH_MIX:        0x100C, 
-    MSP2_FLETTNER_SERVO_MIX:            0x100D, 
-    MSP2_FLETTNER_SET_SERVO_MIX:        0x100E, 
-    MSP2_FLETTNER_SWASH:                0x100F, 
-    MSP2_TILT_SETUP:		            0x1010, 
-    MSP2_TILT_SET_SETUP:	            0x1011, 
-    MSP2_TILT_SERVO_MIX:		        0x1012, 
-    MSP2_TILT_SET_SERVO_MIX:	        0x1013, 
-    MSP2_TILT_LIVE:   		            0x1014, 
-
-	MSP2_SYSID_SET_SETUP:               0x1017,
-	MSP2_SYSID_GET_SETUP:               0x1018,
-	MSP2_SYSID_INIT_CAPTURE_READ:       0x1019,
-	MSP2_SYSID_GET_CAPTURE_SMPLS:       0x101A,
+    MSP2_FLETTNER_SWASH_MIX:            0x100D, 
+    MSP2_FLETTNER_SET_SWASH_MIX:        0x100E, 
+    MSP2_FLETTNER_SERVO_MIX:            0x100F, 
+    MSP2_FLETTNER_SET_SERVO_MIX:        0x1010, 
+    MSP2_FLETTNER_SWASH:                0x1011, 
+    MSP2_TILT_SETUP:		            0x1012, 
+    MSP2_TILT_SET_SETUP:	            0x1013, 
+    MSP2_TILT_SERVO_MIX:		        0x1014, 
+    MSP2_TILT_SET_SERVO_MIX:	        0x1015, 
+    MSP2_TILT_LIVE:   		            0x1016, 
+	MSP2_SERVO_PWM_OVERRIDE:			0x1017,
+	MSP2_SYSID_SET_SETUP:               0x1018,
+	MSP2_SYSID_GET_SETUP:				0x1019,
+	MSP2_SYSID_GET_SETUP:               0x101A,
+	MSP2_SYSID_INIT_CAPTURE_READ:       0x101B,
+	MSP2_SYSID_GET_CAPTURE_SMPLS:       0x101C,
 
     MSPV2_INAV_STATUS:                  0x2000,
     MSPV2_INAV_OPTICAL_FLOW:            0x2001,
@@ -217,5 +218,15 @@ var MSPCodes = {
 
     MSP2_INAV_TEMP_SENSOR_CONFIG:       0x201C,
     MSP2_INAV_SET_TEMP_SENSOR_CONFIG:   0x201D,
-    MSP2_INAV_TEMPERATURES:             0x201E
+    MSP2_INAV_TEMPERATURES:             0x201E,
+
+    MSP2_INAV_SERVO_MIXER:              0x2020,
+    MSP2_INAV_SET_SERVO_MIXER:          0x2021,
+    MSP2_INAV_LOGIC_CONDITIONS:         0x2022,
+    MSP2_INAV_SET_LOGIC_CONDITIONS:     0x2023,
+
+    MSP2_PID:                           0x2030,
+    MSP2_SET_PID:                       0x2031,
+
+    MSP2_INAV_OPFLOW_CALIBRATION:       0x2032
 };

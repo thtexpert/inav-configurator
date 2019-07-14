@@ -14,31 +14,7 @@ TABS.failsafe.initialize = function (callback, scrollPosition) {
     }
 
     function load_failssafe_config() {
-        MSP.send_message(MSPCodes.MSP_FAILSAFE_CONFIG, false, false, load_rxfail_config);
-    }
-
-    function load_rxfail_config() {
-        if (semver.lt(CONFIG.flightControllerVersion, "1.6.0")) {
-            MSP.send_message(MSPCodes.MSP_RXFAIL_CONFIG, false, false, get_box_names);
-        } else {
-            get_box_names();
-        }
-    }
-
-    function get_box_names() {
-        if (semver.lt(CONFIG.flightControllerVersion, "1.6.0")) {
-            MSP.send_message(MSPCodes.MSP_BOXNAMES, false, false, get_mode_ranges);
-        } else {
-            get_mode_ranges();
-        }
-    }
-
-    function get_mode_ranges() {
-        if (semver.lt(CONFIG.flightControllerVersion, "1.6.0")) {
-            MSP.send_message(MSPCodes.MSP_MODE_RANGES, false, false, get_box_ids);
-        } else {
-            get_box_ids();
-        }
+        MSP.send_message(MSPCodes.MSP_FAILSAFE_CONFIG, false, false, get_box_ids);
     }
 
     function get_box_ids() {
@@ -64,11 +40,6 @@ TABS.failsafe.initialize = function (callback, scrollPosition) {
     load_rx_config();
 
     function process_html() {
-
-        if (semver.gte(CONFIG.flightControllerVersion, "1.6.0")) {
-            $('.pre-v1_6').hide();
-            $('.requires-v1_6').show();
-        }
 
         var failsafeFeature;
 
@@ -206,13 +177,7 @@ TABS.failsafe.initialize = function (callback, scrollPosition) {
             channel_mode_array[i].change();
         }
 
-        var isFailsafeEnabled;
-
-        if (semver.gte(CONFIG.flightControllerVersion, "1.6.0")) {
-            isFailsafeEnabled = true;
-        } else {
-            isFailsafeEnabled = bit_check(BF_CONFIG.features, 8);
-        }
+        var isFailsafeEnabled = true;
 
         // fill stage 2 fields
         failsafeFeature = $('input[name="failsafe_feature_new"]');
@@ -231,9 +196,7 @@ TABS.failsafe.initialize = function (callback, scrollPosition) {
         $('input[name="failsafe_off_delay"]').val(FAILSAFE_CONFIG.failsafe_off_delay);
         $('input[name="failsafe_throttle_low_delay"]').val(FAILSAFE_CONFIG.failsafe_throttle_low_delay);
         $('input[name="failsafe_delay"]').val(FAILSAFE_CONFIG.failsafe_delay);
-        if (semver.gte(CONFIG.flightControllerVersion, "1.7.4")) {
-            $('input[name="failsafe_min_distance"]').val(FAILSAFE_CONFIG.failsafe_min_distance);
-        }
+        $('input[name="failsafe_min_distance"]').val(FAILSAFE_CONFIG.failsafe_min_distance);
 
         // set stage 2 failsafe procedure
         $('input[type="radio"].procedure').change(function () {
@@ -284,64 +247,49 @@ TABS.failsafe.initialize = function (callback, scrollPosition) {
         // set stage 2 kill switch option
         $('input[name="failsafe_kill_switch"]').prop('checked', FAILSAFE_CONFIG.failsafe_kill_switch);
 
-        if (semver.gte(CONFIG.flightControllerVersion, "1.7.4")) {
-            // Adjust Minimum Distance values when checkbox is checked/unchecked
-            $failsafeUseMinimumDistanceCheckbox.change(function() {
-                if ($(this).is(':checked')) {
-                    // 20 meters seems like a reasonable default for a minimum distance
-                    $failsafeMinDistance.val(2000);
-                    $failsafeMinDistanceElements.show();
-                    $failsafeMinDistanceProcedureElements.show();
-                } else {
-                    // If they uncheck it, clear the distance to 0, which disables this feature
-                    $failsafeMinDistance.val(0);
-                    $failsafeMinDistanceElements.hide();
-                    $failsafeMinDistanceProcedureElements.hide();
-                }
-            });
-
-            // Set initial state of controls according to data
-            if (FAILSAFE_CONFIG.failsafe_min_distance > 0) {
-                $failsafeUseMinimumDistanceCheckbox.prop('checked', true);
+        // Adjust Minimum Distance values when checkbox is checked/unchecked
+        $failsafeUseMinimumDistanceCheckbox.change(function() {
+            if ($(this).is(':checked')) {
+                // 20 meters seems like a reasonable default for a minimum distance
+                $failsafeMinDistance.val(2000);
                 $failsafeMinDistanceElements.show();
                 $failsafeMinDistanceProcedureElements.show();
             } else {
-                $failsafeUseMinimumDistanceCheckbox.prop('checked', false);
+                // If they uncheck it, clear the distance to 0, which disables this feature
+                $failsafeMinDistance.val(0);
                 $failsafeMinDistanceElements.hide();
                 $failsafeMinDistanceProcedureElements.hide();
             }
+        });
 
-            // Alternate, minimum distance failsafe procedure
-            GUI.fillSelect($failsafeMinDistanceProcedure, FC.getFailsafeProcedure(), FAILSAFE_CONFIG.failsafe_min_distance_procedure);
-            $failsafeMinDistanceProcedure.val(FAILSAFE_CONFIG.failsafe_min_distance_procedure);
-            $failsafeMinDistanceProcedure.change(function () {
-                FAILSAFE_CONFIG.failsafe_min_distance_procedure = $failsafeMinDistanceProcedure.val();
-            });
-            $('.requires-v1_7_4').show();
+        // Set initial state of controls according to data
+        if (FAILSAFE_CONFIG.failsafe_min_distance > 0) {
+            $failsafeUseMinimumDistanceCheckbox.prop('checked', true);
+            $failsafeMinDistanceElements.show();
+            $failsafeMinDistanceProcedureElements.show();
         } else {
-            $('.requires-v1_7_4').hide();
+            $failsafeUseMinimumDistanceCheckbox.prop('checked', false);
+            $failsafeMinDistanceElements.hide();
+            $failsafeMinDistanceProcedureElements.hide();
         }
+
+        // Alternate, minimum distance failsafe procedure
+        GUI.fillSelect($failsafeMinDistanceProcedure, FC.getFailsafeProcedure(), FAILSAFE_CONFIG.failsafe_min_distance_procedure);
+        $failsafeMinDistanceProcedure.val(FAILSAFE_CONFIG.failsafe_min_distance_procedure);
+        $failsafeMinDistanceProcedure.change(function () {
+            FAILSAFE_CONFIG.failsafe_min_distance_procedure = $failsafeMinDistanceProcedure.val();
+        });
 
         $('a.save').click(function () {
             // gather data that doesn't have automatic change event bound
             RX_CONFIG.rx_min_usec = parseInt($('input[name="rx_min_usec"]').val());
             RX_CONFIG.rx_max_usec = parseInt($('input[name="rx_max_usec"]').val());
 
-            if (semver.lt(CONFIG.flightControllerVersion, "1.6.0")) {
-                if ($('input[name="failsafe_feature_new"]').is(':checked')) {
-                    BF_CONFIG.features = bit_set(BF_CONFIG.features, 8);
-                } else {
-                    BF_CONFIG.features = bit_clear(BF_CONFIG.features, 8);
-                }
-            }
-
             FAILSAFE_CONFIG.failsafe_throttle = parseInt($('input[name="failsafe_throttle"]').val());
             FAILSAFE_CONFIG.failsafe_off_delay = parseInt($('input[name="failsafe_off_delay"]').val());
             FAILSAFE_CONFIG.failsafe_throttle_low_delay = parseInt($('input[name="failsafe_throttle_low_delay"]').val());
             FAILSAFE_CONFIG.failsafe_delay = parseInt($('input[name="failsafe_delay"]').val());
-            if (semver.gte(CONFIG.flightControllerVersion, "1.7.4")) {
-                FAILSAFE_CONFIG.failsafe_min_distance = parseInt($('input[name="failsafe_min_distance"]').val());
-            }
+            FAILSAFE_CONFIG.failsafe_min_distance = parseInt($('input[name="failsafe_min_distance"]').val());
 
             if ($('input[id="land"]').is(':checked')) {
                 FAILSAFE_CONFIG.failsafe_procedure = 0;
@@ -356,15 +304,7 @@ TABS.failsafe.initialize = function (callback, scrollPosition) {
             FAILSAFE_CONFIG.failsafe_kill_switch = $('input[name="failsafe_kill_switch"]').is(':checked') ? 1 : 0;
 
             function save_failssafe_config() {
-                MSP.send_message(MSPCodes.MSP_SET_FAILSAFE_CONFIG, mspHelper.crunch(MSPCodes.MSP_SET_FAILSAFE_CONFIG), false, save_rxfail_config);
-            }
-
-            function save_rxfail_config() {
-                if (semver.lt(CONFIG.flightControllerVersion, "1.6.0")) {
-                    mspHelper.sendRxFailConfig(save_bf_config);
-                } else {
-                    save_bf_config();
-                }
+                MSP.send_message(MSPCodes.MSP_SET_FAILSAFE_CONFIG, mspHelper.crunch(MSPCodes.MSP_SET_FAILSAFE_CONFIG), false, save_bf_config);
             }
 
             function save_bf_config() {
