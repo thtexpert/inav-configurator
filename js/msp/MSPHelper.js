@@ -152,9 +152,13 @@ var mspHelper = (function (gui) {
                 SENSOR_DATA.accelerometer[2] = data.getInt16(4, true) / 512;
 
                 // properly scaled
-                SENSOR_DATA.gyroscope[0] = data.getInt16(6, true) * (4 / 16.4);
-                SENSOR_DATA.gyroscope[1] = data.getInt16(8, true) * (4 / 16.4);
-                SENSOR_DATA.gyroscope[2] = data.getInt16(10, true) * (4 / 16.4);
+                //SENSOR_DATA.gyroscope[0] = data.getInt16(6, true) * (4 / 16.4);
+                //SENSOR_DATA.gyroscope[1] = data.getInt16(8, true) * (4 / 16.4);
+                //SENSOR_DATA.gyroscope[2] = data.getInt16(10, true) * (4 / 16.4);
+
+                SENSOR_DATA.gyroscope[0] = data.getInt16(6, true) / 10.0;
+                SENSOR_DATA.gyroscope[1] = data.getInt16(8, true) / 10.0;
+                SENSOR_DATA.gyroscope[2] = data.getInt16(10, true) / 10.0;
 
                 // no clue about scaling factor
                 SENSOR_DATA.magnetometer[0] = data.getInt16(12, true) / 1090;
