@@ -77,9 +77,17 @@ var FC = {
         return !!(typeof CONFIG != "undefined" && semver.gte(CONFIG.flightControllerVersion, "2.0.0"));
     },
     isRpyFfComponentUsed: function () {
+    	if(semver.gte(CONFIG.flightControllerVersion, "2.2.3"))
+    	{
+    		return MIXER_CONFIG.platformType == PLATFORM_AIRPLANE || MIXER_CONFIG.platformType == PLATFORM_FLETTNER || MIXER_CONFIG.platformType == PLATFORM_TILTROTOR;
+    	}
         return MIXER_CONFIG.platformType == PLATFORM_AIRPLANE;
     },
     isRpyDComponentUsed: function () {
+    	if(semver.gte(CONFIG.flightControllerVersion, "2.2.3"))
+    	{
+    		return MIXER_CONFIG.platformType != PLATFORM_AIRPLANE || MIXER_CONFIG.platformType == PLATFORM_FLETTNER || MIXER_CONFIG.platformType == PLATFORM_TILTROTOR;
+    	}
         return MIXER_CONFIG.platformType != PLATFORM_AIRPLANE;
     },
     resetState: function () {
